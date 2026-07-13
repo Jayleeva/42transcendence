@@ -1,2 +1,9 @@
-# 42transcendence
-Projet du 7eme et dernier cercle du cursus de l'ecole 42
+*This project has been created as part of the 42 curriculum by  ,  , cyglardo.*
+
+# Description
+
+# Instructions
+
+# Resources
+## Frameworks choice
+- https://rikkeisoft.com/blog/web-development-frameworks/
