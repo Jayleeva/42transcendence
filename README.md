@@ -62,8 +62,7 @@ make
 |Module|Student|Points|
 |---|---|---|
 | |cyglardo| |
-
-**Total points: ** 
+|Total points| | | 
 
 ## Justification
 
