@@ -64,17 +64,17 @@ make
 
 
 # Modules 
-|Module|Student|Points|
-|---|---|---|
-| |cyglardo| |
-| |student A| |
-| |student B| |
-| |student C| |
-| |cyglardo| |
-| |student A| |
-| |student B| |
-| |student C| |
-|**Total points**| | | 
+|Module type|Module|Student|Points|
+|---|---|---|---|
+|Web|Use a framework for both the frontend and backend|cyglardo|2|
+|Web|Allow users to interact with other users|student A|2|
+|Web|Implement advanced search functionality|student B|1|
+|Web|Custom-made design system|student C|1|
+|Accessibility and Internationalization|Support for multiple languages|student C|1|
+|User management|Standard user management and authentication|cyglardo|2|
+|User management|Advanced permissions system |student A|2|
+|User management|User activity analytics and insights dashboard|student B|1|
+|**Total points**| | |12| 
 
 ## Justification
 
