@@ -70,14 +70,14 @@ make
 |Web|Allow users to interact with other users|student A|2|
 |Web|Implement advanced search functionality|student B|1|
 |Web|Custom-made design system|student C|1|
-|Accessibility and Internationalization|Support for multiple languages|student C|1|
-|User management|Standard user management and authentication|cyglardo|2|
-|User management|Advanced permissions system |student A|2|
-|User management|User activity analytics and insights dashboard|student B|1|
-|Gaming|Implement a complete web-based 2 players game|student C|2|
-|Gaming|Remote players|student C|2|
-|Devops|Health check and status page system|cyglardo|1|
-|Data|Advanced analytics dashboard|student A|2|
+|Accessibility and Internationalization|Support for multiple languages|cyglardo|1|
+|User management|Standard user management and authentication|student A|2|
+|User management|Advanced permissions system |student B|2|
+|User management|User activity analytics and insights dashboard|student C|1|
+|Gaming|Implement a complete web-based 2 players game|cyglardo|2|
+|Gaming|Remote players|student A|2|
+|Devops|Health check and status page system|student B|1|
+|Data|Advanced analytics dashboard|student C|2|
 |**Total points**| | |**17**| 
 
 ## Justification
