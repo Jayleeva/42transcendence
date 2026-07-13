@@ -63,6 +63,8 @@ make
 |---|---|---|
 | |cyglardo| |
 
+**Total points: ** 
+
 ## Justification
 
 ## How each was implemented
