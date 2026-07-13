@@ -1,8 +1,29 @@
 *This project has been created as part of the 42 curriculum by  ,  ,  , cyglardo.*
 
 # Description
+## What was asked
+Create a web app that can handle mutiple clients at a time.
+
+Its exact form and purpose was up to us.
+
+## What we did
+
 
 # Instructions
+Clone this repository:
+```
+git clone git@github.com:Jayleeva/42transcendence
+```
+Make sure you're in the local repository. 
+```
+cd 42transcendence
+```
+Compile and launch it with:
+```
+make
+```
+
+
 
 # Resources
 ## Frameworks choice
