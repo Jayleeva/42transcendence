@@ -10,6 +10,8 @@ Its exact form and purpose was up to us.
 
 
 # Instructions
+Make sure you have Google Chrome installed. This project isn't fully compatible with other browsers.
+
 Clone this repository:
 ```
 git clone git@github.com:Jayleeva/42transcendence
