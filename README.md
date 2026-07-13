@@ -74,7 +74,11 @@ make
 |User management|Standard user management and authentication|cyglardo|2|
 |User management|Advanced permissions system |student A|2|
 |User management|User activity analytics and insights dashboard|student B|1|
-|**Total points**| | |12| 
+|Gaming|Implement a complete web-based 2 players game|student C|2|
+|Gaming|Remote players|student C|2|
+|Devops|Health check and status page system|cyglardo|1|
+|Data|Advanced analytics dashboard|student A|2|
+|**Total points**| | |17| 
 
 ## Justification
 
