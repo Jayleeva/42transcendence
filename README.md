@@ -78,7 +78,7 @@ make
 |Gaming|Remote players|student C|2|
 |Devops|Health check and status page system|cyglardo|1|
 |Data|Advanced analytics dashboard|student A|2|
-|**Total points**| | |17| 
+|**Total points**| | |**17**| 
 
 ## Justification
 
