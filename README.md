@@ -32,6 +32,9 @@ make
 # Team Information
 |Student|Role|Brief description|
 |---|---|---|
+|Student A| | |
+|Student B| | |
+|Student C| | |
 |cyglardo| | |
 
 # Project Management
