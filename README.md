@@ -37,7 +37,8 @@ make
 - https://ably.com/topic/socketio-vs-websocket
 - https://openclassrooms.com/en/courses/1733551-gerez-votre-serveur-linux-et-ses-services/5236081-mettez-en-place-un-reverse-proxy-avec-nginx
 
-
+## Github remote
+- https://docs.github.com/en/get-started/git-basics/managing-remote-repositories
 
 
 # Team Information
