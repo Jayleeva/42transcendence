@@ -31,6 +31,15 @@ make
 ## Frameworks choice
 - https://rikkeisoft.com/blog/web-development-frameworks/
 
+## Tools
+- https://socket.io/fr/get-started/chat
+- https://brm.io/matter-js/
+- https://ably.com/topic/socketio-vs-websocket
+- https://openclassrooms.com/en/courses/1733551-gerez-votre-serveur-linux-et-ses-services/5236081-mettez-en-place-un-reverse-proxy-avec-nginx
+
+
+
+
 # Team Information
 |Student|Role|Brief description|
 |---|---|---|
