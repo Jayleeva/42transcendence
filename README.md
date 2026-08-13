@@ -33,7 +33,7 @@ make
 
 ## How to use the frameworks
 - https://nextjs.org/docs
-
+- https://nextjs.org/learn/dashboard-app
 
 ## Tools
 - https://socket.io/fr/get-started/chat
