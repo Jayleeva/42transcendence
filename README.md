@@ -31,6 +31,10 @@ make
 ## Frameworks choice
 - https://rikkeisoft.com/blog/web-development-frameworks/
 
+## How to use the frameworks
+- https://nextjs.org/docs
+
+
 ## Tools
 - https://socket.io/fr/get-started/chat
 - https://brm.io/matter-js/
