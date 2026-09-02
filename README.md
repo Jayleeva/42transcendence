@@ -84,11 +84,12 @@ Discord server.
 # Features List
 |Feature|Student|Brief description|
 |---|---|---|
-| |cyglardo| |
-| |llabatut| |
-| |mlaffita| |
-| |mrosset| |
-| |mtaramar| |
+|Authentication| |Users must create and use their own credentials to access the app.|
+|Post| |Users can create posts, with or without pictures.|
+|Comment| |Users can comment posts.|
+|Profile page| |Users can view profiles and edit their own.|
+|Friends system| |Users can add each other as friends.|
+|Private messages| |Users can send private messages to their added friends.|
 
 
 # Modules 
