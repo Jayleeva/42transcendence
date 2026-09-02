@@ -54,8 +54,7 @@ make up
 |cyglardo|Product Owner|Defines the product vision, prioritizes features, and ensures the project meets user needs.|
 |llabatut|Tech Lead|Oversees technical decisions and architecture.|
 |mlaffita|Lead UI/UX|Insures the product's aesthetic, accessibility and responsivity.|
-|mrosset|Project manager|Facilitates team coordination and
-removes obstacles.|
+|mrosset|Project manager|Facilitates team coordination and removes obstacles.|
 |mtaramar|Security Lead|Insures data protection, manages permissions and prevents failures.|
 
 # Project Management
