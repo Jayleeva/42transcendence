@@ -90,6 +90,7 @@ Discord server.
 |Profile page| |Users can view profiles and edit their own.|
 |Friends system| |Users can add each other as friends.|
 |Private messages| |Users can send private messages to their added friends.|
+|Badges| |Users can get and display badges related to specific achievements.|
 
 
 # Modules 
