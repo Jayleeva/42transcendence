@@ -1,16 +1,16 @@
 ## CRUD
 These are the four fundamental SQL commands :
-	* **CREATE** : add data
-	* **READ** : read data
-	* **UPDATE** : modify data
-	* **DELETE** : delete data
+	- **CREATE** : add data
+	- **READ** : read data
+	- **UPDATE** : modify data
+	- **DELETE** : delete data
 
 ## ACID
 ACID is a set of four properties that ensure a database transaction remains reliable and consistent, even in the event of an error, simultaneous access by multiple users, or an interruption :
-	* **Atomicity**
-	* **Consistency**
-	* **Isolation**
-	* **Durability**
+	- **Atomicity**
+	- **Consistency**
+	- **Isolation**
+	- **Durability**
 
 ## MVCC
 **M**ulti-**V**ersion **C**oncurrency **C**ontrol is a computing method used in database management systems to allow multiple users to read and write data simultaneously without blocking each other.
