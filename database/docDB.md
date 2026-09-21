@@ -17,5 +17,22 @@ ACID is a set of four properties that ensure a database transaction remains reli
 
 ## Ressources
 	* https://www.postgresql.org/docs/current/
+        * https://www.youtube.com/playlist?list=PLy8DguObsSuZOpEaANfgf_cccmnWiPW39
 	* https://fr.wikipedia.org/wiki/Propri%C3%A9t%C3%A9s_ACID
 	* https://fr.wikipedia.org/wiki/Multiversion_Concurrency_Control
+
+PostgreSQL commands:
+  - sudo -u postgres psql (connexion à psql)
+  - \q (quit)
+  - \l (list database)
+  - \du (display roles/users PostgreSQL)
+  - `CREATE ROLE` transcendence_user `WITH LOGIN` `PASSWORD` 'password';
+
+Docker pour la DB (volume persistant):
+DB_HOST=postgres
+DB_PORT=5432 (port par défaut de PostgreSQL)
+DB_NAME=ft_transcendence
+DB_USER=transcendence_user
+DB_PASSWORD=...
+  - volume persistant
+  - un seul container ou plusieurs ?

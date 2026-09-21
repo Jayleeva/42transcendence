@@ -1,0 +1,101 @@
+@startuml
+
+top to bottom direction
+
+' ===== GENERAL STYLE =====
+
+skinparam backgroundColor #F7F8FA
+skinparam shadowing true
+skinparam roundcorner 15
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam defaultFontColor #1F2937
+skinparam ArrowThickness 2
+
+
+' ===== USERS =====
+
+rectangle Users #FFE2CC [
+<b>USERS</b>
+|= id |= username |= email |= password |= bio |= avatar |= created_at |
+| <i>UUID</i> | <i>VARCHAR (15)</i> | <i>VARCHAR (30)</i> | <i>VARCHAR (15)</i> | <i>TEXT (150)</i> | <i>VARCHAR</i> | <i>TIMESTAMP(10)</i> |
+| 550e8400-e29b-41d4-a716-446655440000 | David | david@... | ***** | Hello! | majo.jpg | 2026-09-21 |
+| 2 | Sarah | sa.tonm@... | ***** | Hello! | lisa.jpg | 2026-09-21 |
+| 3 | Michel | michmich@... | ***** | Hello! | cynthia.jpg | 2026-09-21 |
+]
+
+
+' ===== PETS =====
+
+rectangle Pets #DCEEFF [
+<b>PETS</b>
+|= id |= user_id |= name |= species |= bio |= photo |= created_at |
+| <i>UUID</i> | <i>UUID</i> | <i>VARCHAR</i> | <i>VARCHAR</i> | <i>TEXT</i> | <i>VARCHAR</i> | <i>TIMESTAMP</i> |
+| 10 | 550e8400-e29b-41d4-a716-446655440000 | Rex | Dog | Loves walks | rex.jpg | 2026-09-21 |
+| 11 | 2 | Luna | Cat | Loves naps | luna.jpg | 2026-09-21 |
+| 12 | 3 | Milo | Cat | Very curious | milo.jpg | 2026-09-21 |
+]
+
+
+' ===== POSTS =====
+
+rectangle Posts #E8DFFF [
+<b>POSTS</b>
+|= id |= user_id |= pet_id |= content |= image |= created_at |
+| <i>UUID</i> | <i>UUID</i> | <i>UUID</i> | <i>TEXT</i> | <i>VARCHAR</i> | <i>TIMESTAMP</i> |
+| 100 | 550e8400-e29b-41d4-a716-446655440000 | 10 | Morning walk! | walk.jpg | 2026-09-21 |
+| 101 | 2 | 11 | Nap time | luna.jpg | 2026-09-21 |
+| 102 | 2 | 12 | Hello everyone! | milo.jpg | 2026-09-21 |
+]
+
+
+' ===== COMMENTS =====
+
+rectangle Comments #DDF5E5 [
+<b>COMMENTS</b>
+|= id |= user_id |= post_id |= content |= created_at |
+| <i>UUID</i> | <i>UUID</i> | <i>UUID</i> | <i>TEXT</i> | <i>TIMESTAMP</i> |
+| 200 | 2 | 100 | So cute! | 2026-09-21 |
+| 201 | 3 | 100 | Nice photo! | 2026-09-21 |
+| 202 | 550e8400-e29b-41d4-a716-446655440000 | 101 | Adorable! | 2026-09-21 |
+]
+
+
+' ===== LIKES =====
+
+rectangle Likes #FFE0E5 [
+<b>LIKES</b>
+|= id |= user_id |= post_id |= created_at |
+| <i>UUID</i> | <i>UUID</i> | <i>UUID</i> | <i>TIMESTAMP</i> |
+| 300 | 2 | 100 | 2026-09-21 |
+| 301 | 3 | 100 | 2026-09-21 |
+| 302 | 550e8400-e29b-41d4-a716-446655440000 | 101 | 2026-09-21 |
+]
+
+
+' ===== MESSAGES =====
+
+rectangle Messages #FFE0F0 [
+<b>MESSAGES</b>
+|= id |= sender_id |= receiver_id |= content |= created_at |
+| <i>UUID</i> | <i>UUID</i> | <i>UUID</i> | <i>TEXT</i> | <i>TIMESTAMP</i> |
+| 400 | 550e8400-e29b-41d4-a716-446655440000 | 2 | Hi Lisa! | 2026-09-21 |
+| 401 | 2 | 550e8400-e29b-41d4-a716-446655440000 | Hi Marjorie! | 2026-09-21 |
+| 402 | 3 | 2 | Hello! | 2026-09-21 |
+]
+
+
+' ===== RELATIONSHIPS =====
+
+Users -[#F28C45,thickness=3]- Pets
+Users -[#F28C45,thickness=3]- Posts
+Users -[#F28C45,thickness=3]- Comments
+Users -[#F28C45,thickness=3]- Likes
+Users -[#F28C45,thickness=3]- Messages
+
+Pets -[#3B9ED8,thickness=3]- Posts
+
+Posts -[#8B6BD9,thickness=3]- Comments
+Posts -[#8B6BD9,thickness=3]- Likes
+
+@enduml
