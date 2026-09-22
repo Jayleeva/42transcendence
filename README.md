@@ -76,6 +76,7 @@ Discord server.
 |Database|PostgreSQL|Well documented and more suited than MySQL for what we chose to do.|
 |Styling solution|Tailwind CSS|Allows to inject styling in a readable way, avoiding multiple files.|
 |ORM|Prisma|Facilitates relation between backend and DB.|
+|Containers|Docker|Familiar and works fine.|
 
 # Database Schema
 (visual of the db structure)
