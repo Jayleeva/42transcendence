@@ -1,0 +1,105 @@
+services:
+  # web server
+  nginx:
+    container_name: nginx
+    image: nginx
+    build:
+      context: ./stack/nginx
+      dockerfile: Dockerfile
+    secrets:
+      - Certificate
+      - Key
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - transcendence
+    ports:
+      - 443:443
+    env_file:
+      - .env
+    volumes:
+      - website_data:
+    restart: always
+  # website front
+  frontend:
+    container_name: frontend
+    image: frontend
+    build:
+      context: ./stack/frontend
+      dockerfile: Dockerfile
+    secrets:
+      - WS_credentials
+      - DB_credentials
+    depends_on:
+      - pgdb
+    networks:
+      - transcendence
+    env_file:
+      - .env
+    volumes:
+      - website_data:
+    restart: always
+# website back
+  backend:
+    container_name: backtend
+    image: backend
+    build:
+      context: ./stack/backend
+      dockerfile: Dockerfile
+    secrets:
+      - WS_credentials
+      - DB_credentials
+    depends_on:
+      - pgdb
+    networks:
+      - transcendence
+    env_file:
+      - .env
+    volumes:
+      - website_data:
+    restart: always
+  # database
+  pgdb:
+    container_name: pgdb
+    image: pgdb
+    build:
+      context: ./stack/pgdb
+      dockerfile: Dockerfile
+    secrets:
+      - DB_credentials
+    networks:
+      - transcendence
+    env_file:
+      - .env
+    volumes:
+      - pgdb_data:
+    restart: always
+
+volumes:
+  website_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device:
+  pgdb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device:
+
+networks:
+  transcendence:
+    driver: bridge
+  
+secrets:
+  Certificate:
+    file: ../secrets/transcendence.crt
+  Key:
+    file: ../secrets/transcendence.key
+  DB_credentials:
+    file: ../secrets/DB_credentials.txt
+  WS_credentials:
+    file: ../secrets/WS_credentials.txt
