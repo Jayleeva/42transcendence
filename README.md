@@ -71,10 +71,11 @@ Discord server.
 # Technical Stack
 |Feature|Techno|Reason|
 |---|---|---|
-|Frontend| | |
-|Backend| | |
-|Database| | |
-|Other| | |
+|Frontend|NextJS|Easier for beginners than Angular and more modern than React; works with Tailwind CSS; uses Typescript.|
+|Backend|NestJS|Has similarities with C++; facilitates auth, upload and websockets; uses Typescript.|
+|Database|PostgreSQL|Well documented and more suited than MySQL for what we chose to do.|
+|Styling solution|Tailwind CSS|Allows to inject styling in a readable way, avoiding multiple files.|
+|ORM|Prisma|Facilitates relation between backend and DB.|
 
 # Database Schema
 (visual of the db structure)
