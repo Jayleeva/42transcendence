@@ -1,5 +1,6 @@
 FROM debian:bullseye
 
+RUN mkdir -p /var/www/html ?
 
 # Copying the .sh, then giving the right to launch it localy, and defining it as entrypoint
 COPY /tools/backend_script.sh /usr/local/bin/backend_autoconfig.sh

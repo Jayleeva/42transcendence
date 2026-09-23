@@ -19,7 +19,7 @@ services:
     env_file:
       - .env
     volumes:
-      - website_data:
+      - website_data: var/www/html ?
     restart: always
   # website front
   frontend:
@@ -38,7 +38,7 @@ services:
     env_file:
       - .env
     volumes:
-      - website_data:
+      - website_data: var/www/html ?
     restart: always
 # website back
   backend:
@@ -73,7 +73,7 @@ services:
     env_file:
       - .env
     volumes:
-      - pgdb_data:
+      - pgdb_data: /var/lib/postgresql/data
     restart: always
 
 volumes:
@@ -82,13 +82,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device:
+      device: /choisir un chemin sur la machine qui host
   pgdb_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device:
+      device: /choisir un chemin sur la machine qui host
 
 networks:
   transcendence:
