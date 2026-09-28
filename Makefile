@@ -14,7 +14,7 @@ IMAGES = nginx frontend backend pgdb
 DOCKERS = nginx frontend backend pgdb
 VOLUMES = srcs_website_data srcs_pgdb_data 
 
-DATA_DIR = /home/cyglardo/data
+DATA_DIR = /home/clmmm/data
 WS_DATA = $(DATA_DIR)/website
 DB_DATA = $(DATA_DIR)/pgdb
 

@@ -82,13 +82,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /choisir un chemin sur la machine qui host
+      device: /home/clmmm/data/website_data
   pgdb_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /choisir un chemin sur la machine qui host
+      device: /home/clmmm/data/pgdb_data
 
 networks:
   transcendence:

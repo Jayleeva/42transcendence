@@ -1,0 +1,36 @@
+You must enter specific content inside .env and the secret files. Here's what this should look like (please edit only the values):
+
+### Set up the environment
+Example of .env:
+````
+# Public data
+
+DOMAIN_NAME=clmmm.42.fr
+TITLE=transcendence
+
+PGSQL_HOSTNAME=wordpress
+PGSQL_DATABASE=pdgb
+````
+
+### Set up the secrets
+Example of DB_credentials:
+````
+# !! Sensitive data !! Do not share!
+
+PGSQL_USER=insertUSERhere
+PGSQL_PASSWORD=insertPASSWORDhere
+PGSQL_ROOT_PASSWORD=insertROOTPASSWORDhere
+````
+
+Example or WP_credentials:
+````
+# !! Sensitive data !! Do not share!
+
+WP_ADMIN_USER=insertUSERhere
+WP_ADMIN_PASSWORD=insertPASSWORDhere
+WP_ADMIN_EMAIL=insertEMAILhere
+
+WP_USER=insertUSERhere
+WP_PASSWORD=insertPASSWORDhere
+WP_EMAIL=insertEMAILhere
+````
