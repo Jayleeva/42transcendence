@@ -3,8 +3,6 @@ You must enter specific content inside .env and the secret files. Here's what th
 ### Set up the environment
 Example of .env:
 ````
-# Public data
-
 DOMAIN_NAME=clmmm.42.fr
 TITLE=transcendence
 

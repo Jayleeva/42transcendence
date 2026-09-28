@@ -19,7 +19,7 @@ services:
     env_file:
       - .env
     volumes:
-      - website_data: var/www/html ?
+      - pgdb_data: /var/lib/postgresql/data
     restart: always
   # website front
   frontend:
@@ -38,7 +38,7 @@ services:
     env_file:
       - .env
     volumes:
-      - website_data: var/www/html ?
+      - pgdb_data: /var/lib/postgresql/data
     restart: always
 # website back
   backend:
@@ -57,7 +57,7 @@ services:
     env_file:
       - .env
     volumes:
-      - website_data:
+      - pgdb_data: /var/lib/postgresql/data
     restart: always
   # database
   pgdb:
@@ -77,18 +77,13 @@ services:
     restart: always
 
 volumes:
-  website_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/clmmm/data/website_data
   pgdb_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/clmmm/data/pgdb_data
+      device: /mnt/c/Users/Jayleeva/data/pgdb_data
+#/home/clmmm/data/pgdb_data
 
 networks:
   transcendence:

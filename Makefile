@@ -12,10 +12,10 @@ CMP = docker compose -f $(YML)
 NETWORK = srcs_transcendence
 IMAGES = nginx frontend backend pgdb
 DOCKERS = nginx frontend backend pgdb
-VOLUMES = srcs_website_data srcs_pgdb_data 
+VOLUMES = srcs_pgdb_data 
 
-DATA_DIR = /home/clmmm/data
-WS_DATA = $(DATA_DIR)/website
+DATA_DIR = /mnt/c/Users/Jayleeva/data
+#/home/clmmm/data
 DB_DATA = $(DATA_DIR)/pgdb
 
 all: up
@@ -25,7 +25,6 @@ up:
 	-out ./secrets/transcendence.crt \
 	-keyout ./secrets/transcendence.key \
 	-subj "$(CERT)"
-	mkdir -p $(WS_DATA)
 	mkdir -p $(DB_DATA)
 	$(CMP) up -d --build
 	@if ! grep -q "$(DOMAIN_NAME)" /etc/hosts; then \
