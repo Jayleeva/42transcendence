@@ -40,6 +40,8 @@ A table is a structure used to store a set of data regarding a single entity. It
 	* https://fr.wikipedia.org/wiki/Propri%C3%A9t%C3%A9s_ACID
 	* https://fr.wikipedia.org/wiki/Multiversion_Concurrency_Control
   * https://www.databricks.com/fr/blog/sql-data-types
+- Prisma:
+  * https://www.prisma.io/docs/orm/v7
 
 PostgreSQL commands:
   - sudo -u postgres psql (connexion à psql)
