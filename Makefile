@@ -14,13 +14,14 @@ IMAGES = nginx frontend backend pgdb
 DOCKERS = nginx frontend backend pgdb
 VOLUMES = srcs_pgdb_data 
 
-DATA_DIR = /mnt/c/Users/Jayleeva/data
-#/home/clmmm/data
+TOCOPY_DIR = /home/ubuntu/tocopy
+DATA_DIR = /home/ubuntu/data
 DB_DATA = $(DATA_DIR)/pgdb
 
 all: up
 
 up:
+	mv $(TOCOPY_DIR)/* ./
 	openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 	-out ./secrets/transcendence.crt \
 	-keyout ./secrets/transcendence.key \

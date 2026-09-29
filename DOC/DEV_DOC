@@ -6,7 +6,6 @@ Example of .env:
 DOMAIN_NAME=clmmm.42.fr
 TITLE=transcendence
 
-PGSQL_HOSTNAME=wordpress
 PGSQL_DATABASE=pdgb
 ````
 
