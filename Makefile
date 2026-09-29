@@ -22,8 +22,8 @@ DB_DATA = $(DATA_DIR)/pgdb
 all: up
 
 up:
-	mv $(SECRETS_DIR)/ ./
-	mv $(ENV) ./
+	cp $(SECRETS_DIR)/ ./
+	cp $(ENV) ./
 	openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 	-out ./secrets/transcendence.crt \
 	-keyout ./secrets/transcendence.key \
