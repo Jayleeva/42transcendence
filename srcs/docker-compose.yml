@@ -29,7 +29,6 @@ services:
       context: ./stack/frontend
       dockerfile: Dockerfile
     secrets:
-      - WS_credentials
       - DB_credentials
     depends_on:
       - pgdb
@@ -48,7 +47,6 @@ services:
       context: ./stack/backend
       dockerfile: Dockerfile
     secrets:
-      - WS_credentials
       - DB_credentials
     depends_on:
       - pgdb
@@ -96,5 +94,3 @@ secrets:
     file: ../secrets/transcendence.key
   DB_credentials:
     file: ../secrets/DB_credentials.txt
-  WS_credentials:
-    file: ../secrets/WS_credentials.txt
