@@ -1,5 +1,6 @@
 FROM debian:bullseye
 
+RUN apt-get install -y npm
 
 # Copying the .sh, then giving the right to launch it localy, and defining it as entrypoint
 COPY /tools/frontend_script.sh /usr/local/bin/frontend_autoconfig.sh

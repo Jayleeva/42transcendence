@@ -9,7 +9,7 @@ TITLE=transcendence
 POSTGRES_DB=transcendence_db
 POSTGRES_USER=insertUSERhere
 POSTGRES_PASSWORD=insertPASSWORDhere
-PGDATA=/path/to/the/db
+PGDATA=/path/to/the/data
 
 ````
 

@@ -6,6 +6,8 @@ RUN apt-get install -y postgresql
 
 COPY conf/pgdb.conf	/etc/postgresql/postgresql.conf 
 
+#RUN npx prisma migrate dev --name commit
+
 # où copier le script?
 #COPY /tools/pgdb_script.sh /usr/local/bin/pgdb_script.sh
 #RUN chmod +x /usr/local/bin/pgdb_script.sh
