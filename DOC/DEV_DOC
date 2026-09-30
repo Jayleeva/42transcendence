@@ -6,16 +6,18 @@ Example of .env:
 DOMAIN_NAME=clmmm.42.fr
 TITLE=transcendence
 
-PGSQL_DATABASE=pdgb
+POSTGRES_DB=transcendence_db
+POSTGRES_USER=insertUSERhere
+POSTGRES_PASSWORD=insertPASSWORDhere
+PGDATA=/path/to/the/db
+
 ````
 
 ### Set up the secrets
-Example of DB_credentials:
-````
-# !! Sensitive data !! Do not share!
+Create a folder for secrets.
 
-PGSQL_USER=insertUSERhere
-PGSQL_PASSWORD=insertPASSWORDhere
-PGSQL_ROOT_PASSWORD=insertROOTPASSWORDhere
-````
+Create two empty files for the certificate:
+- transcendence.crt
+- transcendence.key
+
 

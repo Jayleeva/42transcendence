@@ -6,9 +6,6 @@ services:
     build:
       context: ./stack/nginx
       dockerfile: Dockerfile
-    secrets:
-      - Certificate
-      - Key
     depends_on:
       - backend
       - frontend
@@ -18,6 +15,9 @@ services:
       - 443:443
     env_file:
       - .env
+    secrets:
+      - Certificate
+      - Key
     volumes:
       - pgdb_data: /var/lib/postgresql/data
     restart: always
@@ -28,14 +28,14 @@ services:
     build:
       context: ./stack/frontend
       dockerfile: Dockerfile
-    secrets:
-      - DB_credentials
     depends_on:
       - pgdb
     networks:
       - transcendence
     env_file:
       - .env
+    secrets:
+      - DB_credentials
     volumes:
       - pgdb_data: /var/lib/postgresql/data
     restart: always
@@ -46,32 +46,35 @@ services:
     build:
       context: ./stack/backend
       dockerfile: Dockerfile
-    secrets:
-      - DB_credentials
     depends_on:
       - pgdb
     networks:
       - transcendence
     env_file:
       - .env
+    secrets:
+      - DB_credentials
     volumes:
       - pgdb_data: /var/lib/postgresql/data
     restart: always
   # database
   pgdb:
     container_name: pgdb
-    image: pgdb
-    build:
-      context: ./stack/pgdb
-      dockerfile: Dockerfile
-    secrets:
-      - DB_credentials
+    image: postgres:16-alpine
+    #build:
+    #  context: ./stack/pgdb
+    #  dockerfile: Dockerfile
     networks:
       - transcendence
+    ports:
+      - 5432:5432
     env_file:
       - .env
+    #secrets:
+    #  - DB_credentials
     volumes:
       - pgdb_data: /var/lib/postgresql/data
+      - ./init-scripts: /docker-entrypoint-initdb.d
     restart: always
 
 volumes:
