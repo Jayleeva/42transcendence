@@ -47,7 +47,7 @@ services:
       - transcendence
     env_file:
       - .env
-    environnement:
+    environment:
       DATABASE_URL: postgresql://${PGSQL_USER}:${PGSQL_PASSWORD}@pgdb:5432/${PGSQL_DATABASE}?schema=public
     restart: always
   # database
