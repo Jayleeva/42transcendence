@@ -1,15 +1,5 @@
-FROM debian:bullseye
-
-RUN apt-get update -y && apt-get upgrade -y
-
-RUN apt-get install -y postgresql
+FROM --platform=linux/amd64 postgres:16-alpine
 
 COPY conf/pgdb.conf	/etc/postgresql/postgresql.conf 
 
-#RUN npx prisma migrate dev --name commit
-
-# où copier le script?
-#COPY /tools/pgdb_script.sh /usr/local/bin/pgdb_script.sh
-#RUN chmod +x /usr/local/bin/pgdb_script.sh
-#CMD [ "./usr/local/bin/pgdb_script.sh" ]
-ENTRYPOINT ["/docker-entrypoint-initdb.d"]
+CMD ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]

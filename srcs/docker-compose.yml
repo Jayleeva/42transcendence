@@ -18,8 +18,6 @@ services:
     secrets:
       - Certificate
       - Key
-    volumes:
-      - pgdb_data: /var/lib/postgresql/data
     restart: always
   # website front
   frontend:
@@ -34,47 +32,48 @@ services:
       - transcendence
     env_file:
       - .env
-    secrets:
-      - DB_credentials
-    volumes:
-      - pgdb_data: /var/lib/postgresql/data
     restart: always
 # website back
   backend:
-    container_name: backtend
+    container_name: backend
     image: backend
     build:
       context: ./stack/backend
       dockerfile: Dockerfile
     depends_on:
-      - pgdb
+      pgdb:
+        condition: service_healthy
     networks:
       - transcendence
     env_file:
       - .env
-    secrets:
-      - DB_credentials
-    volumes:
-      - pgdb_data: /var/lib/postgresql/data
+    environnement:
+      DATABASE_URL: postgresql://${PGSQL_USER}:${PGSQL_PASSWORD}@pgdb:5432/${PGSQL_DATABASE}?schema=public
     restart: always
   # database
   pgdb:
     container_name: pgdb
-    image: postgres:16-alpine
-    #build:
-    #  context: ./stack/pgdb
-    #  dockerfile: Dockerfile
+    image: pgdb
+    build:
+      context: ./stack/pgdb
+      dockerfile: Dockerfile
     networks:
       - transcendence
     ports:
       - 5432:5432
     env_file:
       - .env
-    #secrets:
-    #  - DB_credentials
+    environment:
+      POSTGRES_USER: ${PGSQL_USER}
+      POSTGRES_PASSWORD: ${PGSQL_PASSWORD}
+      POSTGRES_DB: ${PGSQL_DATABASE}
     volumes:
       - pgdb_data: /var/lib/postgresql/data
-      - ./init-scripts: /docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PGSQL_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     restart: always
 
 volumes:
@@ -85,7 +84,6 @@ volumes:
       o: bind
       device: /home/ubuntu/data/pgdb_data
 
-
 networks:
   transcendence:
     driver: bridge
@@ -95,5 +93,3 @@ secrets:
     file: ../secrets/transcendence.crt
   Key:
     file: ../secrets/transcendence.key
-  DB_credentials:
-    file: ../secrets/DB_credentials.txt

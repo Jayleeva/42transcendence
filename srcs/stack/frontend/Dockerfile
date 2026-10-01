@@ -1,8 +1,7 @@
-FROM debian:bullseye
-
-RUN apt-get install -y npm
-
-# Copying the .sh, then giving the right to launch it localy, and defining it as entrypoint
-COPY /tools/frontend_script.sh /usr/local/bin/frontend_autoconfig.sh
-RUN chmod +x /usr/local/bin/frontend_autoconfig.sh
-ENTRYPOINT ["/usr/local/bin/frontend_autoconfig.sh"]
+FROM node:22-alpine AS builder
+RUN apk add --no-cache openssl
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+CMD npm run build
