@@ -68,7 +68,7 @@ services:
       POSTGRES_PASSWORD: ${PGSQL_PASSWORD}
       POSTGRES_DB: ${PGSQL_DATABASE}
     volumes:
-      - pgdb_data: /var/lib/postgresql/data
+      - /var/lib/postgresql/data:/home/ubuntu/data/pgdb_data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${PGSQL_USER}"]
       interval: 5s
@@ -76,11 +76,11 @@ services:
       retries: 5
     restart: always
 
-volumes:
-  pgdb_data:
-      type : bind
-      source: /var/lib/postgresql/data
-      target: /home/ubuntu/data/pgdb_data
+#volumes:
+#  pgdb_data:
+#    type : bind
+#    source: /var/lib/postgresql/data
+#    target: 
 
 networks:
   transcendence:

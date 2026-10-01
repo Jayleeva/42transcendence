@@ -6,10 +6,9 @@ Example of .env:
 DOMAIN_NAME=clmmm.42.fr
 TITLE=transcendence
 
-POSTGRES_DB=transcendence_db
-POSTGRES_USER=insertUSERhere
-POSTGRES_PASSWORD=insertPASSWORDhere
-PGDATA=/path/to/the/data
+PGSQL_USER=insertUSERhere
+PGSQL_PASSWORD=insertPASSWORDhere
+PGSQL_DATABASE=/path/to/the/data
 
 ````
 
