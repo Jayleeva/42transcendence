@@ -78,7 +78,7 @@ services:
 
 volumes:
   pgdb_data:
-    - type : bind
+      type : bind
       source: /var/lib/postgresql/data
       target: /home/ubuntu/data/pgdb_data
 
