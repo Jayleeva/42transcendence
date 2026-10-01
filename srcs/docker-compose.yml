@@ -78,11 +78,9 @@ services:
 
 volumes:
   pgdb_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/ubuntu/data/pgdb_data
+    - type : bind
+      source: /var/lib/postgresql/data
+      target: /home/ubuntu/data/pgdb_data
 
 networks:
   transcendence:
