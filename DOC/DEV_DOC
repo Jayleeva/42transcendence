@@ -1,4 +1,6 @@
-You must enter specific content inside .env and the secret files. Here's what this should look like (please edit only the values):
+Create a folder named "tocopy" on your machine, in the same directory as the project. If you want to use a different name or path, don't forget to adapt the Makefile's "copy" rule's variables.
+
+Prepare a .env file and a secrets directory inside.
 
 ### Set up the environment
 Example of .env:
@@ -6,17 +8,26 @@ Example of .env:
 DOMAIN_NAME=clmmm.42.fr
 TITLE=transcendence
 
-PGSQL_USER=insertUSERhere
-PGSQL_PASSWORD=insertPASSWORDhere
 PGSQL_DATABASE=/path/to/the/data
-
 ````
 
 ### Set up the secrets
-Create a folder for secrets.
+Create a folder for secrets named "secrets".
 
-Create two empty files for the certificate:
+Inside it, create two empty files for the certificate:
 - transcendence.crt
 - transcendence.key
 
+Create a file named "pgsql_user.txt" and fill it with a username.
+Example:
+````
+insertUSERhere
+````
 
+Create a file named "pgsql_password.txt" and fill it with a password.
+Example:
+````
+insertPASSWORDhere
+````
+
+CAREFUL: once the username and password have been used to create the database, you won't be able to change them without erasing all its data.

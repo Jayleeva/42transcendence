@@ -47,8 +47,9 @@ clean:
 	docker network rm $(NETWORK) 2>/dev/null
 
 fclean: clean
-	sudo rm -rf $(WS_DATA)
-	sudo rm -rf $(DB_DATA)
+	rm -rf $(DB_DATA)
+	rm -rf .env
+	rm -rf secrets/
 
 re: down up
 

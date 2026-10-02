@@ -48,7 +48,12 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgresql://${PGSQL_USER}:${PGSQL_PASSWORD}@pgdb:5432/${PGSQL_DATABASE}?schema=public
+      PGSQL_DATABASE: ${PGSQL_DATABASE}
+      PGSQL_HOST: pgdb
+      PGSQL_PORT: 5432
+    secrets:
+      - pgsql_user
+      - pgsql_password
     restart: always
   # database
   pgdb:
@@ -64,13 +69,13 @@ services:
     env_file:
       - .env
     environment:
-      POSTGRES_USER: ${PGSQL_USER}
-      POSTGRES_PASSWORD: ${PGSQL_PASSWORD}
+      POSTGRES_USER_FILE: /run/secrets/pgsql_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/pgsql_password
       POSTGRES_DB: ${PGSQL_DATABASE}
     volumes:
       - /var/lib/postgresql/data:/home/ubuntu/data/pgdb_data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${PGSQL_USER}"]
+      test: ["CMD-SHELL", "pg_isready -U $$(cat /run/secrets/pgsql_user)"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -85,3 +90,7 @@ secrets:
     file: ../secrets/transcendence.crt
   Key:
     file: ../secrets/transcendence.key
+  pgsql_user:
+    file: ../secrets/pgsql_user.txt
+  pgsql_password:
+    file: ../secrets/pgsql_password.txt
