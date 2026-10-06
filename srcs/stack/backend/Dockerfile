@@ -4,7 +4,7 @@ WORKDIR /app
 COPY framework/package*.json ./
 RUN npm install
 COPY . .
-RUN npx prisma generate
+RUN npx prisma generate --schema ./framework/prisma/schema.prisma
 RUN npm run build
 
 FROM node:22-alpine
