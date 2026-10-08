@@ -1,0 +1,95 @@
+services:
+  # web server
+  nginx:
+    container_name: nginx
+    image: nginx
+    build:
+      context: ./stack/nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - frontend
+    networks:
+      - transcendence
+    ports:
+      - 443:443
+    env_file:
+      - .env
+    secrets:
+      - Certificate
+      - Key
+    restart: always
+  # website front
+  frontend:
+    container_name: frontend
+    image: frontend
+    build:
+      context: ./stack/frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    networks:
+      - transcendence
+    env_file:
+      - .env
+    restart: always
+# website back
+  backend:
+    container_name: backend
+    image: backend
+    build:
+      context: ./stack/backend
+      dockerfile: Dockerfile
+    depends_on:
+      pgdb:
+        condition: service_healthy
+    networks:
+      - transcendence
+    env_file:
+      - .env
+    environment:
+      PGSQL_DATABASE: ${PGSQL_DATABASE}
+      PGSQL_HOST: pgdb
+      PGSQL_PORT: 5432
+    secrets:
+      - pgsql_user
+      - pgsql_password
+    restart: always
+  # database
+  pgdb:
+    container_name: pgdb
+    image: pgdb
+    build:
+      context: ./stack/pgdb
+      dockerfile: Dockerfile
+    networks:
+      - transcendence
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER_FILE: /run/secrets/pgsql_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/pgsql_password
+      POSTGRES_DB: ${PGSQL_DATABASE}
+    volumes:
+      - /var/lib/postgresql/data:/home/ubuntu/data/pgdb_data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$(cat /run/secrets/pgsql_user)"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+networks:
+  transcendence:
+    driver: bridge
+  
+secrets:
+  Certificate:
+    file: ../secrets/transcendence.crt
+  Key:
+    file: ../secrets/transcendence.key
+  pgsql_user:
+    file: ../secrets/pgsql_user.txt
+  pgsql_password:
+    file: ../secrets/pgsql_password.txt
