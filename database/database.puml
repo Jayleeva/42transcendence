@@ -1,101 +1,246 @@
 @startuml
 
-top to bottom direction
-
-' ===== GENERAL STYLE =====
-
 skinparam backgroundColor #F7F8FA
 skinparam shadowing true
 skinparam roundcorner 15
+skinparam ArrowColor #4B5563
+skinparam ArrowThickness 1.5
 skinparam defaultFontName Arial
-skinparam defaultFontSize 13
-skinparam defaultFontColor #1F2937
-skinparam ArrowThickness 2
+skinparam defaultFontSize 14
+
+left to right direction
 
 
-' ===== USERS =====
+' ==================== USER ====================
 
-rectangle Users #FFE2CC [
-<b>USERS</b>
-|= id |= username |= email |= password |= bio |= avatar |= created_at |
-| <i>UUID</i> | <i>VARCHAR (15)</i> | <i>VARCHAR (30)</i> | <i>VARCHAR (15)</i> | <i>TEXT (150)</i> | <i>VARCHAR</i> | <i>TIMESTAMP(10)</i> |
-| 550e8400-e29b-41d4-a716-446655440000 | David | david@... | ***** | Hello! | majo.jpg | 2026-09-21 |
-| 2 | Sarah | sa.tonm@... | ***** | Hello! | lisa.jpg | 2026-09-21 |
-| 3 | Michel | michmich@... | ***** | Hello! | cynthia.jpg | 2026-09-21 |
+rectangle User #FFE2CC [
+<b>USER</b>
+|= id |= lastname |= firstname |= username |= email |= password |= bio |= avatar |= birthDate |= twoFAEnabled |= twoFASecret |= createdAt |= updatedAt |
+| <i>UUID</i> | <i>String</i> | <i>String</i> | <i>String UNIQUE</i> | <i>String UNIQUE</i> | <i>String?</i> | <i>String?</i> | <i>String?</i> | <i>DateTime?</i> | <i>Boolean</i> | <i>String?</i> | <i>DateTime</i> | <i>DateTime</i> |
+]
+
+rectangle Friendship #FFE2CC [
+<b>FRIENDSHIP</b>
+|= id |= requesterId |= receiverId |= status |= createdAt |= updatedAt |
+| <i>UUID</i> | <i>UUID</i> | <i>UUID</i> | <i>Status</i> | <i>DateTime</i> | <i>DateTime</i> |
+]
+
+rectangle OAuthAccount #FFE2CC [
+<b>OAUTH ACCOUNT</b>
+|= id |= provider |= providerAccountId |= createdAt |= updatedAt |= userId |
+| <i>UUID</i> | <i>String</i> | <i>String</i> | <i>DateTime</i> | <i>DateTime</i> | <i>UUID</i> |
 ]
 
 
-' ===== PETS =====
+' ==================== PET ====================
 
-rectangle Pets #DCEEFF [
-<b>PETS</b>
-|= id |= user_id |= name |= species |= bio |= photo |= created_at |
-| <i>UUID</i> | <i>UUID</i> | <i>VARCHAR</i> | <i>VARCHAR</i> | <i>TEXT</i> | <i>VARCHAR</i> | <i>TIMESTAMP</i> |
-| 10 | 550e8400-e29b-41d4-a716-446655440000 | Rex | Dog | Loves walks | rex.jpg | 2026-09-21 |
-| 11 | 2 | Luna | Cat | Loves naps | luna.jpg | 2026-09-21 |
-| 12 | 3 | Milo | Cat | Very curious | milo.jpg | 2026-09-21 |
+rectangle Pet #DDF2E1 [
+<b>PET</b>
+|= id |= name |= species |= race |= birthDate |= bio |= avatar |= createdAt |= updatedAt |= ownerId |
+| <i>UUID</i> | <i>String</i> | <i>Species</i> | <i>String?</i> | <i>DateTime?</i> | <i>String?</i> | <i>String?</i> | <i>DateTime</i> | <i>DateTime</i> | <i>UUID</i> |
+]
+
+rectangle PetPhoto #DDF2E1 [
+<b>PET PHOTO</b>
+|= id |= image |= createdAt |= updatedAt |= petId |
+| <i>UUID</i> | <i>String</i> | <i>DateTime</i> | <i>DateTime</i> | <i>UUID</i> |
 ]
 
 
-' ===== POSTS =====
+' ==================== POST ====================
 
-rectangle Posts #E8DFFF [
-<b>POSTS</b>
-|= id |= user_id |= pet_id |= content |= image |= created_at |
-| <i>UUID</i> | <i>UUID</i> | <i>UUID</i> | <i>TEXT</i> | <i>VARCHAR</i> | <i>TIMESTAMP</i> |
-| 100 | 550e8400-e29b-41d4-a716-446655440000 | 10 | Morning walk! | walk.jpg | 2026-09-21 |
-| 101 | 2 | 11 | Nap time | luna.jpg | 2026-09-21 |
-| 102 | 2 | 12 | Hello everyone! | milo.jpg | 2026-09-21 |
+rectangle Post #DDEBFA [
+<b>POST</b>
+|= id |= content |= image |= createdAt |= updatedAt |= authorId |
+| <i>UUID</i> | <i>String</i> | <i>String?</i> | <i>DateTime</i> | <i>DateTime</i> | <i>UUID</i> |
+]
+
+rectangle PostImage #DDEBFA [
+<b>POST IMAGE</b>
+|= id |= image |= createdAt |= updatedAt |= postId |
+| <i>UUID</i> | <i>String</i> | <i>DateTime</i> | <i>DateTime</i> | <i>UUID</i> |
 ]
 
 
-' ===== COMMENTS =====
+' ==================== COMMENT ====================
 
-rectangle Comments #DDF5E5 [
-<b>COMMENTS</b>
-|= id |= user_id |= post_id |= content |= created_at |
-| <i>UUID</i> | <i>UUID</i> | <i>UUID</i> | <i>TEXT</i> | <i>TIMESTAMP</i> |
-| 200 | 2 | 100 | So cute! | 2026-09-21 |
-| 201 | 3 | 100 | Nice photo! | 2026-09-21 |
-| 202 | 550e8400-e29b-41d4-a716-446655440000 | 101 | Adorable! | 2026-09-21 |
+rectangle Comment #FCE8F1 [
+<b>COMMENT</b>
+|= id |= content |= createdAt |= updatedAt |= authorId |= postId |
+| <i>UUID</i> | <i>String</i> | <i>DateTime</i> | <i>DateTime</i> | <i>UUID</i> | <i>UUID</i> |
 ]
 
 
-' ===== LIKES =====
+' ==================== LIKES ====================
 
-rectangle Likes #FFE0E5 [
-<b>LIKES</b>
-|= id |= user_id |= post_id |= created_at |
-| <i>UUID</i> | <i>UUID</i> | <i>UUID</i> | <i>TIMESTAMP</i> |
-| 300 | 2 | 100 | 2026-09-21 |
-| 301 | 3 | 100 | 2026-09-21 |
-| 302 | 550e8400-e29b-41d4-a716-446655440000 | 101 | 2026-09-21 |
+rectangle PostLike #FFF3CD [
+<b>POST LIKE</b>
+|= id |= createdAt |= updatedAt |= authorId |= postId |
+| <i>UUID</i> | <i>DateTime</i> | <i>DateTime</i> | <i>UUID</i> | <i>UUID</i> |
+]
+
+rectangle CommentLike #FFF3CD [
+<b>COMMENT LIKE</b>
+|= id |= createdAt |= updatedAt |= authorId |= commentId |
+| <i>UUID</i> | <i>DateTime</i> | <i>DateTime</i> | <i>UUID</i> | <i>UUID</i> |
+]
+
+rectangle PetLike #FFF3CD [
+<b>PET LIKE</b>
+|= id |= createdAt |= updatedAt |= authorId |= petId |= petPhotoId |
+| <i>UUID</i> | <i>DateTime</i> | <i>DateTime</i> | <i>UUID</i> | <i>UUID</i> | <i>UUID?</i> |
 ]
 
 
-' ===== MESSAGES =====
+' ==================== MESSAGES ====================
 
-rectangle Messages #FFE0F0 [
-<b>MESSAGES</b>
-|= id |= sender_id |= receiver_id |= content |= created_at |
-| <i>UUID</i> | <i>UUID</i> | <i>UUID</i> | <i>TEXT</i> | <i>TIMESTAMP</i> |
-| 400 | 550e8400-e29b-41d4-a716-446655440000 | 2 | Hi Lisa! | 2026-09-21 |
-| 401 | 2 | 550e8400-e29b-41d4-a716-446655440000 | Hi Marjorie! | 2026-09-21 |
-| 402 | 3 | 2 | Hello! | 2026-09-21 |
+rectangle Conversation #E8E0F5 [
+<b>CONVERSATION</b>
+|= id |= createdAt |= updatedAt |
+| <i>UUID</i> | <i>DateTime</i> | <i>DateTime</i> |
+]
+
+rectangle ConversationMember #E8E0F5 [
+<b>CONVERSATION MEMBER</b>
+|= conversationId |= userId |
+| <i>UUID</i> | <i>UUID</i> |
+]
+
+rectangle Message #E8E0F5 [
+<b>MESSAGE</b>
+|= id |= content |= createdAt |= updatedAt |= senderId |= conversationId |
+| <i>UUID</i> | <i>String</i> | <i>DateTime</i> | <i>DateTime</i> | <i>UUID</i> | <i>UUID</i> |
 ]
 
 
-' ===== RELATIONSHIPS =====
+' ==================== NOTIFICATIONS ====================
 
-Users -[#F28C45,thickness=3]- Pets
-Users -[#F28C45,thickness=3]- Posts
-Users -[#F28C45,thickness=3]- Comments
-Users -[#F28C45,thickness=3]- Likes
-Users -[#F28C45,thickness=3]- Messages
+rectangle Notification #FADBD8 [
+<b>NOTIFICATION</b>
+|= id |= read |= type |= createdAt |= updatedAt |= userId |= actorId |
+| <i>UUID</i> | <i>Boolean</i> | <i>NotificationType</i> | <i>DateTime</i> | <i>DateTime</i> | <i>UUID</i> | <i>UUID?</i> |
+]
 
-Pets -[#3B9ED8,thickness=3]- Posts
 
-Posts -[#8B6BD9,thickness=3]- Comments
-Posts -[#8B6BD9,thickness=3]- Likes
+' ==================== ACHIEVEMENTS ====================
+
+rectangle Achievement #D6EAF8 [
+<b>ACHIEVEMENT</b>
+|= id |= name |= description |= image |= createdAt |= updatedAt |
+| <i>UUID</i> | <i>String UNIQUE</i> | <i>String</i> | <i>String?</i> | <i>DateTime</i> | <i>DateTime</i> |
+]
+
+rectangle UserAchievement #D6EAF8 [
+<b>USER ACHIEVEMENT</b>
+|= id |= unlockedAt |= userId |= achievementId |
+| <i>UUID</i> | <i>DateTime</i> | <i>UUID</i> | <i>UUID</i> |
+]
+
+
+' ==================== SESSIONS ====================
+
+rectangle Session #E2E3E5 [
+<b>SESSION</b>
+|= id |= expiresAt |= createdAt |= updatedAt |= userId |
+| <i>UUID</i> | <i>DateTime</i> | <i>DateTime</i> | <i>DateTime</i> | <i>UUID</i> |
+]
+
+
+' ==================== RELATIONS ====================
+
+' User / Friendship
+User "1" --> "0..*" Friendship : requesterId
+User "1" --> "0..*" Friendship : receiverId
+
+' User / OAuth
+User "1" --> "0..*" OAuthAccount : userId
+
+' User / Pet
+User "1" --> "0..*" Pet : ownerId
+Pet "1" --> "0..*" PetPhoto : petId
+
+' User / Post
+User "1" --> "0..*" Post : authorId
+
+' Pet / Post (implicit many-to-many)
+Pet "0..*" -- "0..*" Post : pets
+
+' Post / Images
+Post "1" --> "0..*" PostImage : postId
+
+' Comments
+User "1" --> "0..*" Comment : authorId
+Post "1" --> "0..*" Comment : postId
+
+' Post Likes
+User "1" --> "0..*" PostLike : authorId
+Post "1" --> "0..*" PostLike : postId
+
+' Comment Likes
+User "1" --> "0..*" CommentLike : authorId
+Comment "1" --> "0..*" CommentLike : commentId
+
+' Pet Likes
+User "1" --> "0..*" PetLike : authorId
+Pet "1" --> "0..*" PetLike : petId
+PetPhoto "0..1" --> "0..*" PetLike : petPhotoId
+
+' Conversations
+Conversation "1" --> "0..*" ConversationMember : conversationId
+User "1" --> "0..*" ConversationMember : userId
+
+Conversation "1" --> "0..*" Message : conversationId
+User "1" --> "0..*" Message : senderId
+
+' Notifications
+User "1" --> "0..*" Notification : userId
+User "0..1" --> "0..*" Notification : actorId
+
+' Achievements
+User "1" --> "0..*" UserAchievement : userId
+Achievement "1" --> "0..*" UserAchievement : achievementId
+
+' Sessions
+User "1" --> "0..*" Session : userId
+
+
+' ==================== ENUMS ====================
+
+note bottom of Friendship
+<b>Status</b>
+PENDING
+ACCEPTED
+DECLINED
+BLOCKED
+end note
+
+note bottom of Pet
+<b>Species</b>
+DOG
+CAT
+BUNNY
+HAMSTER
+GUINEAPIG
+MOUSE
+RAT
+FISH
+LIZARD
+SNAKE
+TURTLE
+BIRD
+OTHER
+end note
+
+note bottom of Notification
+<b>NotificationType</b>
+FRIEND_REQUEST
+FRIEND_ACCEPTED
+POST_LIKE
+COMMENT_LIKE
+PET_LIKE
+COMMENT
+MESSAGE
+ACHIEVEMENT
+end note
 
 @enduml

@@ -13,44 +13,312 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id        String    @id @default(uuid()) @db.Uuid
-  username  String    @unique
-  email     String    @unique
-  password  String
-  bio       String?
-  avatar    String?
-  birthDate DateTime?
-  createdAt DateTime  @default(now())
+// ==================== USER ====================
 
-  pets  Pet[]
-  posts Post[]
+model User {
+  id           String    @id @default(uuid()) @db.Uuid
+  lastname     String
+  firstname    String
+  username     String    @unique
+  email        String    @unique
+  password     String?
+  bio          String?
+  avatar       String?
+  birthDate    DateTime?
+  twoFAEnabled Boolean   @default(false)
+  twoFASecret  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  sentFriendRequests     Friendship[] @relation("FriendshipRequester")
+  receivedFriendRequests Friendship[] @relation("FriendshipReceiver")
+
+  notifications     Notification[] @relation("UserNotifications")
+  sentNotifications Notification[] @relation("NotificationActor")
+
+  oauthAccounts OAuthAccount[]
+  pets          Pet[]
+  posts         Post[]
+  comments      Comment[]
+  postlikes     PostLike[]
+  commentlikes  CommentLike[]
+  petlikes      PetLike[]
+  messages      Message[]
+  conversations ConversationMember[]
+  achievements  UserAchievement[]
+  sessions      Session[]
 }
+
+model Friendship {
+  id          String   @id @default(uuid()) @db.Uuid
+  requesterId String   @db.Uuid
+  receiverId  String   @db.Uuid
+  status      Status
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  requester User @relation("FriendshipRequester", fields: [requesterId], references: [id])
+  receiver  User @relation("FriendshipReceiver", fields: [receiverId], references: [id])
+
+  @@unique([requesterId, receiverId])
+}
+
+enum Status {
+  PENDING
+  ACCEPTED
+  DECLINED
+  BLOCKED
+}
+
+model OAuthAccount {
+  id                String   @id @default(uuid()) @db.Uuid
+  provider          String
+  providerAccountId String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+}
+
+// ==================== PET ====================
 
 model Pet {
   id        String    @id @default(uuid()) @db.Uuid
   name      String
-  species   String
+  species   Species
+  race      String?
   birthDate DateTime?
   bio       String?
-  photo     String?
+  avatar    String?
   createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   ownerId String @db.Uuid
   owner   User   @relation(fields: [ownerId], references: [id])
 
-  posts Post[]
+  photos   PetPhoto[]
+  posts    Post[]
+  petLikes PetLike[]
 }
+
+enum Species {
+  DOG
+  CAT
+  BUNNY
+  HAMSTER
+  GUINEAPIG
+  MOUSE
+  RAT
+  FISH
+  LIZARD
+  SNAKE
+  TURTLE
+  BIRD
+  OTHER
+}
+
+model PetPhoto {
+  id        String   @id @default(uuid()) @db.Uuid
+  image     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  petId String @db.Uuid
+  pet   Pet    @relation(fields: [petId], references: [id])
+
+  likes PetLike[]
+}
+
+// ==================== POST ====================
 
 model Post {
   id        String   @id @default(uuid()) @db.Uuid
   content   String
   image     String?
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   authorId String @db.Uuid
   author   User   @relation(fields: [authorId], references: [id])
 
-  petId String @db.Uuid
-  pet   Pet    @relation(fields: [petId], references: [id])
+  pets     Pet[]
+  images   PostImage[]
+  comments Comment[]
+  likes    PostLike[]
+}
+
+model PostImage {
+  id        String   @id @default(uuid()) @db.Uuid
+  image     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  postId String @db.Uuid
+  post   Post   @relation(fields: [postId], references: [id])
+}
+
+// ==================== COMMENT ====================
+
+model Comment {
+  id        String   @id @default(uuid()) @db.Uuid
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId String @db.Uuid
+  author   User   @relation(fields: [authorId], references: [id])
+
+  postId String @db.Uuid
+  post   Post   @relation(fields: [postId], references: [id])
+
+  likes CommentLike[]
+}
+
+// ==================== LIKES ====================
+
+// Separate like models keep relations and unique constraints simple for each target type and avoid NULL
+model PostLike {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId String @db.Uuid
+  author   User   @relation(fields: [authorId], references: [id])
+
+  postId String @db.Uuid
+  post   Post   @relation(fields: [postId], references: [id])
+
+  @@unique([authorId, postId])
+}
+
+model CommentLike {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId String @db.Uuid
+  author   User   @relation(fields: [authorId], references: [id])
+
+  commentId String  @db.Uuid
+  comment   Comment @relation(fields: [commentId], references: [id])
+
+  @@unique([authorId, commentId])
+}
+
+model PetLike {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId String @db.Uuid
+  author   User   @relation(fields: [authorId], references: [id])
+
+  petId      String    @db.Uuid
+  pet        Pet       @relation(fields: [petId], references: [id])
+  petPhoto   PetPhoto? @relation(fields: [petPhotoId], references: [id])
+  petPhotoId String?   @db.Uuid
+
+  @@unique([authorId, petId])
+}
+
+// ==================== MESSAGES ====================
+
+model Conversation {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members  ConversationMember[]
+  messages Message[]
+}
+
+model ConversationMember {
+  conversationId String @db.Uuid
+  userId         String @db.Uuid
+
+  conversation Conversation @relation(fields: [conversationId], references: [id])
+  user         User         @relation(fields: [userId], references: [id])
+
+  @@id([conversationId, userId])
+}
+
+model Message {
+  id        String   @id @default(uuid()) @db.Uuid
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  senderId String @db.Uuid
+  sender   User   @relation(fields: [senderId], references: [id])
+
+  conversationId String       @db.Uuid
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+}
+
+// ==================== NOTIFICATIONS ====================
+
+model Notification {
+  id        String           @id @default(uuid()) @db.Uuid
+  read      Boolean          @default(false)
+  type      NotificationType
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  userId String @db.Uuid
+  user   User   @relation("UserNotifications", fields: [userId], references: [id])
+
+  actorId String? @db.Uuid
+  actor   User?   @relation("NotificationActor", fields: [actorId], references: [id])
+}
+
+enum NotificationType {
+  FRIEND_REQUEST
+  FRIEND_ACCEPTED
+  POST_LIKE
+  COMMENT_LIKE
+  PET_LIKE
+  COMMENT
+  MESSAGE
+  ACHIEVEMENT
+}
+
+// ==================== ACHIEVEMENTS ====================
+
+model Achievement {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique
+  description String
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users UserAchievement[]
+}
+
+model UserAchievement {
+  id         String   @id @default(uuid()) @db.Uuid
+  unlockedAt DateTime @default(now())
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+
+  achievementId String      @db.Uuid
+  achievement   Achievement @relation(fields: [achievementId], references: [id])
+
+  @@unique([userId, achievementId])
+}
+
+// ==================== SESSIONS ====================
+
+model Session {
+  id        String   @id @default(uuid()) @db.Uuid
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
 }
