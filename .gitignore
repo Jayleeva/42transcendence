@@ -1,5 +1,6 @@
 .env
 secrets/
+srcs/stack/vault-consul-docker/init.txt
 
 vault/data/*
 !vault/data/.gitkeep
