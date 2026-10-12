@@ -87,21 +87,24 @@ services:
     image: hashicorp/vault:1.21
     cap_add:
       - IPC_LOCK
-    command: server
+    command: server -config=/vault/config/vault.hcl
     volumes:
       - ./vault/config:/vault/config:ro
       - vault_data:/vault/file
     networks:
       - vault-network
     ports:
-      - "127.0.0.1:8200:8200"
+      - "127.0.0.1:8300:8300"
 
 networks:
   frontend-network:
     driver: bridge
   backend-network:
   vault-network:
-  
+
+volumes:
+  vault_data:
+
 secrets:
   Certificate:
     file: ../secrets/transcendence.crt
