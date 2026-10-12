@@ -10,7 +10,7 @@ services:
       - backend
       - frontend
     networks:
-      - transcendence
+      - frontend-network
     ports:
       - 443:443
     env_file:
@@ -29,7 +29,7 @@ services:
     depends_on:
       - pgdb
     networks:
-      - transcendence
+      - frontend-network
     env_file:
       - .env
     restart: always
@@ -44,7 +44,9 @@ services:
       pgdb:
         condition: service_healthy
     networks:
-      - transcendence
+      - frontend-network
+      - backend-network
+      - vault-network
     env_file:
       - .env
     environment:
@@ -63,7 +65,7 @@ services:
       context: ./stack/pgdb
       dockerfile: Dockerfile
     networks:
-      - transcendence
+      - backend-network
     ports:
       - 5432:5432
     env_file:
@@ -80,10 +82,25 @@ services:
       timeout: 5s
       retries: 5
     restart: always
+  # vault
+  vault:
+    image: hashicorp/vault:1.21
+    cap_add:
+      - IPC_LOCK
+    command: server
+    volumes:
+      - ./vault/config:/vault/config:ro
+      - vault_data:/vault/file
+    networks:
+      - vault-network
+    ports:
+      - "127.0.0.1:8200:8200"
 
 networks:
-  transcendence:
+  frontend-network:
     driver: bridge
+  backend-network:
+  vault-network:
   
 secrets:
   Certificate:
