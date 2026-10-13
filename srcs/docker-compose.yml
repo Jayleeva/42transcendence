@@ -84,17 +84,20 @@ services:
     restart: always
   # vault
   vault:
+    container_name: vault
     image: hashicorp/vault:1.21
-    cap_add:
-      - IPC_LOCK
-    command: server -config=/vault/config/vault.hcl
-    volumes:
-      - ./vault/config:/vault/config:ro
-      - vault_data:/vault/file
     networks:
       - vault-network
     ports:
-      - "127.0.0.1:8300:8300"
+      - 8200:8200
+    environment:
+      VAULT_ADDR: "http:127.0.01:8200"
+    volumes:
+      - ./stack/vault/conf/vault.hcl:/vault/config/config.hcl:ro
+      - vault_data:/vault/file
+    cap_add:
+      - IPC_LOCK
+    command: server -config=/vault/config/config.hcl
 
 networks:
   frontend-network:
