@@ -36,28 +36,37 @@ A table is a structure used to store a set of data regarding a single entity. It
 
 ### Prisma
 
-To create the tables, go to /prisma/schema.prisma
-  - run ´npx prisma format'. This command will format the file and detect certain syntax issues.
-  - ´npx prisma validate' This command verifies that the schema is valid.
-  - ´psql -h localhost -p 5432 -U transcendence_user -d ft_transcendence' to connect to PostrgeSQL
-  - ´npx prisma studio' to 
+**Prisma Commands**:
+
+Prisma provides several commands to manage and interact with the database schema:
+
+- `npx prisma generate` — Generates or regenerates Prisma Client from the current Prisma schema. It should be run after changes that affect the generated client.
+
+- `npx prisma format` — Automatically formats the `schema.prisma` file and checks its syntax.
+
+- `npx prisma validate` — Checks that the `schema.prisma` file is valid and reports syntax or configuration errors without modifying the database.
+
+- `npx prisma migrate dev --name <migration_name>` — Creates a new migration from the changes made in `schema.prisma` and applies it to the development database. The generated migration files are stored in the `prisma/migrations` directory.
+
+- `npx prisma migrate status` — Displays the current migration status and indicates whether the database schema is up to date with the existing migrations.
+
+- `npx prisma migrate reset` — Resets the development database, reapplies all migrations from the beginning and deletes all existing data. This command should therefore be used with caution.
+
+- `npx prisma studio` — Opens Prisma Studio, a graphical interface in the browser that can be used to view and manage the data stored in the database.
 
 ## Ressources
+
 - Official docs (EN, FR):
 	* https://www.postgresql.org/docs/current/
   * https://docs.postgresql.fr/
+  * 
 - Youtube tuto for PostgreSQL (FR):
   * https://www.youtube.com/playlist?list=PLy8DguObsSuZOpEaANfgf_cccmnWiPW39
+  * 
 - Various resources for understanding RDBMS:
 	* https://fr.wikipedia.org/wiki/Propri%C3%A9t%C3%A9s_ACID
 	* https://fr.wikipedia.org/wiki/Multiversion_Concurrency_Control
   * https://www.databricks.com/fr/blog/sql-data-types
+  * 
 - Prisma:
   * https://www.prisma.io/docs/orm/v7
-
-PostgreSQL commands:
-  - sudo -u postgres psql (connexion à psql)
-  - \q (quit)
-  - \l (list database)
-  - \du (display roles/users PostgreSQL)
-  - `CREATE ROLE` transcendence_user `WITH LOGIN` `PASSWORD` 'password';
