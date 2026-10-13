@@ -6,14 +6,17 @@ IMAGES = nginx frontend backend pgdb
 DOCKERS = nginx frontend backend pgdb
 VOLUMES = srcs_pgdb_data 
 
-SECRETS_DIR = /home/ubuntu/tocopy/secrets
+#SECRETS_DIR = /home/ubuntu/tocopy/secrets
 ENV = /home/ubuntu/tocopy/.env
 DATA_DIR = /home/ubuntu/data
 DB_DATA = $(DATA_DIR)/pgdb
 
 all: up
 
-up:
+copy:
+	cp $(ENV) ./
+
+up: copy
 	mkdir -p $(DB_DATA)
 	$(CMP) up -d --build
 	@if ! grep -q "$(DOMAIN_NAME)" /etc/hosts; then \

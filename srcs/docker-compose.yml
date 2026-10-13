@@ -7,6 +7,7 @@ services:
       context: ./stack/nginx
       dockerfile: Dockerfile
     depends_on:
+      - vault
       - backend
       - frontend
     networks:
@@ -15,9 +16,11 @@ services:
       - 443:443
     env_file:
       - .env
-    secrets:
-      - Certificate
-      - Key
+    #secrets:
+    #  - Certificate
+    #  - Key
+    volumes:
+      - certs_data:/etc/nginx/certs:ro
     restart: always
   # website front
   frontend:
@@ -71,13 +74,13 @@ services:
     env_file:
       - .env
     environment:
-      POSTGRES_USER_FILE: /run/secrets/pgsql_user
-      POSTGRES_PASSWORD_FILE: /run/secrets/pgsql_password
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${PGSQL_DATABASE}
     volumes:
       - /var/lib/postgresql/data:/home/ubuntu/data/pgdb_data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$(cat /run/secrets/pgsql_user)"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -85,19 +88,22 @@ services:
   # vault
   vault:
     container_name: vault
-    image: hashicorp/vault:1.21
+    image: vault
     networks:
       - vault-network
     ports:
       - 8200:8200
+    env_file:
+      - .env
     environment:
       VAULT_ADDR: "http:127.0.01:8200"
     volumes:
-      - ./stack/vault/conf/vault.hcl:/vault/config/config.hcl:ro
       - vault_data:/vault/file
+      - certs_data:/vault/generated_certs
     cap_add:
       - IPC_LOCK
     command: server -config=/vault/config/config.hcl
+    restart: always
 
 networks:
   frontend-network:
@@ -107,13 +113,14 @@ networks:
 
 volumes:
   vault_data:
+  certs_data:
 
-secrets:
-  Certificate:
-    file: ../secrets/transcendence.crt
-  Key:
-    file: ../secrets/transcendence.key
-  pgsql_user:
-    file: ../secrets/pgsql_user.txt
-  pgsql_password:
-    file: ../secrets/pgsql_password.txt
+#secrets:
+#  Certificate:
+#    file: ../secrets/transcendence.crt
+#  Key:
+#    file: ../secrets/transcendence.key
+#  pgsql_user:
+#    file: ../secrets/pgsql_user.txt
+#  pgsql_password:
+#    file: ../secrets/pgsql_password.txt
