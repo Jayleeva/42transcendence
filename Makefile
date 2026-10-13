@@ -14,7 +14,7 @@ DB_DATA = $(DATA_DIR)/pgdb
 all: up
 
 copy:
-	cp $(ENV) ./
+	cp $(ENV) ./srcs/
 
 up: copy
 	mkdir -p $(DB_DATA)
