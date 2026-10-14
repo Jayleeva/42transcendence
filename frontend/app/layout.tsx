@@ -6,6 +6,9 @@
 //   return <html><body>{children}</body></html>;
 // }
 
+// test du tuto 
+import '@/app/globals.css';
+
 // modif children car ca marchait pas 
 export default function RootLayout({
   children,
