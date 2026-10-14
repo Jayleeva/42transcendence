@@ -1,11 +1,5 @@
 // ici la page d'accueil de l'application ( landing page , se connecter ou creer un compte)
 
-// test below
-// export default function Page() {
-//   return <h1>Lauzanimo (page de test)</h1>;
-// }
-
-
 import Image from 'next/image';
 import { dongle } from '@/lib/fonts';
 
@@ -23,7 +17,7 @@ export default function Page() {
           width={400}
           height={120}
           priority
-          className="h-auto w-[300px] md:w-[420px] mb-2"
+          className="h-auto w-[300px] md:w-[420px] mb-2" 
         />
 
       {/* Structure Grid */}
@@ -41,7 +35,7 @@ export default function Page() {
             />
           </div>
 
-          <p className={`${dongle.className} text-2xl text-center mt-4 leading-none`}>
+          <p className={`${dongle.className} text-2xl text-center mt-8 leading-none`}>
             <span className="font-bold">Lauzanimo</span> est un réseau social de presentation des animaux de compagnie des etudiants de l'ecole 42.
             <br /> Connectez-vous pour partager vos animaux de compagnie et découvrir ceux des autres étudiants !
             
@@ -49,7 +43,10 @@ export default function Page() {
         </div>
 
         {/* COLONNE DROITE : Totalement vide pour l'instant */}
-        <div></div>
+        <div className="md:border-l-3 md:border-black md:pl-8">
+        ( ICI SE CONNECTER CREER UN COMPTE ETC)
+        <br /> Tester des trucs ici car zero mise en page for now 
+        </div>
 
       </div>
     </main>
