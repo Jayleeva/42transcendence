@@ -1,5 +1,13 @@
 .env
 secrets/
+srcs/stack/vault-consul-docker/init.txt
+
+srcs/stack/vault-consul-docker/vault/data/*
+srcs/stack/vault-consul-docker/!vault/data/.gitkeep
+srcs/stack/vault-consul-docker/vault/logs/*
+srcs/stack/vault-consul-docker/!vault/logs/.gitkeep
+srcs/stack/vault-consul-docker/consul/data/*
+srcs/stack/vault-consul-docker/!consul/data/.gitkeep
 
 # Nestjs specific
 /dist
