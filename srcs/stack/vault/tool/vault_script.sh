@@ -21,7 +21,7 @@ if [ $STATUS = "false" ]; then
 
 	echo "[VAULT] Unsealing: waiting for key..."
 	vault operator unseal #$UNSEAL_KEY
-	echo "[VAULT] Loging: waiting for root token..."
+	#echo "[VAULT] Loging: waiting for root token..."
 	vault login #$ROOT_TOKEN
 
 	vault secrets enable -path=secret kv-v2
