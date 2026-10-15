@@ -30,7 +30,7 @@ services:
       context: ./stack/frontend
       dockerfile: Dockerfile
     depends_on:
-      - pgdb
+      - backend
     networks:
       - frontend-network
     env_file:
