@@ -18,6 +18,7 @@ copy:
 up:
 	mkdir -p $(DB_DATA)
 	$(CMP) up -d --build
+	chmod 777 ./vault_init.sh
 	./vault_init.sh
 	@if ! grep -q "$(DOMAIN_NAME)" /etc/hosts; then \
 		echo "127.0.0.1 $(DOMAIN_NAME)" | sudo tee -a /etc/hosts; \
