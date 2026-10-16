@@ -4,7 +4,7 @@ CMP = docker compose -f $(YML)
 NETWORKS = srcs_frontend-network srcs_backend-network srcs_vault-network 
 IMAGES = nginx frontend backend pgdb vault
 DOCKERS = nginx frontend backend pgdb vault
-VOLUMES = srcs_pgdb_data srcs_vault_backend_token #srcs_vault_data srcs_certs_data
+VOLUMES = srcs_pgdb_data srcs_vault_backend_token srcs_vault_data srcs_certs_data
 
 ENV = /home/ubuntu/tocopy/.env
 DATA_DIR = /home/ubuntu/data
