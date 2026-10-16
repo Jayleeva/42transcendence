@@ -90,7 +90,7 @@ services:
     networks:
       - vault-network
     ports:
-      - 8282:8200
+      - 8282:8282
     env_file:
       - .env
     volumes:

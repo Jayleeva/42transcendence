@@ -2,7 +2,7 @@
 
 vault server -config=/vault/config/config.hcl & VAULT_PID=$!
 
-export VAULT_ADDR="http://127.0.0.1:8200"
+export VAULT_ADDR="http://127.0.0.1:8282"
 
 echo "Waiting for Vault to start..."
 until curl -s "$VAULT_ADDR/v1/sys/health" > /dev/null; do
