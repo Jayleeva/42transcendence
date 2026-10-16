@@ -96,7 +96,6 @@ services:
     volumes:
       - vault_data:/vault/file
       - certs_data:/vault/generated_certs
-      - ./stack/vault/conf/vault.hcl:/vault/config/config.hcl:ro
     cap_add:
       - IPC_LOCK
     command: server -config=/vault/config/config.hcl

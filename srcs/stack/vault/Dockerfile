@@ -1,10 +1,10 @@
-FROM hashicorp/vault:1.21
+FROM hashicorp/vault:latest
 
 RUN apk add --no-cache curl jq
 
 RUN mkdir -p /vault/config /vault/file
 
-COPY ./conf/vault.hcl /vault/config/config.hcl
+COPY ./conf/vault.hcl /vault/config/vault.hcl
 RUN chown -R vault:vault /vault
 
 EXPOSE 8282
