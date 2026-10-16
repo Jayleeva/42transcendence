@@ -1,22 +1,21 @@
 YML = ./srcs/docker-compose.yml
 CMP = docker compose -f $(YML)
 
-NETWORK = srcs_transcendence
-IMAGES = nginx frontend backend pgdb
-DOCKERS = nginx frontend backend pgdb
-VOLUMES = srcs_pgdb_data 
+NETWORKS = srcs_frontend-network srcs_backend-network srcs_vault-network 
+IMAGES = nginx frontend backend pgdb vault
+DOCKERS = nginx frontend backend pgdb vault
+VOLUMES = srcs_pgdb_data srcs_vault_backend_token #srcs_vault_data srcs_certs_data
 
-#SECRETS_DIR = /home/ubuntu/tocopy/secrets
 ENV = /home/ubuntu/tocopy/.env
 DATA_DIR = /home/ubuntu/data
 DB_DATA = $(DATA_DIR)/pgdb
 
-all: up
+all: copy up
 
 copy:
 	cp $(ENV) ./srcs/
 
-up: copy
+up:
 	mkdir -p $(DB_DATA)
 	$(CMP) up -d --build
 	@if ! grep -q "$(DOMAIN_NAME)" /etc/hosts; then \
@@ -31,13 +30,12 @@ clean:
 	docker rm $(DOCKERS)
 	docker image rmi -f $(IMAGES)
 	docker volume rm $(VOLUMES)
-	docker network rm $(NETWORK) 2>/dev/null
+	docker network rm $(NETWORKS) 2>/dev/null
 
 fclean: clean
 	rm -rf $(DB_DATA)
 	rm -rf .env
-	rm -rf secrets/
 
 re: down up
 
-.PHONY: all up down clean fclean re
+.PHONY: all up down clean fclean re copy

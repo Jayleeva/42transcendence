@@ -1,6 +1,6 @@
 #!/bin/bash
 
-vault server -config=/vault/config/config.hcl #& VAULT_PID=$!
+vault server -config=/vault/config/config.hcl & VAULT_PID=$!
 
 export VAULT_ADDR="http://127.0.0.1:8200"
 
@@ -15,10 +15,6 @@ if [ $STATUS = "false" ]; then
     echo "[VAULT] Initializing..."
 	vault operator init
 
-	#VAULT_INIT=$(vault operator init -format=json)
-	#ROOT_TOKEN=$(echo $VAULT_INIT | jq -r '.root_token')
-	#UNSEAL_KEY=$(echo $VAULT_INIT | jq -r '.unseal_keys_b64[0]')
-
 	echo "[VAULT] Unsealing: waiting for key..."
 	vault operator unseal #$UNSEAL_KEY
 	echo "[VAULT] Loging: waiting for root token..."
@@ -29,8 +25,6 @@ if [ $STATUS = "false" ]; then
 		pgsql_user="$POSTGRES_USER" \
 		pgsql_password="$POSTGRES_PASSWORD" \
 		pgsql_database="$POSTGRES_DB"
-		#cert_content="$(cat /chemin/local/transcendence.crt)" \
-		#key_content="$(cat /chemin/local/transcendence.key)"
 
 	vault secrets enable pki
 	
@@ -54,4 +48,4 @@ if [ $STATUS = "false" ]; then
 
 fi
 
-#wait $VAULT_PID
+wait $VAULT_PID

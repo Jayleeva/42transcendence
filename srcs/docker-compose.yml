@@ -16,9 +16,6 @@ services:
       - 443:443
     env_file:
       - .env
-    #secrets:
-    #  - Certificate
-    #  - Key
     volumes:
       - certs_data:/etc/nginx/certs:ro
     restart: always
@@ -114,13 +111,3 @@ networks:
 volumes:
   vault_data:
   certs_data:
-
-#secrets:
-#  Certificate:
-#    file: ../secrets/transcendence.crt
-#  Key:
-#    file: ../secrets/transcendence.key
-#  pgsql_user:
-#    file: ../secrets/pgsql_user.txt
-#  pgsql_password:
-#    file: ../secrets/pgsql_password.txt
