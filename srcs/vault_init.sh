@@ -2,11 +2,11 @@
 # unseal.sh
 
 # Indiquer explicitement au client CLI de parler en HTTP local
-export VAULT_ADDR="http://127.0.0.1:8200"
+export VAULT_ADDR="http://127.0.0.1:8300"
 
 echo "⏳ Attente de l'ouverture du port réseau de Vault..."
-# On attend simplement que le port 8200 réponde, peu importe le code HTTP (200, 501, 503)
-until docker exec vault curl -s -o /dev/null http://127.0.0.1:8200/v1/sys/health; do
+# On attend simplement que le port 8300 réponde, peu importe le code HTTP (200, 501, 503)
+until docker exec vault curl -s -o /dev/null http://127.0.0.1:8300/v1/sys/health; do
     printf "."
     sleep 1
 done
@@ -14,7 +14,7 @@ echo " connecté !"
 
 echo "🔍 Vérification du statut de Vault..."
 # Récupération du code HTTP de sys/health (501 = non init, 503 = scellé, 200 = OK déverrouillé)
-STATUS=$(docker exec vault curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8200/v1/sys/health)
+STATUS=$(docker exec vault curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8300/v1/sys/health)
 
 if [ "$STATUS" -eq 501 ]; then
     echo "🆕 Vault n'est pas initialisé. Initialisation en cours..."
