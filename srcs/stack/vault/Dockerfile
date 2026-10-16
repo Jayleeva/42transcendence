@@ -1,11 +1,15 @@
 FROM hashicorp/vault:latest
 
+USER root
+
 RUN apk add --no-cache curl jq
 
 RUN mkdir -p /vault/config /vault/file
 
 COPY ./conf/vault.hcl /vault/config/vault.hcl
 RUN chown -R vault:vault /vault
+
+USER vault
 
 EXPOSE 8282
 
