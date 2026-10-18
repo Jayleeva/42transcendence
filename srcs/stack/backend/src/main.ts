@@ -6,14 +6,25 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Validate all incoming request data using the rules defined in DTOs
+  // Validate incoming request data using DTO rules.
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Only allow properties explicitly defined in the DTO.
-      forbidNonWhitelisted: true, // Reject the request if it contains an unknown property
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
     }),
   );
 
+  // Prefix all API routes with /api.
+  app.setGlobalPrefix('api');
+
+  // Allow the frontend to communicate with the backend.
+  app.enableCors({
+    origin: process.env.CORS_ORIGIN ?? 'http://localhost:3000',
+    credentials: true,
+  });
+
   await app.listen(process.env.PORT ?? 3000);
 }
+
 bootstrap();
