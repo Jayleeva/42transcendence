@@ -1,30 +1,26 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as argon2 from 'argon2';
-import { PrismaService } from '../prisma/prisma.service';
+import { UserService } from '../user/user.service';
 import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
-  // Inject PrismaService to interact with the database.
-  constructor(private readonly prisma: PrismaService) {}
+  // Inject UserService to handle user creation.
+  constructor(private readonly userService: UserService) {}
 
-  // Handle user registration using validated data from RegisterDto.
+  // Register a new user using validated data.
   async register(registerDto: RegisterDto) {
-    // Check if a user already exists with the same email or username.
-    const existingUser = await this.prisma.user.findFirst({
-      where: {
-        // Match either the email OR the username.
-        OR: [
-          { email: registerDto.email },
-          { username: registerDto.username },
-        ],
-      },
-    });
+    // Hash the plaintext password before storing it.
+    const hashedPassword = await this.hashPassword(registerDto.password);
 
-    // Reject registration if the email or username is already taken.
-    if (existingUser) {
-      throw new ConflictException('Email or username already in use');
-    }
+    // Create the user through UserService.
+    return this.userService.createUser({
+      firstname: registerDto.firstname,
+      lastname: registerDto.lastname,
+      username: registerDto.username,
+      email: registerDto.email,
+      password: hashedPassword,
+    });
   }
 
   // Hash a plaintext password using Argon2id and a random salt.
