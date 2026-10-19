@@ -1,17 +1,21 @@
-#!/bin/bash
+#!/bin/sh
+# unseal.sh
 
-vault server -config=/vault/config/config.hcl & VAULT_PID=$!
+vault server -config=/vault/config/config.hcl&
 
-export VAULT_ADDR="http://127.0.0.1:8282"
+# Sauvegarder le PID du serveur pour plus tard
+VAULT_PID=$!
 
-echo "Waiting for Vault to start..."
-until curl -s "$VAULT_ADDR/v1/sys/health" > /dev/null; do
+echo "⏳ Attente du démarrage du conteneur Vault..."
+until docker exec vault vault status -format=json > /dev/null 2>&1; do
     sleep 1
 done
 
-STATUS=$(curl -s "$VAULT_ADDR/v1/sys/init" | jq -r '.initialized')
+# Récupération du statut via l'API interne du conteneur
+# 0 = unsealed, 2 = sealed, 5 = non initialisé
+STATUS=$(docker exec vault curl -s -o /dev/null -w "%{http_code}" http://127.0.0)
 
-if [ $STATUS = "false" ]; then
+if [ "$STATUS" -eq 5 ]; then
     echo "[VAULT] Initializing..."
 	vault operator init
 

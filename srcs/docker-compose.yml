@@ -98,7 +98,11 @@ services:
       - certs_data:/vault/generated_certs
     cap_add:
       - IPC_LOCK
-    command: server -config=/vault/config/config.hcl
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+#    command: server -config=/vault/config/config.hcl
     restart: always
 
 networks:
