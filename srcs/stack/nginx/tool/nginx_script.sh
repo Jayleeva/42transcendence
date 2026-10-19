@@ -8,6 +8,7 @@ while [ ! -s "$CERT_PATH" ] || [ ! -s "$KEY_PATH" ]; do
     sleep 2
 done
 
+echo "[NGINX] Certificate files ready!"
 # Lancer la commande principale de Nginx reçue via le Dockerfile (daemon off)
 # Le 'exec' permet à Nginx de récupérer le PID 1 (essentiel pour Docker)
 exec "$@"

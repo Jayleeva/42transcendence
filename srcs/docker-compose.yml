@@ -7,9 +7,12 @@ services:
       context: ./stack/nginx
       dockerfile: Dockerfile
     depends_on:
-      - vault
-      - backend
-      - frontend
+      frontend:
+        condition: service_started
+      backend:
+        condition: service_started 
+      vault:
+        condition: service_started
     networks:
       - frontend-network
     ports:
@@ -102,7 +105,6 @@ services:
       memlock:
         soft: -1
         hard: -1
-#    command: server -config=/vault/config/config.hcl
     restart: always
 
 networks:
