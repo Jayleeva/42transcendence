@@ -7,9 +7,12 @@ services:
       context: ./stack/nginx
       dockerfile: Dockerfile
     depends_on:
-      - vault
-      - backend
-      - frontend
+      frontend:
+        condition: service_started
+      backend:
+        condition: service_started 
+      vault:
+        condition: service_started
     networks:
       - frontend-network
     ports:
@@ -90,17 +93,18 @@ services:
     networks:
       - vault-network
     ports:
-      - 8200:8200
+      - 8282:8282
     env_file:
       - .env
-    environment:
-      VAULT_ADDR: "http://127.0.0.1:8200"
     volumes:
       - vault_data:/vault/file
       - certs_data:/vault/generated_certs
     cap_add:
       - IPC_LOCK
-    command: server -config=/vault/config/config.hcl
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     restart: always
 
 networks:

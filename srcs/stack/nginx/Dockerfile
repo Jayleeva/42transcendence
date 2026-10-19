@@ -12,8 +12,8 @@ COPY conf/nginx.conf /etc/nginx/nginx.conf
 #	-keyout ./secrets/transcendence.key \
 #	-subj "/C=CH/ST=Vaud/L=Lausanne/O=42/OU=clmmm/CN=$(DOMAIN_NAME)"
 
-COPY ./tool/nginx_script.sh /usr/local/bin/nginx_entrypoint.sh
-RUN chmod +x /usr/local/bin/nginx_entrypoint.sh
-ENTRYPOINT [ "/usr/local/bin/nginx_entrypoint.sh" ]
+COPY ./tool/nginx_script.sh /usr/local/bin/nginx_script.sh
+RUN chmod +x /usr/local/bin/nginx_script.sh
+ENTRYPOINT [ "/usr/local/bin/nginx_script.sh" ]
 
 CMD [ "nginx", "-g", "daemon off;" ]
