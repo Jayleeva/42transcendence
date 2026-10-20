@@ -3,6 +3,7 @@
 export VAULT_ADDR="http://127.0.0.1:8200"
 export VAULT_SKIP_VERIFY="true"
 
+
 echo "🚀 Démarrage du serveur Vault..."
 vault server -config=/vault/config/config.hcl &
 VAULT_PID=$!
@@ -15,7 +16,7 @@ done
 
 echo "🔓 Le port Vault est ouvert. Vérification de l'initialisation..."
 
-# Fichier persistant isolé des volumes Docker de l'hôte, pour conserver vos clés d'Unseal
+# Fichier masqué isolé des volumes Docker de l'hôte, pour conserver vos clés d'Unseal
 INIT_FILE="/root/.vault_init_keys.json"
 
 # On demande à Vault s'il est initialisé (renvoie "true" ou "false")
@@ -46,14 +47,20 @@ else
     exit 1
 fi
 
-# ---- ÉTAPE REPRODUCTIBLE : Génération des certificats pour Nginx ----
+# ---- ÉTAPE REPRODUCTIBLE : INJECTION DES SECRETS ----
 echo "[VAULT] Configuration des moteurs de secrets..."
+
+mkdir -p /vault/generated_certs
+chmod 777 /vault/generated_certs
+
 vault secrets enable -path=secret kv-v2 || true
 vault kv put secret/transcendence \
     pgsql_user="$POSTGRES_USER" \
     pgsql_password="$POSTGRES_PASSWORD" \
-    pgsql_database="$POSTGRES_DB"
+    pgsql_database="$POSTGRES_DB" \
+    database_url="postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@pgdb:5432/$POSTGRES_DB"
 
+# ---- ÉTAPE REPRODUCTIBLE : Génération des certificats pour Nginx ----
 vault secrets enable pki || true
 vault secrets tune -max-lease-ttl=8760h pki || true
 
@@ -77,6 +84,23 @@ jq -r '.data.private_key' /tmp/nginx_certs.json > /vault/generated_certs/transce
 
 echo "✅ Certificats générés avec succès !"
 rm -f /tmp/root_ca.json /tmp/nginx_certs.json
+
+
+echo "[VAULT] Configuration de l'AppRole pour le backend..."
+vault auth enable approle || true
+
+vault policy write backend-policy - <<EOF
+path "secret/data/transcendence" {
+  capabilities = ["read"]
+}
+EOF
+
+vault write auth/approle/role/backend-role token_policies="backend-policy" token_ttl=1h max_ttl=4h
+
+vault read -format=json auth/approle/role/backend-role/role-id | jq -r '.data.role_id' > /vault/generated_certs/role_id
+vault write -f -format=json auth/approle/role/backend-role/secret-id | jq -r '.data.secret_id' > /vault/generated_certs/secret_id
+
+echo "✅ Configuration AppRole terminée !"
 
 # Maintenir le conteneur actif
 wait $VAULT_PID

@@ -8,17 +8,20 @@ NETWORKS = srcs_frontend-network srcs_backend-network srcs_vault-network
 
 ENV = /home/$(USER)/tocopy/.env
 
-all: copy up
+all: copy up erase
 
 copy:
 	cp $(ENV) ./srcs/
+
+erase:
+	rm -rf ./srcs/.env
 
 up:
 	$(CMP) up -d --build
 	@if ! grep -q "$(DOMAIN_NAME)" /etc/hosts; then \
 		echo "127.0.0.1 $(DOMAIN_NAME)" | sudo tee -a /etc/hosts; \
 	fi
-
+	
 down:
 	$(CMP) down
 
@@ -30,7 +33,6 @@ clean:
 	docker network rm $(NETWORKS) 2>/dev/null
 
 fclean: clean
-	rm -rf .env
 
 re: down up
 
