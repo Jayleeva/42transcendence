@@ -1,20 +1,19 @@
-FROM debian:bookworm
+FROM nginx:stable
 
-RUN apt update && apt-get install -y \
-	nginx \
-	vim \
-	curl \
- 	openssl
+RUN apt-get update && apt-get install -y openssl
 
 RUN mkdir -p \
-	/etc/nginx/ssl \
 	/var/run/nginx
 
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
-RUN chmod 755 /var/www/html
-RUN chown -R www-data:www-data /var/www/html
+#RUN	openssl req -x509 -nodes \
+#	-out ./secrets/transcendence.crt \
+#	-keyout ./secrets/transcendence.key \
+#	-subj "/C=CH/ST=Vaud/L=Lausanne/O=42/OU=clmmm/CN=$(DOMAIN_NAME)"
 
-RUN rm -rf /var/www/html/index.nginx-debian.html /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default /etc/nginx/conf.d/default.conf
+COPY ./tool/nginx_script.sh /usr/local/bin/nginx_script.sh
+RUN chmod +x /usr/local/bin/nginx_script.sh
+ENTRYPOINT [ "/usr/local/bin/nginx_script.sh" ]
 
 CMD [ "nginx", "-g", "daemon off;" ]

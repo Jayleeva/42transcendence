@@ -17,5 +17,5 @@ COPY --from=builder /framework ./
 
 RUN chmod +x ./docker-entrypoint.sh
 
-EXPOSE 3000
+EXPOSE 8000
 CMD ["./docker-entrypoint.sh"]

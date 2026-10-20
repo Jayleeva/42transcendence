@@ -1,33 +1,53 @@
-Create a folder named "tocopy" on your machine, in the same directory as the project. If you want to use a different name or path, don't forget to adapt the Makefile's "copy" rule's variables.
+# Set up the environment
+Create a folder named "tocopy" on your machine, at /home/$USER/. If you want to use a different name or path, don't forget to adapt the Makefile's "copy" rule's variables.
 
-Prepare a .env file and a secrets directory inside.
+Prepare a .env file inside.
 
-### Set up the environment
 Example of .env:
 ````
 DOMAIN_NAME=clmmm.42.fr
-TITLE=transcendence
 
-PGSQL_DATABASE=/path/to/the/data
-````
-
-### Set up the secrets
-Create a folder for secrets named "secrets".
-
-Inside it, create two empty files for the certificate:
-- transcendence.crt
-- transcendence.key
-
-Create a file named "pgsql_user.txt" and fill it with a username.
-Example:
-````
-insertUSERhere
-````
-
-Create a file named "pgsql_password.txt" and fill it with a password.
-Example:
-````
-insertPASSWORDhere
+POSTGRES_USER=insertUSERhere
+POSTGRES_PASSWORD=insertPASSWORDhere
+POSTGRES_DB=/path/to/your/db
 ````
 
 CAREFUL: once the username and password have been used to create the database, you won't be able to change them without erasing all its data.
+
+# Make commands
+## Build and Launch the stack
+To build and launch the stack, type:
+```
+make
+```
+
+## Stop the stack
+```
+make down
+```
+
+## Restart the stack
+```
+make up
+```
+
+## Stop and restart the stack
+```
+make re
+```
+
+## Stop and delete the stack
+**!! CAREFUL !!
+
+This action will erase ALL DATA.**
+
+```
+make fclean
+```
+
+# Secrets management
+Secrets are managed by HarshiCorp Vault.
+
+During the building, the stack will inject the environment variables into the Vault docker volume "vault_data". 
+
+It will also generate a certificate, stocked in the docker volume "certs_data", that is shared with NGINX.
