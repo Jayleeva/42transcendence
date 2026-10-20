@@ -1,13 +1,12 @@
 YML = ./srcs/docker-compose.yml
 CMP = docker compose -f $(YML)
 
-NETWORKS = srcs_frontend-network srcs_backend-network srcs_vault-network 
-IMAGES = nginx frontend backend pgdb vault
 DOCKERS = nginx frontend backend pgdb vault
+IMAGES = nginx frontend backend pgdb vault
 VOLUMES = srcs_pgdb_data srcs_vault_data srcs_certs_data srcs_vault_logs
+NETWORKS = srcs_frontend-network srcs_backend-network srcs_vault-network 
 
 ENV = /home/$(USER)/tocopy/.env
-VAULT_INIT = srcs/vault_init.sh
 
 all: copy up
 
