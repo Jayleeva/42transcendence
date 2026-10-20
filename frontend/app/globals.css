@@ -1,25 +1,26 @@
-/* Below trucs config de base genere automatiquement par Next.js 
-modif au plus simple pour faire des tests */
+/* Below test minimal (j'ai remplace tt ce qui avait ete genere automatiquement par Next.js) */
 
 @import "tailwindcss";
 
-/* Variables globales */
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-brand: #3e7d9e; 
 }
 
-/* Mode sombre automatique */
+@theme inline {
+  --font-display: var(--font-dongle);
+}
+
+body {
+  background: white;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* Mode sombre automatique
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
-
-/* Styles basic for now */
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+} */

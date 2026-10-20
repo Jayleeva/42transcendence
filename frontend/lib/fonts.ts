@@ -7,4 +7,5 @@ export const dongle = Dongle({
   subsets: ['latin'],
   weight: ['400', '700'],
   display: 'swap',
+  variable: '--font-dongle',
 });

@@ -2,6 +2,9 @@
 
 import Image from 'next/image';
 import { dongle } from '@/lib/fonts';
+import Link from 'next/link';
+import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
 
 export default function Page() {
   return (
@@ -44,8 +47,32 @@ export default function Page() {
 
         {/* COLONNE DROITE : Totalement vide pour l'instant */}
         <div className="md:border-l-3 md:border-black md:pl-8">
-        ( ICI SE CONNECTER CREER UN COMPTE ETC)
-        <br /> Tester des trucs ici car zero mise en page for now 
+          <div className="flex max-w-md flex-col gap-6">
+            <h2 className={`${dongle.className} text-5xl font-bold text-center`}>
+              Connectez-vous ou créez un compte
+            </h2>
+
+            <Button>Se connecter avec votre login 42</Button>
+
+            <div className="flex items-center gap-4">
+              <hr className="flex-1 border-slate-300" />
+              <span className="text-sm text-slate-500">ou</span>
+              <hr className="flex-1 border-slate-300" />
+            </div>
+
+            <form className="flex flex-col gap-4">
+              <Input id="email" name="email" type="email" label="Email" placeholder="vous@exemple.com" />
+              <Input id="password" name="password" type="password" label="Mot de passe" />
+              <Button type="submit" variant="outline">Se connecter</Button>
+            </form>
+
+            <p className="text-center text-sm">
+              Pas de compte ?{' '}
+              <Link href="/register" className="font-semibold underline">
+                Créez-en un ici
+              </Link>
+            </p>
+          </div>
         </div>
 
       </div>
