@@ -4,11 +4,9 @@ CMP = docker compose -f $(YML)
 NETWORKS = srcs_frontend-network srcs_backend-network srcs_vault-network 
 IMAGES = nginx frontend backend pgdb vault
 DOCKERS = nginx frontend backend pgdb vault
-VOLUMES = srcs_pgdb_data srcs_vault_data srcs_certs_data
+VOLUMES = srcs_pgdb_data srcs_vault_data srcs_certs_data srcs_vault_logs
 
-ENV = /home/ubuntu/tocopy/.env
-DATA_DIR = /home/ubuntu/data
-DB_DATA = $(DATA_DIR)/pgdb
+ENV = /home/$(USER)/tocopy/.env
 VAULT_INIT = srcs/vault_init.sh
 
 all: copy up
@@ -17,10 +15,7 @@ copy:
 	cp $(ENV) ./srcs/
 
 up:
-	mkdir -p $(DB_DATA)
 	$(CMP) up -d --build
-#	chmod 777 $(VAULT_INIT)
-#	./$(VAULT_INIT)
 	@if ! grep -q "$(DOMAIN_NAME)" /etc/hosts; then \
 		echo "127.0.0.1 $(DOMAIN_NAME)" | sudo tee -a /etc/hosts; \
 	fi
@@ -36,7 +31,6 @@ clean:
 	docker network rm $(NETWORKS) 2>/dev/null
 
 fclean: clean
-	rm -rf $(DB_DATA)
 	rm -rf .env
 
 re: down up

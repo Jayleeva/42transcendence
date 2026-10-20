@@ -97,6 +97,7 @@ services:
     env_file:
       - .env
     volumes:
+      - vault_logs:/vault/logs
       - vault_data:/vault/file
       - certs_data:/vault/generated_certs
     cap_add:
@@ -114,11 +115,7 @@ networks:
   vault-network:
 
 volumes:
+  vault_logs:
   vault_data:
   certs_data:
   pgdb_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/ubuntu/data/pgdb_data
