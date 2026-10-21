@@ -145,21 +145,33 @@ Understanding HashiCorp Vault and how it shaped the stack.
 
 ## llabatut
 ### Breakdown of contribution
+Conceptualized the API and endpoints. Coded the authentication files.
+
 ### Specific modules / features / components
+- Framework backend
+
 ### Specific challenges
 
 ## mlaffita
 ### Breakdown of contribution
+Designed the frontend's visuals on Figma. Created custom components. Coded the actual pages.
+
 ### Specific modules / features / components
+- Framework frontend
 ### Specific challenges
 
 ## mrosset
 ### Breakdown of contribution
+Designed the database.
+
 ### Specific modules / features / components
+- Database
+
 ### Specific challenges
 
 ## mtaramar
 ### Breakdown of contribution
+
 ### Specific modules / features / components
 ### Specific challenges
 
