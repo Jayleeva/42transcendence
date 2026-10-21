@@ -16,7 +16,7 @@ SECRET_ID=$(cat "$SHARED_DIR/backend_secret_id" | tr -d '\r\n[:space:]')
 AUTH_RESPONSE=$(curl -k -s \
   --request POST \
   --header "Content-Type: application/json" \
-  --data "{\"backend_role_id\":\"$ROLE_ID\",\"backend_secret_id\":\"$SECRET_ID\"}" \
+  --data "{\"backend_role_id\":\"$ROLE_ID\",\"secret_id\":\"$SECRET_ID\"}" \
   "$VAULT_URL/v1/auth/approle/login")
 
 VAULT_TOKEN=$(echo "$AUTH_RESPONSE" | jq -r '.auth.client_token' 2>/dev/null)
