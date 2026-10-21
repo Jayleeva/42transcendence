@@ -78,7 +78,7 @@ export class UserService {
     providerAccountId: string,
   ) {
     try {
-        return await this.prisma.$transaction(async (tx) => {
+        return await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
             const user = await tx.user.create({
                 data,
                 select: publicUserSelect,
