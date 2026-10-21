@@ -4,6 +4,7 @@ set -e
 VAULT_ADDR="http://vault:8200"
 SHARED_DIR="/app/vault_shared"
 SSL_DIR="/etc/nginx/ssl"
+TMP_RESP="/tmp/vault_pki_resp.json"
 
 mkdir -p "$SSL_DIR"
 
@@ -28,20 +29,22 @@ if [ -z "$VAULT_TOKEN" ] || [ "$VAULT_TOKEN" = "null" ]; then
 fi
 
 echo "📜 [NGINX] Demande dynamique du certificat TLS au moteur PKI..."
-CERT_RESP=$(curl -s --header "X-Vault-Token: $VAULT_TOKEN" \
+# On écrit la réponse directement dans un fichier pour éviter les erreurs de parsing shell
+curl -s --header "X-Vault-Token: $VAULT_TOKEN" \
     --request POST \
     --data '{"common_name": "localhost", "ip_sans": "127.0.0.1"}' \
-    "$VAULT_ADDR/v1/pki/issue/transcendence-domain")
+    "$VAULT_ADDR/v1/pki/issue/transcendence-domain" > "$TMP_RESP"
 
-# Extraction des données et écriture des fichiers finaux requis par Nginx
-# (On utilise -r pour extraire le texte brut sans guillemets)
-echo "$CERT_RESP" | jq -r '.data.certificate' > "$SSL_DIR/transcendence.crt"
-echo "$CERT_RESP" | jq -r '.data.private_key' > "$SSL_DIR/transcendence.key"
+# Extraction sécurisée depuis le fichier vers vos fichiers SSL Nginx
+jq -r '.data.certificate' "$TMP_RESP" > "$SSL_DIR/transcendence.crt"
+jq -r '.data.private_key' "$TMP_RESP" > "$SSL_DIR/transcendence.key"
 
-# Vérification rapide que les fichiers ont bien été écrits et ne sont pas vides
+# Nettoyage du fichier temporaire
+rm -f "$TMP_RESP"
+
+# Vérification finale de la validité des fichiers générés
 if [ ! -s "$SSL_DIR/transcendence.crt" ] || [ ! -s "$SSL_DIR/transcendence.key" ]; then
-    echo "❌ [NGINX] Erreur : Les fichiers de certificats extraits sont vides."
-    echo "Réponse brute de Vault : $CERT_RESP"
+    echo "❌ [NGINX] Erreur : Les fichiers de certificats extraits sont vides ou invalides."
     exit 1
 fi
 
