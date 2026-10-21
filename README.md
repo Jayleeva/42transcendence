@@ -22,7 +22,7 @@ cd 42transcendence
 ```
 Compile and launch it with:
 ```
-make up
+make
 ```
 
 
@@ -45,8 +45,12 @@ make up
 ### Github remote
 - https://docs.github.com/en/get-started/git-basics/managing-remote-repositories
 
-## AI use
+### HashiCorp Vault
+- https://developer.hashicorp.com/hcp/docs
 
+
+## AI use
+AI was heavily used to understand HashiCorp Vault, how it works, and most importantly, how to implement it. Once this became clearer, we rewrote our own code and used more traditional sources such as the official documentation to make sure we did understand it properly.
 
 # Team Information
 |Student|Role|Brief description|
@@ -65,6 +69,7 @@ Everyone assessed which position they were willing to assume and voted for their
 
 ## Tools
 - Miro
+
 ## Communication medium
 Discord server.
 
@@ -77,6 +82,7 @@ Discord server.
 |Styling solution|Tailwind CSS|Allows to inject styling in a readable way, avoiding multiple files.|
 |ORM|Prisma|Facilitates relation between backend and DB.|
 |Containers|Docker|Familiar and works fine.|
+|Vault|HashiCorp|The only vault accepted by the subject.|
 
 # Database Schema
 (visual of the db structure)
@@ -86,7 +92,9 @@ Discord server.
 # Features List
 |Feature|Student|Brief description|
 |---|---|---|
-|Authentication| |Users must create and use their own credentials to access the app.|
+|Vault|cyglardo|The secrets are centralized, isolated and encrypted for max. security.|
+|ORM|mrosset|The database is migrated easily through Prisma.|
+|Authentication|mlaffita, mtaramar, llabatut|Users must create and use their own credentials to access the app.|
 |Post| |Users can create posts, with or without pictures.|
 |Comment| |Users can comment posts.|
 |Profile page| |Users can view profiles and edit their own.|
@@ -98,7 +106,7 @@ Discord server.
 # Modules 
 |Module type|Module|Student|Points|
 |---|---|---|---|
-|Web|Use a framework for both the frontend and backend| |2|
+|Web|Use a framework for both the frontend and backend|llabatut, mlaffita, mtaramar|2|
 |Web|Allow users to interact with other users| |2|
 |Web|Notification system| |1|
 |Web|Custom-made design system| |1|
@@ -113,9 +121,8 @@ Discord server.
 |User management|User activity analytics and insights dashboard| |1|
 |Artificial intelligence|Recommendation system| |1|
 |Artificial intelligence|Content moderation| |1|
-|Cybersecurity|Implement WAF/ModSecurity (hardened) + HashiCorp Vault for secrets| |2|
-|Devops|Monitoring system| |2|
-|Devops|Health check and status page system| |1|
+|Cybersecurity|Implement WAF/ModSecurity (hardened) + HashiCorp Vault for secrets|cyglardo, mtaramar|2|
+|Devops|Health check and status page system|cyglardo|1|
 |Data|GDPR compliance features| |1|
 |Module of choice|Post| |1|
 |Module of choice|Achievements/Badges| |1|
@@ -128,8 +135,13 @@ Discord server.
 # Individual Contributions
 ## cyglardo
 ### Breakdown of contribution
+Created the stack. Implemented HashiCorp Vault.
+
 ### Specific modules / features / components
+- Cybersecurity: HashiCorp Vault
+
 ### Specific challenges
+Understanding HashiCorp Vault and how it shaped the stack.
 
 ## llabatut
 ### Breakdown of contribution
