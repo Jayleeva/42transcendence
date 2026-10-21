@@ -20,3 +20,20 @@ export default function Input({ label, id, className = '', ...props }: InputProp
     </div>
   );
 }
+
+/* 
+tout ce qu’un <input> accepte, plus un label en texte. 
+Pas de ? donc label est obligatoire.
+
+On extrait label et id (utilisés à deux endroits) et className 
+Le reste (name, type, placeholder...) part dans props
+
+Un composant doit renvoyer un seul élément racine
+Cette div regroupe le label et le champ, empilés avec un petit espace.
+
+htmlFor est le nom du for du HTML dans JSX
+Il relie le label au champ qui a le même id : cliquer sur « Email » active le champ
+
+focus : qd le champs est actif 
+
+*/
