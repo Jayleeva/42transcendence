@@ -10,8 +10,8 @@ export async function getDatabaseUrlFromVault(): Promise<string> {
 
   try {
     // 1. Lecture des identifiants AppRole du volume partagé
-    const roleId = fs.readFileSync(`${SHARED_DIR}/role_id`, 'utf8').trim();
-    const secretId = fs.readFileSync(`${SHARED_DIR}/secret_id`, 'utf8').trim();
+    const roleId = fs.readFileSync(`${SHARED_DIR}/backend_role_id`, 'utf8').trim();
+    const secretId = fs.readFileSync(`${SHARED_DIR}/backend_secret_id`, 'utf8').trim();
 
     // 2. Connexion AppRole à l'API de Vault (Obtention du token)
     const authRes = await fetch(`${VAULT_URL}/v1/auth/approle/login`, {
