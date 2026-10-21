@@ -15,12 +15,14 @@ services:
         condition: service_started
     networks:
       - frontend-network
+      - vault-network
     ports:
       - 443:443
     env_file:
       - .env
     volumes:
-      - certs_data:/etc/nginx/certs:ro
+      - certs_data:/app/vault_shared:ro
+#      - certs_data:/etc/nginx/certs:ro
     restart: always
   # website front
   frontend:

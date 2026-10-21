@@ -5,18 +5,18 @@ VAULT_URL="${VAULT_ADDR:-http://vault:8200}"
 SHARED_DIR="/app/vault_shared"
 
 echo "⏳ [BACKEND] Attente des identifiants AppRole générés par Vault..."
-until [ -f "$SHARED_DIR/role_id" ] && [ -f "$SHARED_DIR/secret_id" ]; do
+until [ -f "$SHARED_DIR/backend_role_id" ] && [ -f "$SHARED_DIR/backend_secret_id" ]; do
   sleep 1
 done
 
 echo "🔑 [BACKEND] Identifiants trouvés. Authentification temporaire auprès de Vault..."
-ROLE_ID=$(cat "$SHARED_DIR/role_id" | tr -d '\r\n[:space:]')
-SECRET_ID=$(cat "$SHARED_DIR/secret_id" | tr -d '\r\n[:space:]')
+ROLE_ID=$(cat "$SHARED_DIR/backend_role_id" | tr -d '\r\n[:space:]')
+SECRET_ID=$(cat "$SHARED_DIR/backend_secret_id" | tr -d '\r\n[:space:]')
 
 AUTH_RESPONSE=$(curl -k -s \
   --request POST \
   --header "Content-Type: application/json" \
-  --data "{\"role_id\":\"$ROLE_ID\",\"secret_id\":\"$SECRET_ID\"}" \
+  --data "{\"backend_role_id\":\"$ROLE_ID\",\"backend_secret_id\":\"$SECRET_ID\"}" \
   "$VAULT_URL/v1/auth/approle/login")
 
 VAULT_TOKEN=$(echo "$AUTH_RESPONSE" | jq -r '.auth.client_token' 2>/dev/null)
