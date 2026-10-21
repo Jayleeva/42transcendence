@@ -10,17 +10,18 @@ services:
       frontend:
         condition: service_started
       backend:
-        condition: service_started 
+        condition: service_started
       vault:
         condition: service_started
     networks:
       - frontend-network
+      - vault-network
     ports:
       - 443:8443
     environment:
       SERVER_NAME: "${DOMAIN_NAME}"
-      SSL_CERT_FILE: "/etc/nginx/certs/transcendence.crt"
-      SSL_CERT_KEY_FILE: "/etc/nginx/certs/transcendence.key"
+      SSL_CERT_FILE: "/etc/nginx/ssl/transcendence.crt"
+      SSL_CERT_KEY_FILE: "/etc/nginx/ssl/transcendence.key"
       MODSEC_RULE_ENGINE: "DetectionOnly"
       BLOCKING_PARANOIA: "2"
       ANOMALY_INBOUND: "5"
@@ -30,7 +31,7 @@ services:
     env_file:
       - .env
     volumes:
-      - certs_data:/etc/nginx/certs:ro
+      - certs_data:/app/vault_shared:ro
       - modsec_logs:/var/log/modsecurity/audit
     logging:
       driver: "json-file"
@@ -72,6 +73,9 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       PGSQL_HOST: pgdb
       PGSQL_PORT: 5432
+      VAULT_ADDR: "http://vault:8200"
+    volumes:
+      - certs_data:/app/vault_shared:ro 
     restart: always
   # database
   pgdb:
@@ -93,7 +97,7 @@ services:
     volumes:
       - pgdb_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres"]
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -109,7 +113,7 @@ services:
     networks:
       - vault-network
     ports:
-      - 8282:8282
+      - 8200:8200
     env_file:
       - .env
     volumes:
@@ -128,7 +132,9 @@ networks:
   frontend-network:
     driver: bridge
   backend-network:
+    driver: bridge 
   vault-network:
+    driver: bridge
 
 volumes:
   vault_logs:

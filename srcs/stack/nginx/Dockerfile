@@ -6,4 +6,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends jq \
 USER nginx
 
 COPY conf/default.conf.template /etc/nginx/templates/conf.d/default.conf.template
-COPY --chmod=755 tool/05-wait-for-certs.sh /docker-entrypoint.d/05-wait-for-certs.sh
+COPY --chmod=755 tool/nginx_script.sh /docker-entrypoint.d/05-vault-certs.sh
