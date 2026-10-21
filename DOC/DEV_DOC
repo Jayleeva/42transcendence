@@ -9,7 +9,7 @@ DOMAIN_NAME=clmmm.42.fr
 
 POSTGRES_USER=insertUSERhere
 POSTGRES_PASSWORD=insertPASSWORDhere
-POSTGRES_DB=/path/to/your/db
+POSTGRES_DB=nameyourDB
 ````
 
 CAREFUL: once the username and password have been used to create the database, you won't be able to change them without erasing all its data.
@@ -48,6 +48,16 @@ make fclean
 # Secrets management
 Secrets are managed by HarshiCorp Vault.
 
-During the building, the stack will inject the environment variables into the Vault docker volume "vault_data". 
+During the building phase, Vault prepares AppRoles for the services that need to retrieve their respective secrets, and stores the related ids and keys in a shared volume named "certs_data".
 
-It will also generate a certificate, stocked in the docker volume "certs_data", that is shared with NGINX.
+Vault generates a certificate for NGINX, and stores it as secret in the volume "vault_data" (encrypted and isolated). Only with the id and key found in the shared volume will NGINX be allowed to retrieve this certificate.
+
+Vault takes the environment variables and stores them as secrets in the volume "vault_data" (encrypted and isolated). Only with the id and key from the shared volume will the backend be allowed to retrieve these environment variables.
+
+All temporary files that are used in order for this to work are erased as soon as they served their purpose. So is the global .env.
+
+That way, every secret is written only in RAM, in isolated volumes, and is kept encrypted. Only the services that need them have access to them. 
+
+For NGINX, the retrieval of the certificate happens through its script: it then stores it in files isolated inside the NGINX docker, so that the configuration file can access them.
+
+For the backend, a function was created in the file vault.ts: its only purpose is to use the backend's id and key to retrieve the secret it needs, "DATABASE_URL". The file prisma.service.ts awaits for it to be done so that it can use the url for its connection to the database.
