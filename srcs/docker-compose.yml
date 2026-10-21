@@ -16,11 +16,27 @@ services:
     networks:
       - frontend-network
     ports:
-      - 443:443
+      - 443:8443
+    environment:
+      SERVER_NAME: "${DOMAIN_NAME}"
+      SSL_CERT_FILE: "/etc/nginx/certs/transcendence.crt"
+      SSL_CERT_KEY_FILE: "/etc/nginx/certs/transcendence.key"
+      MODSEC_RULE_ENGINE: "DetectionOnly"
+      BLOCKING_PARANOIA: "2"
+      ANOMALY_INBOUND: "5"
+      ANOMALY_OUTBOUND: "4"
+      MODSEC_REQ_BODY_ACCESS: "On"
+      MODSEC_AUDIT_LOG: "/var/log/modsecurity/audit/audit.log"
     env_file:
       - .env
     volumes:
       - certs_data:/etc/nginx/certs:ro
+      - modsec_logs:/var/log/modsecurity/audit
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     restart: always
   # website front
   frontend:
@@ -119,3 +135,4 @@ volumes:
   vault_data:
   certs_data:
   pgdb_data:
+  modsec_logs:
