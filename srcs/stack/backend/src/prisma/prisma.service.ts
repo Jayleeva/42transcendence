@@ -1,52 +1,50 @@
 import 'dotenv/config';
-import { Injectable, OnModuleInit, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, OnModuleInit, OnModuleDestroy, InternalServerErrorException } from '@nestjs/common';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../generated/prisma/client';
 import { getDatabaseUrlFromVault } from './vault';
 import { Pool } from 'pg';
 
 @Injectable()
-export class PrismaService implements OnModuleInit {
-  // 1. On déclare le client de manière à ce que TypeScript sache qu'on peut y accéder directement
-  [key: string]: any; 
-  public client!: PrismaClient;
-  private _adapter: PrismaPg | null = null;
+// 1. On ré-étend PrismaClient pour que TypeScript expose TOUS les types (user, post, etc.) automatiquement
+export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+  private pool!: Pool;
 
   constructor() {
-    // 2. Le Proxy intercepte les appels (ex: prismaService.user) et les redirige vers (prismaService.client.user)
-    return new Proxy(this, {
-      get: (target, prop) => {
-        if (prop in target) {
-          return target[prop as string];
-        }
-        if (target.client && prop in target.client) {
-          const value = (target.client as any)[prop];
-          if (typeof value === 'function') {
-            return value.bind(target.client);
-          }
-          return value;
-        }
-        return undefined;
-      },
-    });
+    // 2. On appelle le constructeur parent à vide. 
+    // On ne lui passe pas encore l'adapter car l'URL de Vault est asynchrone.
+    super();
   }
 
   async onModuleInit() {
     try {
       console.log("🔑 [NestJS] Initialisation du PrismaService via Vault...");
       
+      // Récupération de l'URL depuis Vault
       const databaseUrl = await getDatabaseUrlFromVault();
 
-      const pool = new Pool({ connectionString: databaseUrl });
-      this._adapter = new PrismaPg(pool);
+      // Configuration du pool pg
+      this.pool = new Pool({ connectionString: databaseUrl });
+      const adapter = new PrismaPg(this.pool);
 
-      this.client = new PrismaClient({ adapter: this._adapter });
+      // 3. On injecte l'adaptateur et la configuration dynamiquement dans l'instance existante
+      // (PrismaClient permet de réassigner ses composants internes avant la première requête)
+      Object.assign(this, new PrismaClient({ adapter }));
 
-      await this.client.$connect();
+      // Connexion effective
+      await this.$connect();
       console.log("✅ [NestJS] Connexion à PostgreSQL établie nativement via Vault !");
     } catch (error) {
       console.error("❌ [NestJS] Échec critique de l'initialisation de PrismaPg :", error);
       throw new InternalServerErrorException("Database initialization failed");
+    }
+  }
+
+  // 4. Bonne pratique : On ferme le pool et la connexion à l'arrêt du backend
+  async onModuleDestroy() {
+    await this.$disconnect();
+    if (this.pool) {
+      await this.pool.end();
     }
   }
 }
