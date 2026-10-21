@@ -74,6 +74,7 @@ services:
       PGSQL_HOST: pgdb
       PGSQL_PORT: 5432
       VAULT_ADDR: "http://vault:8200"
+      PORT: "8000"
     volumes:
       - certs_data:/app/vault_shared:ro 
     restart: always
