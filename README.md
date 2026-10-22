@@ -109,6 +109,7 @@ Discord server.
 |Web|Use a framework for both the frontend and backend|llabatut, mlaffita, mtaramar|2|
 |Web|Allow users to interact with other users| |2|
 |Web|Notification system| |1|
+|Web|ORM for database|mrosset|1|
 |Web|Custom-made design system| |1|
 |Web|Implement advanced search functionality| |1|
 |Web|File upload and management system| |1|
@@ -116,19 +117,44 @@ Discord server.
 |Accessibility and Internationalization|Support for additional browsers| |1|
 |User management|Standard user management and authentication| |2|
 |User management|Remote authentication| |1|
-|User management|Advanced permissions system | |2|
-|User management|Implement complete 2FA system| |1|
-|User management|User activity analytics and insights dashboard| |1|
-|Artificial intelligence|Recommendation system| |1|
-|Artificial intelligence|Content moderation| |1|
+|User management|(Advanced permissions system) | |2|
+|User management|(Implement complete 2FA system)| |1|
+|Artificial intelligence|(Content moderation)| |1|
 |Cybersecurity|Implement WAF/ModSecurity (hardened) + HashiCorp Vault for secrets|cyglardo, mtaramar|2|
-|Devops|Health check and status page system|cyglardo|1|
-|Data|GDPR compliance features| |1|
+|Devops|Health check and status page system|cyglardo, mtaramar|1|
+|Data|(GDPR compliance features)| |1|
 |Module of choice|Post| |1|
 |Module of choice|Achievements/Badges| |1|
-|**Total points**| | |**27**| 
+|**Total points**| | |**24**| 
 
 ## Justification
+Using frameworks is the professionnal way of doing things: we "loose" some time understanding how it works, but we gain time by not having to reinvent what was already invented.
+
+User interactions is mandatory for a "social" platform.
+
+Same for the notification system: users need an easy way to know if someone tried to reach them, commented or liked a post of theirs, and so on.
+
+Using an ORM actually simplifies the management of the database and is more professionnal.
+
+Making our own components made sense for two reasons: for its learning value and its reusability.
+
+Being able to search for specific content or user makes sense on a social platform.
+
+Since the goal of our platform is the sharing of pets' pictures, a file upload and management system was mandatory.
+
+Supporting multiple languages is easy to implement and allows for a bigger audience, which makes sense for a social platform.
+
+Same for the support for additionnal browsers.
+
+Having standard user management and authentication is mandatory for a social platform.
+
+Remote authentication made sense for our project, since we're targetting 42's students.
+
+We chose to use WAF and HashiCorp Vault in order to get more familiar with professional ways of protecting webapps, and in a concern to protect our users' data.
+
+We chose to implement a health check and status page system to further learn how to monitor dockers and anticipate disasters with automated backups and recovery procedures. 
+
+In our understanding, there was no offered module that encapsulated the "posting" feature. We see it as a minor module, worth 1 point.
 
 ## How each was implemented
 
@@ -145,7 +171,7 @@ Understanding HashiCorp Vault and how it shaped the stack.
 
 ## llabatut
 ### Breakdown of contribution
-Conceptualized the API and endpoints. Coded the authentication files.
+Conceptualized the API and endpoints. Co-coded the authentication part.
 
 ### Specific modules / features / components
 - Framework backend
@@ -162,17 +188,21 @@ Designed the frontend's visuals on Figma. Created custom components. Coded the a
 
 ## mrosset
 ### Breakdown of contribution
-Designed the database.
+Managed the project: planned meetings, lead the meetings, wrote and posted the meeting's records, insured everyone was tasked with something. Designed the database.
 
 ### Specific modules / features / components
 - Database
 
 ### Specific challenges
 
+
 ## mtaramar
 ### Breakdown of contribution
+Co-coded the authentication part. Implemented WAF.
 
 ### Specific modules / features / components
+- Cybersecurity: WAF.
+
 ### Specific challenges
 
 # Other relevant information
