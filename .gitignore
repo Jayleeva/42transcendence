@@ -4,6 +4,8 @@ secrets/
 # Nestjs specific
 /dist
 /node_modules
+/srcs/stack/backend/node_modules
+/srcs
 /build
 /tmp
 
