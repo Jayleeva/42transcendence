@@ -17,7 +17,7 @@ done
 echo "🔓 Le port Vault est ouvert. Vérification de l'initialisation..."
 
 # Fichier masqué isolé des volumes Docker de l'hôte, pour conserver vos clés d'Unseal
-INIT_FILE="/root/.vault_init_keys.json"
+INIT_FILE="/vault/file/.vault_init_keys.json"
 
 # On demande à Vault s'il est initialisé (renvoie "true" ou "false")
 IS_INIT=$(vault status -format=json 2>/dev/null | jq -r '.initialized' 2>/dev/null)
