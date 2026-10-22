@@ -1,10 +1,49 @@
 // la page pour creer un compte ( ou on met les infos basiques )
 
 import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
 import Link from 'next/link';
+import Form from '@/components/features/form/Form';
 
 export default function Page() {
+  const values = [
+    {
+      id:"firstname",
+      name:"firstname",
+      type:"name",
+      label:"Prénom"
+    },
+    {
+      id:"lastname",
+      name:"lastname",
+      type:"name",
+      label:"Nom"
+    },
+    {
+      id:"username",
+      name:"username",
+      type:"name",
+      label:"Pseudo"
+    },
+    {
+      id:"birth",
+      name:"birth",
+      type:"date",
+      label:"Date de naissance"
+    },
+    {
+      id:"email",
+      name:"email",
+      type:"email",
+      label:"Email"
+    },
+    {
+      id:"password",
+      name:"password",
+      type:"password",
+      label:"Mot de passe"
+    }
+  ];
+
   return (
     <main className="min-h-screen px-6 py-12 md:px-8 max-w-7xl mx-auto">
         {/* COLONNE */}
@@ -14,15 +53,12 @@ export default function Page() {
               Créez un compte
             </h2>
 
-            <form className="flex flex-col gap-4">
-              <Input id="email" name="email" type="email" label="Email" placeholder="vous@exemple.com" />
-              <Input id="password" name="password" type="password" label="Mot de passe" />
-            </form>
+            <Form inputs={values} />
 
             <Button type="submit" variant="outline">Se connecter</Button>
             <p className="text-center text-sm">
               {' '}
-              <Link href="/register" className="font-semibold underline">
+              <Link href="/auth" className="font-semibold underline">
                 J'ai déjà un compte
               </Link>
             </p>
