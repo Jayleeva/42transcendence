@@ -51,9 +51,8 @@ export default function Page() {
   } as const;
 
   return (
-    <main className="min-h-screen px-6 py-12 md:px-8 max-w-7xl mx-auto">
-        {/* COLONNE */}
-        <div className="flex max-w-md flex-col gap-6">
+    <main className="flex min-h-screen items-center justify-center px-6 py-12">
+      <div className="flex w-full max-w-md flex-col gap-6">
           <BackButton />
           <h2 className="font-display text-5xl font-bold text-center">
             Créez un compte
