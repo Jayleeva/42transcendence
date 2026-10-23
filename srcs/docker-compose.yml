@@ -28,6 +28,7 @@ services:
       ANOMALY_OUTBOUND: "4"
       MODSEC_REQ_BODY_ACCESS: "On"
       MODSEC_AUDIT_LOG: "/var/log/modsecurity/audit/audit.log"
+      MODSEC_AUDIT_LOG_PARTS: "ABIJFHZ"
     env_file:
       - .env
     volumes:
