@@ -105,17 +105,37 @@ export class UserService {
     });
   }
 
-   private rethrowPrismaError(error: unknown): never {
+  private rethrowPrismaError(error: unknown): never {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === 'P2002'
     ) {
-      const fields = (error.meta?.target as string[]) ?? [];
+      const meta = error.meta as {
+        driverAdapterError?: {
+          cause?: {
+            constraint?: {
+              index?: string;
+            };
+          };
+        };
+      } | undefined;
+
+      const index = meta?.driverAdapterError?.cause?.constraint?.index;
+
+      let field = 'unknown';
+      let code = 'UNIQUE_CONSTRAINT_VIOLATION';
+
+      if (index === 'User_email_key') {
+        field = 'email';
+        code = 'EMAIL_ALREADY_EXISTS';
+      } else if (index === 'User_username_key') {
+        field = 'username';
+        code = 'USERNAME_ALREADY_EXISTS';
+      }
+
       throw new ConflictException({
         statusCode: 409,
-        error: 'Conflict',
-        fields,
-        message: `${fields.join(', ')} already in use`,
+        errors: [{ field, code }],
       });
     }
     throw error;
