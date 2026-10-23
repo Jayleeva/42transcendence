@@ -4,6 +4,7 @@ CMP = docker compose -f $(YML)
 DOCKERS = nginx frontend backend pgdb vault
 IMAGES = nginx frontend backend pgdb vault
 VOLUMES = srcs_pgdb_data srcs_vault_data srcs_certs_data srcs_vault_logs
+# srcs_modsec_logs volontairement exclu : les journaux du WAF doivent survivre aux reconstructions
 NETWORKS = srcs_frontend-network srcs_backend-network srcs_vault-network 
 DOMAIN_NAME = clmmm.42.fr
 
