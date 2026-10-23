@@ -24,13 +24,7 @@ export default function Navbar() {
   );
 }
 
-// test pour couleur et taille
-/*             
-<Link href="/feed">
-    <House size={40}color="#3e7d9e"/>
-</Link>
-*/
+
 
 // meme technique que pour le form, on passe par une map()
-
-// si barre em bas add : fixed bottom-0 inset-x-0
+// si barre em bas add : fixed bottom-0 inset-x-0 ( mais non du coup footer )

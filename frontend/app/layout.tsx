@@ -1,16 +1,9 @@
-// la structure gloable
-// header, footer, etc
+// la structure globale ( police, onglet etc ...)
 
-// test below
-// export default function RootLayout({ children }) {
-//   return <html><body>{children}</body></html>;
-// }
 
-// test du tuto 
 import '@/app/globals.css';
 import { dongle } from '@/lib/fonts';
 
-// test titre onglet 
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -18,7 +11,6 @@ export const metadata: Metadata = {
   description: 'Le réseau social des animaux de compagnie des étudiants de 42',
 };
 
-// modif children car ca marchait pas 
 export default function RootLayout({
   children,
 }: {
