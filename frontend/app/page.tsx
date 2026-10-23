@@ -20,6 +20,12 @@ export default function Page() {
       label:"Mot de passe"
     }
   ];
+  const conf = 
+  {
+    type:"submit",
+    variant:"outline",
+    name:"Se connecter"
+  } as const;
   return (
     <main className="min-h-screen px-6 py-12 md:px-8 max-w-7xl mx-auto">
       <h1>
@@ -41,6 +47,7 @@ export default function Page() {
               src="/test-hero-image.png"
               alt="Patchwork Lauzanimo"
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               priority
               className="object-contain"
             />
@@ -68,9 +75,7 @@ export default function Page() {
               <hr className="flex-1 border-slate-300" />
             </div>
 
-            <Form inputs={values} />
-
-            <Button type="submit" variant="outline">Se connecter</Button>
+            <Form inputs={values} conf={conf}/>
 
             <p className="text-center text-sm">
               Pas de compte ?{' '}
