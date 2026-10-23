@@ -2,17 +2,17 @@
 
 import { useRouter } from 'next/navigation';
 import { IoArrowBack } from "react-icons/io5";
+import Button from '../ui/Button';
 
 export default function BackButton() {
   const router = useRouter()
 
   return (
-    <button type="button" onClick={() => {
-        console.log("banane");
+    <Button variant="primary" onClick={() => {
         router.back();
     }}>
         <IoArrowBack />
         Retour
-      </button>
+      </Button>
   );
 }
