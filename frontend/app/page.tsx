@@ -3,9 +3,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
+import Form from '@/components/features/form/Form';
 
 export default function Page() {
+  const values = [
+    {
+      id:"email",
+      name:"email",
+      type:"email",
+      label:"Email"
+    },
+    {
+      id:"password",
+      name:"password",
+      type:"password",
+      label:"Mot de passe"
+    }
+  ];
   return (
     <main className="min-h-screen px-6 py-12 md:px-8 max-w-7xl mx-auto">
       <h1>
@@ -54,11 +68,9 @@ export default function Page() {
               <hr className="flex-1 border-slate-300" />
             </div>
 
-            <form className="flex flex-col gap-4">
-              <Input id="email" name="email" type="email" label="Email" placeholder="vous@exemple.com" />
-              <Input id="password" name="password" type="password" label="Mot de passe" />
-              <Button type="submit" variant="outline">Se connecter</Button>
-            </form>
+            <Form inputs={values} />
+
+            <Button type="submit" variant="outline">Se connecter</Button>
 
             <p className="text-center text-sm">
               Pas de compte ?{' '}

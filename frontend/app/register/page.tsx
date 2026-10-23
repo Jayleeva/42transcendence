@@ -1,7 +1,7 @@
 // la page pour creer un compte ( ou on met les infos basiques )
 
 import Link from 'next/link';
-import Router from 'next/router';
+//import Router from 'next/router';
 import Button from '@/components/ui/Button';
 import Form from '@/components/features/form/Form';
 
@@ -47,7 +47,7 @@ export default function Page() {
   ];
 
   return (
-
+//    <Router> </Router>
     <main className="min-h-screen px-6 py-12 md:px-8 max-w-7xl mx-auto">
         {/* COLONNE */}
         <div className="flex max-w-md flex-col gap-6">
@@ -60,7 +60,7 @@ export default function Page() {
           <Button type="submit" variant="outline">Se connecter</Button>
           <p className="text-center text-sm">
             {' '}
-            <Link href="/auth" className="font-semibold underline">
+            <Link href="/login" className="font-semibold underline">
               J'ai déjà un compte
             </Link>
           </p>
