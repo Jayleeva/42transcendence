@@ -1,4 +1,5 @@
 import Input from "../../ui/Input";
+import Button from '@/components/ui/Button';
 
 type InputProps = {
     label: string;
@@ -7,11 +8,19 @@ type InputProps = {
     type: string;
 }
 
-interface FormProps {
-    inputs: InputProps[];
+type ButtonProps = {
+    type: "submit" | "reset" | "button" | undefined;
+    variant: 'primary' | 'outline';
+    name: string;
 }
 
-export default function Form({inputs}: FormProps)
+interface FormProps {
+    inputs: InputProps[];
+    conf: ButtonProps;
+}
+
+
+export default function Form({inputs, conf}: FormProps)
 {
     return (
         <form className="flex flex-col gap-4">
@@ -20,6 +29,9 @@ export default function Form({inputs}: FormProps)
                     <Input label={i.label} id={i.id} name={i.name} type={i.type}  />
                 </div>
             ))}
+            <Button type={conf.type} variant={conf.variant}>
+                {conf.name}
+            </Button>
         </form>
     );
 }
