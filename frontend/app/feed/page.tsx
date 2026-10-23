@@ -12,7 +12,6 @@ export default function Layout({ children }) {
             <main>
                 {children}
             </main>
-            <Footer />
         </>
     );
 }
@@ -23,14 +22,10 @@ export default function Layout({ children }) {
 export default function FeedPage() {
     return (
         <main>
-            <h1>Feed</h1>
+            <h1>Test Feed</h1>
         </main>
     );
 }
 */
 
-/*
-Du coup 
-
-*/
 

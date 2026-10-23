@@ -2,6 +2,7 @@
 
 
 import '@/app/globals.css';
+import Footer from '@/components/layout/Footer';
 import { dongle } from '@/lib/fonts';
 
 import type { Metadata } from 'next';
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={dongle.variable}>
       <body>{children}</body>
+      <Footer />
     </html>
   );
 }
