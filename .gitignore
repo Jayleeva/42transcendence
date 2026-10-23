@@ -1,4 +1,5 @@
 .env
+/srcs/.env
 secrets/
 srcs/stack/vault-consul-docker/init.txt
 
