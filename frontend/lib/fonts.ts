@@ -8,4 +8,5 @@ export const dongle = Dongle({
   weight: ['400', '700'],
   display: 'swap',
   variable: '--font-dongle',
+  preload: false,
 });

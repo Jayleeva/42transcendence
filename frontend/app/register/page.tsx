@@ -52,9 +52,9 @@ export default function Page() {
 
   return (
     <main className="min-h-screen px-6 py-12 md:px-8 max-w-7xl mx-auto">
-      <BackButton />
         {/* COLONNE */}
         <div className="flex max-w-md flex-col gap-6">
+          <BackButton />
           <h2 className="font-display text-5xl font-bold text-center">
             Créez un compte
           </h2>

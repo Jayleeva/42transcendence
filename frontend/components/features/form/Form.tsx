@@ -24,11 +24,13 @@ export default function Form({inputs, conf}: FormProps)
 {
     return (
         <form className="flex flex-col gap-4">
-            {inputs.map((i:any) => (
-                <div>
-                    <Input label={i.label} id={i.id} name={i.name} type={i.type}  />
-                </div>
-            ))}
+            <div className="flex flex-col gap-4">
+                {inputs.map((i:any) => (
+                    <div key={i.id}>
+                        <Input label={i.label} id={i.id} name={i.name} type={i.type}  />
+                    </div>
+                ))}
+            </div>
             <Button type={conf.type} variant={conf.variant}>
                 {conf.name}
             </Button>
