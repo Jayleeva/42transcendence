@@ -1,1 +1,0 @@
-// page de profil du student, avec ses infos et ses pets
