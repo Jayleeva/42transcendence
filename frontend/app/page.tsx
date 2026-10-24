@@ -30,7 +30,7 @@ export default function Page() {
     <main className="min-h-screen px-6 py-12 md:px-8 max-w-7xl mx-auto">
       <h1>
         <Image
-          src="/test-banner.png"
+          src="/banner.png"
           alt="Lauzanimo"
           width={400}
           height={120}
@@ -44,7 +44,7 @@ export default function Page() {
         <div>
           <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
             <Image
-              src="/test-hero-image.png"
+              src="/new-hero.png"
               alt="Patchwork Lauzanimo"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

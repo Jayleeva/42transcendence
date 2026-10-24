@@ -1,6 +1,6 @@
 // la page pour creer un compte ( ou on met les infos basiques )
 import Link from 'next/link';
-import BackButton from '@/components/layout/BackButton';
+import BackButton from '@/components/ui/BackButton';
 import Form from '@/components/features/form/Form';
 
 
