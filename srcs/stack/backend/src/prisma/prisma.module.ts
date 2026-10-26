@@ -27,6 +27,6 @@ import { Pool } from 'pg';
     // 3. Notre PrismaService finalisé
     PrismaService,
   ],
-  exports: [PrismaService],
+  exports: [PrismaService, 'PRISMA_POSTGRES_POOL'],
 })
 export class PrismaModule {}
