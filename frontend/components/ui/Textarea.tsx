@@ -1,0 +1,1 @@
+// pour la bio ( un grand champs de texte ) pour les users et les pets
