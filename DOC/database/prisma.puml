@@ -1,0 +1,114 @@
+@startuml
+
+left to right direction
+
+' ===== GENERAL STYLE =====
+
+skinparam backgroundColor #F7F8FA
+skinparam shadowing true
+skinparam roundcorner 15
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam defaultFontColor #1F2937
+skinparam ArrowThickness 2
+
+
+' ===== DATABASE RESPONSIBILITY =====
+
+rectangle DatabaseRole #DCEEFF [
+<b>DATABASE</b>
+<i>Marjorie</i>
+
+Database design
+Tables & relations
+Data types
+Constraints
+]
+
+
+' ===== PRISMA SCHEMA =====
+
+rectangle PrismaSchema #FFF0D6 [
+<b>PRISMA SCHEMA</b>
+<i>schema.prisma</i>
+
+Models
+Fields & types
+Primary keys
+Foreign keys
+Relations
+Constraints
+]
+
+
+' ===== PRISMA MIGRATE =====
+
+rectangle PrismaMigrate #DDF5E5 [
+<b>PRISMA MIGRATE</b>
+
+Creates migrations
+Generates SQL
+Applies database changes
+]
+
+
+' ===== POSTGRESQL =====
+
+rectangle PostgreSQL #D8F3DC [
+<b>POSTGRESQL</b>
+<i>Database</i>
+
+Tables
+Columns
+Relations
+Stored data
+]
+
+
+' ===== BACKEND RESPONSIBILITY =====
+
+rectangle BackendRole #E8DFFF [
+<b>BACKEND</b>
+<i>Mathieu</i>
+
+NestJS
+API
+Business logic
+Authentication
+Validation
+]
+
+
+' ===== PRISMA CLIENT =====
+
+rectangle PrismaClient #FFE0E5 [
+<b>PRISMA CLIENT</b>
+
+Read data
+Create data
+Update data
+Delete data
+]
+
+
+' ===== SCHEMA / MIGRATION FLOW =====
+
+DatabaseRole -[#3B9ED8,thickness=3]-> PrismaSchema : Defines
+
+PrismaSchema -[#F2A65A,thickness=3]-> PrismaMigrate : Schema changes
+
+PrismaMigrate -[#55B981,thickness=3]-> PostgreSQL : SQL migrations
+
+
+' ===== BACKEND / DATA FLOW =====
+
+BackendRole -[#8B6BD9,thickness=3]-> PrismaClient : Uses
+
+PrismaClient -[#E86A92,thickness=3]-> PostgreSQL : Queries
+
+
+' ===== PRISMA CLIENT GENERATION =====
+
+PrismaSchema -[#F2A65A,thickness=2,dashed]-> PrismaClient : Generates types
+
+@enduml

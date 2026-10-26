@@ -1,0 +1,59 @@
+@startuml
+
+top to bottom direction
+
+' ===== GENERAL STYLE =====
+
+skinparam backgroundColor #F7F8FA
+skinparam shadowing true
+skinparam roundcorner 15
+skinparam ArrowColor #4B5563
+skinparam ArrowThickness 2
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+
+
+' ===== USER =====
+
+actor "USER" as User
+
+
+' ===== FRONTEND CONTAINER =====
+
+package "Container\nFRONTEND" #DCEEFF {
+
+    rectangle "Web Interface\nNext.js" as Frontend #DCEEFF
+
+}
+
+
+' ===== BACKEND CONTAINER =====
+
+package "Container\nBACKEND" #E8DFFF {
+
+    rectangle "API\nBusiness Logic\nNestJS" as Backend #E8DFFF
+
+    rectangle "Prisma\nORM" as Prisma #FFF0D6
+
+    Backend --> Prisma : Database Query
+}
+
+
+' ===== DATABASE CONTAINER =====
+
+package "Container\nDATABASE" #DDF5E5 {
+
+    database "PostgreSQL\n\nusers\npets\nposts\ncomments" as PostgreSQL #DDF5E5
+
+}
+
+
+' ===== DATA FLOW =====
+
+User --> Frontend : Inputs
+
+Frontend --> Backend : HTTP Request\nJSON
+
+Prisma --> PostgreSQL : SQL
+
+@enduml

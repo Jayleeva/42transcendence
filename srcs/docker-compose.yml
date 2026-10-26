@@ -1,0 +1,146 @@
+services:
+  # web server
+  nginx:
+    container_name: nginx
+    image: nginx
+    build:
+      context: ./stack/nginx
+      dockerfile: Dockerfile
+    depends_on:
+      frontend:
+        condition: service_started
+      backend:
+        condition: service_started
+      vault:
+        condition: service_started
+    networks:
+      - frontend-network
+      - vault-network
+    ports:
+      - 443:8443
+    environment:
+      SERVER_NAME: "${DOMAIN_NAME}"
+      SSL_CERT_FILE: "/etc/nginx/ssl/transcendence.crt"
+      SSL_CERT_KEY_FILE: "/etc/nginx/ssl/transcendence.key"
+      MODSEC_RULE_ENGINE: "DetectionOnly"
+      BLOCKING_PARANOIA: "2"
+      ANOMALY_INBOUND: "5"
+      ANOMALY_OUTBOUND: "4"
+      MODSEC_REQ_BODY_ACCESS: "On"
+      MODSEC_AUDIT_LOG: "/var/log/modsecurity/audit/audit.log"
+      MODSEC_AUDIT_LOG_PARTS: "ABIJFHZ"
+    env_file:
+      - .env
+    volumes:
+      - certs_data:/app/vault_shared:ro
+      - modsec_logs:/var/log/modsecurity/audit
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: always
+  # website front
+  frontend:
+    container_name: frontend
+    image: frontend
+    build:
+      context: ./stack/frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    networks:
+      - frontend-network
+    env_file:
+      - .env
+    restart: always
+# website back
+  backend:
+    container_name: backend
+    image: backend
+    build:
+      context: ./stack/backend
+      dockerfile: Dockerfile
+    depends_on:
+      pgdb:
+        condition: service_healthy
+    networks:
+      - frontend-network
+      - backend-network
+      - vault-network
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGSQL_HOST: pgdb
+      PGSQL_PORT: 5432
+      VAULT_ADDR: "http://vault:8200"
+      PORT: "8000"
+    volumes:
+      - certs_data:/app/vault_shared:ro 
+    restart: always
+  # database
+  pgdb:
+    container_name: pgdb
+    image: pgdb
+    build:
+      context: ./stack/pgdb
+      dockerfile: Dockerfile
+    networks:
+      - backend-network
+    ports:
+      - 5433:5432
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}", "-d", "${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: always
+  # vault
+  vault:
+    container_name: vault
+    image: vault
+    build:
+      context: ./stack/vault
+      dockerfile: Dockerfile
+    networks:
+      - vault-network
+    ports:
+      - 8200:8200
+    env_file:
+      - .env
+    volumes:
+      - vault_logs:/vault/logs
+      - vault_data:/vault/file
+      - certs_data:/vault/generated_certs
+    cap_add:
+      - IPC_LOCK
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    restart: always
+
+networks:
+  frontend-network:
+    driver: bridge
+  backend-network:
+    driver: bridge 
+  vault-network:
+    driver: bridge
+
+volumes:
+  vault_logs:
+  vault_data:
+  certs_data:
+  pgdb_data:
+  modsec_logs:
