@@ -1,1 +1,5 @@
 // page de parametre de l'etudiant ( modification de ses infos, ajout de bio, photo de profil, etc )
+
+export default function Page() {
+  return <div>Mon contenu</div>;
+}

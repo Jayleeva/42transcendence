@@ -24,15 +24,27 @@ interface FormProps {
 
 export default function Form({inputs, conf}: FormProps)
 {
-    const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
+    async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault(); // empeche le reload
 
         const formData = new FormData(event.currentTarget);
 
         const data = Object.fromEntries(formData.entries());
-
         console.log("Donnees : ", data);
+
+        const response = await fetch("/api/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
+
+        if (response.status === 201) {
+            alert("Compte créé !");
+        } else {
+            alert("Erreur lors de l'inscription");
+        }
     };
+    
     return (
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4">
