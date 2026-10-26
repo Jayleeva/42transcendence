@@ -1,91 +1,77 @@
-.env
-/srcs/.env
 secrets/
-srcs/stack/vault-consul-docker/init.txt
-
-srcs/stack/vault-consul-docker/vault/data/*
-srcs/stack/vault-consul-docker/!vault/data/.gitkeep
-srcs/stack/vault-consul-docker/vault/logs/*
-srcs/stack/vault-consul-docker/!vault/logs/.gitkeep
-srcs/stack/vault-consul-docker/consul/data/*
-srcs/stack/vault-consul-docker/!consul/data/.gitkeep
-
-srcs/stack/backend/node_modules
-srcs/stack/frontend/node_modules
-
-# Nestjs specific
-/dist
-/node_modules
-/srcs
-/build
-/tmp
-
-# Logs
-logs
-*.log
-npm-debug.log*
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
 
 # dotenv environment variable files
-.env
-.env.development
-.env.test
-.env.production
+*.env
+*.env.development
+*.env.test
+*.env.production
+*.env*.local
 
-# temp directory
-.temp
-.tmp
+# Vault
+*vault/data/*
+*!vault/data/.gitkeep
+*vault/logs/*
+*!vault/logs/.gitkeep
 
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Nestjs specific
+srcs/stack/backend/dist
+srcs/stack/backend/srcs
+srcs/stack/backend/build
+srcs/stack/backend/tmp
+srcs/stack/backend/src/generated/prisma
+
+# Nextjs specific
+srcs/stack/frontend/.next/
+srcs/stack/frontend/out/
+srcs/stack/frontend/build
+srcs/stack/frontend/coverage
+
+# vercel
+*.vercel
 
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+*node_modules
+*.pnp
+*.pnp.*
+*.yarn/*
+*!.yarn/patches
+*!.yarn/plugins
+*!.yarn/releases
+*!.yarn/versions
 
-# testing
-/coverage
+# Logs
+*logs
+*.log
+*npm-debug.log*
+*pnpm-debug.log*
+*yarn-debug.log*
+*yarn-error.log*
+*lerna-debug.log*
 
-# next.js
-/.next/
-/out/
 
-# production
-/build
+# temp directory
+*.temp
+*.tmp
 
 # misc
 .DS_Store
 *.pem
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
-.env*.local
-.env
-
-# vercel
-.vercel
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+*next-env.d.ts
 
 # Tests (Nest)
-/.nyc_output
+*.nyc_output
 
 # IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
+*/.idea
+*.project
+*.classpath
+*.c9/
 *.launch
-.settings/
+*.settings/
 *.sublime-workspace
 
 # IDE - VSCode
@@ -96,10 +82,10 @@ next-env.d.ts
 !.vscode/extensions.json
 
 # Runtime data
-pids
+*pids
 *.pid
 *.seed
 *.pid.lock
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+*report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
