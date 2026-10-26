@@ -10,10 +10,12 @@ srcs/stack/vault-consul-docker/!vault/logs/.gitkeep
 srcs/stack/vault-consul-docker/consul/data/*
 srcs/stack/vault-consul-docker/!consul/data/.gitkeep
 
+srcs/stack/backend/node_modules
+srcs/stack/frontend/node_modules
+
 # Nestjs specific
 /dist
 /node_modules
-/srcs/stack/backend/node_modules
 /srcs
 /build
 /tmp
