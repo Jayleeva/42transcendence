@@ -37,12 +37,13 @@ export default function Page() {
           priority
           className="h-auto w-[300px] md:w-[420px] mb-2"
         />
+        {/* check className="hidden md:block" */}
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         {/* COLONNE GAUCHE */}
         <div>
-          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
+          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] hidden md:block">
             <Image
               src="/new-hero.png"
               alt="Patchwork Lauzanimo"
@@ -53,7 +54,7 @@ export default function Page() {
             />
           </div>
 
-          <p className="font-display text-2xl text-center mt-8 leading-none">
+          <p className="font-display text-2xl text-center mt-8 leading-none hidden md:block">
             <span className="font-bold">Lauzanimo</span> est un réseau social de présentation des animaux de compagnie des étudiants de l’école 42.
             <br />
             Connectez-vous pour partager vos animaux de compagnie et découvrir ceux des autres étudiants !
@@ -91,6 +92,14 @@ export default function Page() {
 }
 
 
+/**
+ * TODO: 
+ * - supp l'hero image sur version mobile
+ * - mettre option sur image pour la cacher qd on reduit trop l'ecran ( hidden md:block ) ?? 
+ *  */ 
+
+
+
 // MEMO PERSO
 //
 // Pour les marges du texte:
@@ -101,10 +110,25 @@ export default function Page() {
 // leading-[0.9] ( valeur precise )
 //
 // Pour les marges de la page globale ? 
-// md:px-16 ( on peut reduire a md:px-8 ) md: est le responsive ?
+// md:px-16 ( on peut reduire a md:px-8 ) md: est le responsive ? Breaking point pour les ecrans moyens ( 768px )
 //
 // marge interieur ?
 // px-6 py-12
+// p = padding
+// pt padding top, pb padding bottom ... 
+
 //
 // Pour les colonnes:
 // c'est gap 12 now mais testé gap 6 pour voir la diff qd il y aura du content pour col de droite
+
+/* 
+hidden : masque l'élément (display: none).
+md:block : à partir du breakpoint md, affiche l'élément comme un bloc (display: block).
+
+Pour le responsive :
+- flex : active Flexbox.
+- flex-col : organise les éléments verticalement, donc en une colonne.
+- md:flex-row : à partir de 768 px, les organise horizontalement, donc côte à côte.
+- gap-4 : ajoute de l'espace entre les éléments.
+la disposition passe automatiquement de deux colonnes à une seule qd on reduit l'ecran 
+*/
