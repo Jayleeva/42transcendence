@@ -22,7 +22,7 @@ export default function Page() {
 
 //import Avatar from '@/components/ui/Avatar';
 import BackButton from '@/components/ui/BackButton';
-import Button from '@/components/ui/Button';
+import MiniButton from '@/components/ui/MiniButton';
 import Input from '@/components/ui/Input';
 //import Textarea from '@/components/ui/Textarea';
 
@@ -42,6 +42,9 @@ export default function Page() {
             {/* ici mettre l'avatar de photo de profil actuel
                 est ce qu'on met un placeholder ? 
                 est ce qu'il faut un petit bouton modif ? ou on clique dessus pour mnodif */}
+            <div>
+                <MiniButton type="submit" variant="outline">Ajouter</MiniButton>
+            </div>
           </section>
 
           <section className="flex flex-col gap-4">
@@ -49,6 +52,9 @@ export default function Page() {
             {/* Ici mettre le nouveau component pour text area 
                 a faire
                 utiliser ici, ds le profil student, et profil pet*/}
+            <div>
+                <MiniButton type="submit" variant="outline">Valider</MiniButton>
+            </div>
           </section>
 
           <section className="flex flex-col gap-4">
@@ -61,8 +67,10 @@ export default function Page() {
             <Input id="birth" name="birth" type="date" label="Date de naissance" />
             <Input id="email" name="email" type="email" label="Email" />
           </section>
-
-          <Button type="submit" variant="outline">Valider les modifications</Button>
+            <div>
+                <MiniButton type="submit" variant="outline">Valider les modifications</MiniButton>
+            </div>
+          
         </form>
 
         <section className="flex flex-col gap-4">
@@ -78,6 +86,9 @@ export default function Page() {
             avatar dans une card
             + une card pour creer un pet */}
         </section>
+            <div>
+                <MiniButton type="submit">Supprimer</MiniButton>
+            </div>
       </div>
     </main>
   );
