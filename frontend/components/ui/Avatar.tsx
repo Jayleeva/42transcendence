@@ -2,6 +2,13 @@
 
 import Image from 'next/image';
 
+{/* 
+    Chekc si on arrive a predefinir plusieurs tailles
+    small pour messageire ( ou xs ? )
+    medium pour les card
+    large pour les profils
+    */}
+
 export default function Avatar({ src, alt, children }: { src?: string; alt?: string; children?: React.ReactNode }) {
   return (
     <div className="relative w-30 h-30 rounded-full overflow-hidden bg-gray-200">
