@@ -5,11 +5,10 @@ Prepare a .env file inside.
 
 Example of .env:
 ````
-DOMAIN_NAME=clmmm.42.fr
-
 POSTGRES_USER=insertUSERhere
 POSTGRES_PASSWORD=insertPASSWORDhere
 POSTGRES_DB=nameyourDB
+SESSION_SECRET=chooseAsessionSecretOfAtLeast32Chars
 ````
 
 CAREFUL: once the username and password have been used to create the database, you won't be able to change them without erasing all its data.

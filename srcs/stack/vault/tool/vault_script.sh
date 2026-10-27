@@ -88,8 +88,8 @@ vault kv put secret/transcendence \
     pgsql_database="$POSTGRES_DB" \
     database_url="postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@pgdb:5432/$POSTGRES_DB" \
     transcendence_cert="$TRANSCENDENCE_CERT" \
-    transcendence_key="$TRANSCENDENCE_KEY"
-
+    transcendence_key="$TRANSCENDENCE_KEY" \
+    session_secret="$SESSION_SECRET"
 
 echo "[VAULT] Configuration de l'AppRole pour le backend..."
 vault auth enable approle || true

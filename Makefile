@@ -6,7 +6,7 @@ IMAGES = nginx frontend backend pgdb vault
 VOLUMES = srcs_pgdb_data srcs_vault_data srcs_certs_data srcs_vault_logs
 # srcs_modsec_logs volontairement exclu : les journaux du WAF doivent survivre aux reconstructions
 NETWORKS = srcs_frontend-network srcs_backend-network srcs_vault-network 
-DOMAIN_NAME = lauzanimo42.ch
+DOMAIN_NAME = lauzanimo.ch
 
 ENV_SRC = /home/$(USER)/tocopy/.env
 ENV_DEST = ./srcs/.env
