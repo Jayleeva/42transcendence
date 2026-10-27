@@ -1,29 +1,10 @@
 // page de parametre de l'etudiant ( modification de ses infos, ajout de bio, photo de profil, etc )
-{/*
-import Form from "@/components/features/form/Form";
-import BackButton from "@/components/ui/BackButton";
-
-export default function Page() {
-      return (
-        <main className="flex min-h-screen justify-center px-6 py-12">
-            <div className="flex w-full max-w-md flex-col gap-6">
-                <h2 className="font-display text-5xl font-bold text-center">
-                    Modifier le profil
-                </h2>
-                <p className="font-bold">Photo de profil</p>
-                <p className="font-bold">Bio</p>
-                <p className="font-bold">Informations générales</p>
-                <p className="font-bold">Changer de mot de passe ??</p>
-                <p className="font-bold">Ajouter / enlever des animaux de compagnie</p>
-            </div>
-        </main>
-      );
-} */}
 
 //import Avatar from '@/components/ui/Avatar';
 import BackButton from '@/components/ui/BackButton';
 import MiniButton from '@/components/ui/MiniButton';
 import Input from '@/components/ui/Input';
+import Avatar from '@/components/ui/Avatar';
 //import Textarea from '@/components/ui/Textarea';
 
 export default function Page() {
@@ -42,8 +23,9 @@ export default function Page() {
             {/* ici mettre l'avatar de photo de profil actuel
                 est ce qu'on met un placeholder ? 
                 est ce qu'il faut un petit bouton modif ? ou on clique dessus pour mnodif */}
+            <Avatar src="/Placeholder-test.png" alt="Test Avatar"></Avatar>
             <div>
-                <MiniButton type="submit" variant="outline">Ajouter</MiniButton>
+                <MiniButton type="submit" variant="outline">Ajouter / modifier</MiniButton>
             </div>
           </section>
 

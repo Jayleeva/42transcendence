@@ -1,5 +1,6 @@
 // contact page
 
+import Avatar from '@/components/ui/Avatar';
 import MiniButton from '@/components/ui/MiniButton';
 
 export default function Page() {
@@ -16,6 +17,9 @@ export default function Page() {
       <br />
       <br />
       <MiniButton variant="outline">Valider</MiniButton> 
+      <br />
+      <br />
+      <Avatar src="/Placeholder-test.png" alt="Test Avatar"></Avatar>
     </main>
   );
 }
