@@ -4,11 +4,11 @@ set -e
 VAULT_ADDR="http://vault:8200"
 SHARED_DIR="/app/vault_shared"
 SSL_DIR="/etc/nginx/ssl"
-WEBROOT="/var/www/html"
+#WEBROOT="/var/www/html"
 DOMAIN="lauzanimo.ch"  # Remplacez par votre futur vrai domaine acheté
 
 mkdir -p "$SSL_DIR"
-mkdir -p "$WEBROOT"
+#mkdir -p "$WEBROOT"
 
 echo "⏳ [NGINX] Attente des identifiants AppRole générés par Vault..."
 while [ ! -f "$SHARED_DIR/nginx_role_id" ] || [ ! -f "$SHARED_DIR/nginx_secret_id" ]; do

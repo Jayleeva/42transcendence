@@ -20,7 +20,6 @@ up:
 	@if ! grep "$(DOMAIN_NAME)" /etc/hosts ;then \
 		echo "127.0.0.1 $(DOMAIN_NAME)" | sudo tee -a /etc/hosts; \
 	fi
-	rm -f $(ENV_DEST)
 
 down:
 	$(CMP) down
@@ -33,7 +32,7 @@ clean:
 	docker network rm $(NETWORKS) 2>/dev/null
 	
 fclean: clean
-	docker volume rm srcs_modsec_logs
+	rm -f $(ENV_DEST)
 
 re: down up
 
