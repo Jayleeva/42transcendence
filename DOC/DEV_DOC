@@ -1,10 +1,10 @@
 # Set up the environment
-Create a folder named "tocopy" on your machine, at /home/$USER/. If you want to use a different name or path, don't forget to adapt the Makefile's "copy" rule's variables.
+Create a folder named "tocopy" on your machine, at /home/$USER/. If you want to use a different name or path, don't forget to adapt the Makefile's corresponding variable "ENV_SRC".
 
-Prepare a .env file inside.
-
-Example of .env:
+Prepare a .env file inside. It must contain the following variables, with ajusted values:
 ````
+CLOUDFLARE_API_TOKEN=yourSecretToken
+CLOUDFLARE_ACCOUNT_ID=yourAccountID
 POSTGRES_USER=insertUSERhere
 POSTGRES_PASSWORD=insertPASSWORDhere
 POSTGRES_DB=nameyourDB
@@ -44,12 +44,17 @@ This action will erase ALL DATA.**
 make fclean
 ```
 
+If you want to erase all data except the logs of WAF, use:
+```
+make clean
+```
+
 # Secrets management
 Secrets are managed by HarshiCorp Vault.
 
 During the building phase, Vault prepares AppRoles for the services that need to retrieve their respective secrets, and stores the related ids and keys in a shared volume named "certs_data".
 
-Vault generates a certificate for NGINX, and stores it as secret in the volume "vault_data" (encrypted and isolated). Only with the id and key found in the shared volume will NGINX be allowed to retrieve this certificate.
+/*Vault generates a certificate for NGINX, and stores it as secret in the volume "vault_data" (encrypted and isolated). Only with the id and key found in the shared volume will NGINX be allowed to retrieve this certificate.*/
 
 Vault takes the environment variables and stores them as secrets in the volume "vault_data" (encrypted and isolated). Only with the id and key from the shared volume will the backend be allowed to retrieve these environment variables.
 
@@ -57,6 +62,31 @@ All temporary files that are used in order for this to work are erased as soon a
 
 That way, every secret is written only in RAM, in isolated volumes, and is kept encrypted. Only the services that need them have access to them. 
 
-For NGINX, the retrieval of the certificate happens through its script: it then stores it in files isolated inside the NGINX docker, so that the configuration file can access them.
+/*For NGINX, the retrieval of the certificate happens through its script: it then stores it in files isolated inside the NGINX docker, so that the configuration file can access them.*/
 
 For the backend, a function was created in the file vault.ts: its only purpose is to use the backend's id and key to retrieve the secret it needs, "DATABASE_URL". The file prisma.service.ts awaits for it to be done so that it can use the url for its connection to the database.
+
+## Certificate
+Vault generates a certificate for NGINX and asks Let's Encrypt to sign it.
+
+
+
+Comment obtenir ces valeurs sur votre compte Cloudflare ?
+
+
+Pour obtenir le CLOUDFLARE_ACCOUNT_ID :
+
+1. Connectez-vous à votre tableau de bord Cloudflare.
+2. Sélectionnez votre domaine fraîchement acheté (ou cliquez sur la page d'accueil de votre profil).
+3. Regardez dans la colonne de droite (ou descendez en bas de la page).
+4. Vous y trouverez une section ID de compte (Account ID). Copiez cette suite de caractères.
+
+Pour obtenir le CLOUDFLARE_API_TOKEN (Recommandé plutôt que la clé globale) :
+
+1. En haut à droite de votre tableau de bord Cloudflare, cliquez sur l'icône de votre profil, puis sur Mon profil.
+2. Dans le menu de gauche, cliquez sur Jetons d'API (API Tokens).
+3. Cliquez sur le bouton bleu Créer un jeton (Create Token).
+4. Utilisez le modèle prédéfini appelé Modifier la zone DNS (Edit Zone DNS).
+5. Sous la section Ressources de zone (Zone Resources), assurez-vous de restreindre l'accès à : Inclure / Tous les domaines (ou ciblez uniquement votre domaine spécifique).
+6. Cliquez sur Passer au résumé, puis sur Créer le jeton.
+7. Copiez immédiatement le jeton affiché (il ne s'affichera qu'une seule fois).

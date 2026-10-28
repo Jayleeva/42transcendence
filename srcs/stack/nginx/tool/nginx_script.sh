@@ -4,9 +4,11 @@ set -e
 VAULT_ADDR="http://vault:8200"
 SHARED_DIR="/app/vault_shared"
 SSL_DIR="/etc/nginx/ssl"
-TMP_RESP="/tmp/vault_pki_resp.json"
+WEBROOT="/var/www/html"
+DOMAIN="monprojet42.fr"  # Remplacez par votre futur vrai domaine acheté
 
 mkdir -p "$SSL_DIR"
+mkdir -p "$WEBROOT"
 
 echo "⏳ [NGINX] Attente des identifiants AppRole générés par Vault..."
 while [ ! -f "$SHARED_DIR/nginx_role_id" ] || [ ! -f "$SHARED_DIR/nginx_secret_id" ]; do
@@ -28,25 +30,52 @@ if [ -z "$VAULT_TOKEN" ] || [ "$VAULT_TOKEN" = "null" ]; then
     exit 1
 fi
 
-echo "📜 [NGINX] Demande dynamique du certificat TLS au moteur PKI..."
-# On écrit la réponse directement dans un fichier pour éviter les erreurs de parsing shell
-curl -s --header "X-Vault-Token: $VAULT_TOKEN" \
-    --request POST \
-    --data '{"common_name": "localhost", "ip_sans": "127.0.0.1"}' \
-    "$VAULT_ADDR/v1/pki/issue/transcendence-domain" > "$TMP_RESP"
+echo "📜 [NGINX] Récupération des clés API DNS depuis le moteur KV..."
+DNS_RESP=$(curl -s --header "X-Vault-Token: $VAULT_TOKEN" "$VAULT_ADDR/v1/secret/data/dns-provider")
 
-# Extraction sécurisée depuis le fichier vers vos fichiers SSL Nginx
-jq -r '.data.certificate' "$TMP_RESP" > "$SSL_DIR/transcendence.crt"
-jq -r '.data.private_key' "$TMP_RESP" > "$SSL_DIR/transcendence.key"
+# Extraction des variables d'environnement requises par acme.sh pour Cloudflare
+export CF_Token=$(echo "$DNS_RESP" | jq -r '.data.data.cf_token // empty')
+export CF_Account_ID=$(echo "$DNS_RESP" | jq -r '.data.data.cf_account_id // empty')
 
-# Nettoyage du fichier temporaire
-rm -f "$TMP_RESP"
-
-# Vérification finale de la validité des fichiers générés
-if [ ! -s "$SSL_DIR/transcendence.crt" ] || [ ! -s "$SSL_DIR/transcendence.key" ]; then
-    echo "❌ [NGINX] Erreur : Les fichiers de certificats extraits sont vides ou invalides."
+if [ -z "$CF_Token" ] || [ "$CF_Token" = "null" ]; then
+    echo "❌ [NGINX] Erreur : Impossible de récupérer les jetons d'API Cloudflare depuis Vault."
     exit 1
 fi
 
-echo "🚀 [NGINX] Certificats générés et installés avec succès. Démarrage du serveur..."
+# 1. Installation de acme.sh si non présent
+if [ ! -d "$HOME/.acme.sh" ]; then
+    echo "📦 [NGINX] Installation locale de acme.sh..."
+    curl -sLS https://acme.sh | sh -s email="admin@$DOMAIN"
+fi
+export LE_WORKING_DIR="$HOME/.acme.sh"
+
+# 2. Demande ou renouvellement du certificat public officiel via Challenge DNS
+echo "🌍 [NGINX] Vérification/Demande du certificat Let's Encrypt pour $DOMAIN (Challenge DNS)..."
+"$HOME/.acme.sh/acme.sh" --issue -d "$DOMAIN" -d "*.$DOMAIN" \
+    --dns dns_cf \
+    --server letsencrypt
+
+# 3. Déploiement et installation des certificats pour Nginx
+echo "🚚 [NGINX] Déploiement des certificats publics dans $SSL_DIR..."
+"$HOME/.acme.sh/acme.sh" --install-cert -d "$DOMAIN" \
+    --key-file       "$SSL_DIR/transcendence.key" \
+    --fullchain-file "$SSL_DIR/transcendence.crt" \
+    --reloadcmd     "nginx -s reload 2>/dev/null || true"
+
+# Vérification finale de la validité des fichiers
+if [ ! -s "$SSL_DIR/transcendence.crt" ] || [ ! -s "$SSL_DIR/transcendence.key" ]; then
+    echo "❌ [NGINX] Erreur : Les certificats générés par acme.sh sont introuvables ou invalides."
+    exit 1
+fi
+
+# 4. Lancement en arrière-plan d'une boucle légère de renouvellement automatique
+(
+    while true; do
+        sleep 43200 # Vérification toutes les 12 heures
+        echo "🔍 [ACME] Lancement de la vérification de routine des certificats..."
+        "$HOME/.acme.sh/acme.sh" --cron --home "$HOME/.acme.sh" || true
+    done
+) &
+
+echo "🚀 [NGINX] Certificats officiels installés. Passage de relais au binaire Nginx..."
 exec "$@"

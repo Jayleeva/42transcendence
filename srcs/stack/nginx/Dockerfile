@@ -1,6 +1,7 @@
 FROM owasp/modsecurity-crs:nginx
 
 USER root
+RUN apk add --no-cache curl openssl jq coreutils bash
 RUN apt-get update && apt-get install -y --no-install-recommends jq \
  && rm -rf /var/lib/apt/lists/* \
  && chown nginx:nginx /etc/nginx/ssl \
