@@ -5,7 +5,7 @@ VAULT_ADDR="http://vault:8200"
 SHARED_DIR="/app/vault_shared"
 SSL_DIR="/etc/nginx/ssl"
 WEBROOT="/var/www/html"
-DOMAIN="monprojet42.fr"  # Remplacez par votre futur vrai domaine acheté
+DOMAIN="lauzanimo.ch"  # Remplacez par votre futur vrai domaine acheté
 
 mkdir -p "$SSL_DIR"
 mkdir -p "$WEBROOT"

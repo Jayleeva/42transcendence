@@ -63,12 +63,15 @@ vault kv put secret/dns-provider \
     cf_account_id="$CLOUDFLARE_ACCOUNT_ID"
 
 # 2. Injection des variables d'environnement de l'application (PostgreSQL)
-echo "[VAULT] Stockage des configurations applicatives..."
-vault kv put secret/transcendence \
+echo "[VAULT] Stockage des identifiants postgres..."
+vault kv put secret/postgres \
     pgsql_user="$POSTGRES_USER" \
     pgsql_password="$POSTGRES_PASSWORD" \
     pgsql_database="$POSTGRES_DB" \
     database_url="postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@pgdb:5432/$POSTGRES_DB" \
+
+echo "[VAULT] Stockage du session secret..."
+vault kv put secret/session \
     session_secret="$SESSION_SECRET"
 
 # ---- ÉTAPE REPRODUCTIBLE : CONFIGURATION DES APPROLES ----
@@ -80,7 +83,10 @@ vault auth enable approle || true
 # 1. AppRole pour le Backend
 echo "[VAULT] Configuration de l'AppRole pour le backend..."
 vault policy write backend-policy - <<EOF
-path "secret/data/transcendence" {
+path "secret/data/postgres" {
+  capabilities = ["read"]
+}
+path "secret/data/session" {
   capabilities = ["read"]
 }
 EOF
