@@ -1,9 +1,12 @@
 // terns and condition page
+import BackButton from '@/components/ui/BackButton';
+
 export default function TermsPage() {
   return (
     <main className="w-full px-6 pt-10 pb-24 text-left text-sm leading-relaxed">
       <div className="w-full max-w-4xl">
-        <h1 className="mb-2 text-3xl font-bold">
+        <BackButton />
+        <h1 className="mb-2 text-3xl font-bold pt-8">
           Conditions générales d'utilisation
         </h1>
 

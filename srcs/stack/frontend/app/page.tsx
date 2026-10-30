@@ -29,11 +29,12 @@ export default function Page() {
     endpoint:"/api/auth/login", // quel endpoint?
     redirect:`/feed` // où redirige?
   } as const;
+
   return (
-    <main className="min-h-screen px-6 py-12 md:px-8 max-w-7xl mx-auto">
+    <main className="flex min-h-screen w-full flex-col px-6 py-12 md:px-8 max-w-7xl mx-auto">
       <h1>
         <Image
-          src="/test-banner.png"
+          src="/banner.png"
           alt="Lauzanimo"
           width={400}
           height={120}
@@ -42,21 +43,21 @@ export default function Page() {
         />
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+<div className="grid flex-1 grid-cols-1 gap-6 md:flex-none md:grid-cols-2">
         {/* COLONNE GAUCHE */}
-        <div>
-          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px]">
+        <div className="hidden md:flex md:flex-col md:justify-center">
+          <div className="relative w-full h-[500px]">
             <Image
-              src="/test-hero-image.png"
+              src="/new-hero.png"
               alt="Patchwork Lauzanimo"
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="50vw"
               priority
               className="object-contain"
             />
           </div>
 
-          <p className="font-display text-2xl text-center mt-8 leading-none">
+          <p className="font-display text-2xl text-center mt-8 leading-none mx-auto max-w-lg">
             <span className="font-bold">Lauzanimo</span> est un réseau social de présentation des animaux de compagnie des étudiants de l’école 42.
             <br />
             Connectez-vous pour partager vos animaux de compagnie et découvrir ceux des autres étudiants !
@@ -64,8 +65,8 @@ export default function Page() {
         </div>
 
         {/* COLONNE DROITE */}
-        <div className="md:border-l-3 md:border-black md:pl-8">
-          <div className="flex max-w-md flex-col gap-6">
+        <div className="flex flex-col justify-center md:border-l-3 md:border-black md:px-8">
+          <div className="mx-auto flex w-full max-w-md flex-col gap-4">
             <h2 className="font-display text-5xl font-bold text-center">
               Connectez-vous ou créez un compte
             </h2>
@@ -92,22 +93,3 @@ export default function Page() {
     </main>
   );
 }
-
-
-// MEMO PERSO
-//
-// Pour les marges du texte:
-// leading-none
-// leading-tight
-// leading-snug
-// leading-normal
-// leading-[0.9] ( valeur precise )
-//
-// Pour les marges de la page globale ? 
-// md:px-16 ( on peut reduire a md:px-8 ) md: est le responsive ?
-//
-// marge interieur ?
-// px-6 py-12
-//
-// Pour les colonnes:
-// c'est gap 12 now mais testé gap 6 pour voir la diff qd il y aura du content pour col de droite

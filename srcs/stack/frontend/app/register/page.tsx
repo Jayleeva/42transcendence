@@ -1,6 +1,6 @@
 // la page pour creer un compte ( ou on met les infos basiques )
 import Link from 'next/link';
-import BackButton from '@/components/layout/BackButton';
+import BackButton from '@/components/ui/BackButton';
 import Form from '@/components/features/form/Form';
 
 
@@ -25,6 +25,12 @@ export default function Page() {
       label:"Pseudo"
     },
     {
+      id:"birth",
+      name:"birth",
+      type:"date",
+      label:"Date de naissance"
+    },
+    {
       id:"email",
       name:"email",
       type:"email",
@@ -42,9 +48,9 @@ export default function Page() {
     type:"submit",
     variant:"outline",
     name:"S'enregistrer",
-    call:"POST",
-    endpoint:"/api/auth/register",
-    redirect:`/login`
+    call:"POST", // quel call ?
+    endpoint:"/api/auth/register", // quel endpoint?
+    redirect:`/feed` // où redirige?
   } as const;
 
   return (
@@ -67,4 +73,3 @@ export default function Page() {
     </main>
   );
 }
-

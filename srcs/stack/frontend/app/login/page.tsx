@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import BackButton from '@/components/layout/BackButton';
+import BackButton from '@/components/ui/BackButton';
 import Form from '@/components/features/form/Form';
 
 export default function Page() {
@@ -44,7 +44,10 @@ export default function Page() {
           <hr className="flex-1 border-slate-300" />
         </div>
 
-        <Form inputs={values} conf={conf} />
+        <Form
+          inputs={values}
+          conf={{ type: "submit", variant: "outline", name: "Se connecter" }}
+        />
 
         <p className="text-center text-sm">
           Pas de compte ?{' '}

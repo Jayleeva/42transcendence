@@ -1,9 +1,12 @@
 // privacy page
+import BackButton from '@/components/ui/BackButton';
+
 export default function PrivacyPolicyPage() {
   return (
     <main className="w-full px-6 py-10 pb-18 text-left text-sm leading-relaxed">
       <div className="w-full max-w-4xl">
-        <h1 className="mb-2 text-3xl font-bold">
+        <BackButton />
+        <h1 className="mb-2 text-3xl font-bold pt-8">
           Politique de confidentialité
         </h1>
 
