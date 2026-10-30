@@ -25,7 +25,7 @@ export default function Page() {
     type:"submit",
     variant:"outline",
     name:"Se connecter",
-    call:"GET", // quel call ?
+    call:"POST", // quel call ?
     endpoint:"/api/auth/login", // quel endpoint?
     redirect:`/feed` // où redirige?
   } as const;
