@@ -2,6 +2,7 @@
 
 import Input from "../../ui/Input";
 import Button from '@/components/ui/Button';
+import { redirect } from 'next/navigation';
 
 type InputProps = {
     label: string;
@@ -14,6 +15,9 @@ type ButtonProps = {
     type: "submit" | "reset" | "button" | undefined;
     variant: 'primary' | 'outline';
     name: string;
+    call: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+    endpoint: "/api/auth/register" | "/api/auth/login" | string;  
+    redirect: `/login` | string;  
 }
 
 interface FormProps {
@@ -32,16 +36,17 @@ export default function Form({inputs, conf}: FormProps)
         const data = Object.fromEntries(formData.entries());
         console.log("Donnees : ", data);
 
-        const response = await fetch("/api/auth/register", {
-            method: "POST",
+        const response = await fetch(conf.endpoint, {
+            method: conf.call,
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         });
 
         if (response.status === 201) {
-            alert("Compte créé !");
+            alert("Action confirmée!");
+            redirect(conf.redirect);
         } else {
-            alert("Erreur lors de l'inscription");
+            alert("Erreur");
         }
     };
     

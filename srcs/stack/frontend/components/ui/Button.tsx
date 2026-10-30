@@ -3,6 +3,8 @@ import { ButtonHTMLAttributes } from 'react';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'primary' | 'outline';
+  call?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  endpoint?: "/api/auth/register" | "/api/auth/login" | string;  
 };
 
 export default function Button({

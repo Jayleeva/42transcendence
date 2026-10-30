@@ -24,7 +24,10 @@ export default function Page() {
   {
     type:"submit",
     variant:"outline",
-    name:"Se connecter"
+    name:"Se connecter",
+    call:"GET", // quel call ?
+    endpoint:"/api/auth/login", // quel endpoint?
+    redirect:`/feed` // où redirige?
   } as const;
   return (
     <main className="min-h-screen px-6 py-12 md:px-8 max-w-7xl mx-auto">

@@ -1,1 +1,0 @@
-// avatar ( rond comme les photos de profil de 42 ) pour les users et les pets

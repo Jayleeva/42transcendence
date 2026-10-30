@@ -18,6 +18,15 @@ export default function Page() {
       label: "Mot de passe"
     }
   ];
+  const conf = 
+  {
+    type:"submit",
+    variant:"outline",
+    name:"Se connecter",
+    call:"GET", // quel call ?
+    endpoint:"/api/auth/login", // quel endpoint?
+    redirect:`/feed` // où redirige?
+  } as const;
 
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-12">
@@ -35,10 +44,7 @@ export default function Page() {
           <hr className="flex-1 border-slate-300" />
         </div>
 
-        <Form
-          inputs={values}
-          conf={{ type: "submit", variant: "outline", name: "Se connecter" }}
-        />
+        <Form inputs={values} conf={conf} />
 
         <p className="text-center text-sm">
           Pas de compte ?{' '}

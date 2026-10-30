@@ -1,1 +1,0 @@
-// Fenetre modal ( pour les friends par ex ? et autrte si besoin )
