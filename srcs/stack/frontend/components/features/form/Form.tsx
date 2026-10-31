@@ -42,7 +42,7 @@ export default function Form({inputs, conf}: FormProps)
             body: JSON.stringify(data),
         });
 
-        if (response.status === 201) {
+        if (response.ok) {
             alert("Action confirmée!");
             if (conf.redirect)
                 redirect(conf.redirect);

@@ -44,10 +44,7 @@ export default function Page() {
           <hr className="flex-1 border-slate-300" />
         </div>
 
-        <Form
-          inputs={values}
-          conf={{ type: "submit", variant: "outline", name: "Se connecter" }}
-        />
+        <Form inputs={values} conf={conf}/>
 
         <p className="text-center text-sm">
           Pas de compte ?{' '}
