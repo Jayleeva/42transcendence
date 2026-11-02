@@ -25,12 +25,6 @@ export default function Page() {
       label:"Pseudo"
     },
     {
-      id:"birth",
-      name:"birth",
-      type:"date",
-      label:"Date de naissance"
-    },
-    {
       id:"email",
       name:"email",
       type:"email",
@@ -50,7 +44,7 @@ export default function Page() {
     name:"S'enregistrer",
     call:"POST", // quel call ?
     endpoint:"/api/auth/register", // quel endpoint?
-    redirect:`/feed` // où redirige?
+    redirect:"/login" // où redirige?
   } as const;
 
   return (

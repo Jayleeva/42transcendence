@@ -27,7 +27,7 @@ export default function Page() {
     name:"Se connecter",
     call:"POST", // quel call ?
     endpoint:"/api/auth/login", // quel endpoint?
-    redirect:`/feed` // où redirige?
+    redirect:"/feed" // où redirige?
   } as const;
 
   return (

@@ -17,7 +17,7 @@ type ButtonProps = {
     name: string;
     call: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
     endpoint: "/api/auth/register" | "/api/auth/login" | string;  
-    redirect: `/login` | `/feed` | string;
+    redirect: "/login" | "/feed" | string;
 }
 
 interface FormProps {
@@ -42,7 +42,7 @@ export default function Form({inputs, conf}: FormProps)
             body: JSON.stringify(data),
         });
 
-        if (response.status === 201) {
+        if (response.ok) {
             alert("Action confirmée!");
             if (conf.redirect)
                 redirect(conf.redirect);
