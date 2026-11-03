@@ -8,12 +8,13 @@ VOLUMES = srcs_pgdb_data srcs_vault_data srcs_certs_data srcs_vault_logs
 NETWORKS = srcs_frontend-network srcs_backend-network srcs_vault-network 
 DOMAIN_NAME = lauzanimo42.ch
 
-ENV_SRC = /home/$(USER)/tocopy/.env
+ENV_SRC = ~/tocopy/.env
 ENV_DEST = ./srcs/.env
 
 all: up
 
 up: 
+
 	cp $(ENV_SRC) $(ENV_DEST)
 	echo "DOMAIN_NAME=$(DOMAIN_NAME)" >> $(ENV_DEST)
 	$(CMP) up -d --build
