@@ -53,13 +53,13 @@
       name:"oldpassword",
       type:"password",
       label:"Ancien mot de passe"
-    }
+    },
     {
       id:"newpassword",
       name:"newpassword",
       type:"password",
       label:"Nouveau mot de passe"
-    }
+    },
     {
       id:"confpassword",
       name:"confpassword",

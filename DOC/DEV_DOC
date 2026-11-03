@@ -1,5 +1,5 @@
 # Set up the environment
-Create a folder named "tocopy" on your machine, at /home/$USER/. If you want to use a different name or path, don't forget to adapt the Makefile's "copy" rule's variables.
+Create a folder named "tocopy" on your machine, at ~/. If you want to use a different name or path, don't forget to adapt the Makefile's "copy" rule's variables.
 
 Prepare a .env file inside.
 

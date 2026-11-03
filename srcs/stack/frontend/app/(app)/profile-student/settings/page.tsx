@@ -17,7 +17,7 @@ async function getUserFromDb() {
   };
 }
 
-export default function Page() {
+export default async function Page() {
   const userData = await getUserFromDb();
   if (!userData) {
     redirect('/login');
