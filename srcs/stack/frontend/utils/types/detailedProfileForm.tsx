@@ -1,12 +1,20 @@
   export const detailedProfileAvatar = {
-
+//<Avatar src="/Placeholder-test.png" alt="Test Avatar"></Avatar>
   }
   
   export const detailedProfileBio = {
-    
+//            <div>
+//                <Textarea id="bio" name="bio" placeholder="Écrivez quelque chose à propos de vous..." maxLength={300} />
+//            </div>
   }
 
   export const detailedProfileFormInputs = [
+    {
+      id:"avatar",
+      name:"avatar",
+      type:"image",
+      label:"Photo de profil"
+    },
     {
       id:"firstname",
       name:"firstname",
