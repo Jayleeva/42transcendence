@@ -4,17 +4,8 @@ import BackButton from '@/components/ui/BackButton';
 import Form from '@/components/features/form/Form';
 import { basicProfileConf, basicProfileFormInputs } from '@/utils/types/basicProfileForm';
 
-async function getUserFromDb() {
-  return {
-    firstname: 'John',
-    lastname: 'Doe',
-    username: 'johny',
-    email: 'john.doe@example.com',
-  };
-}
-
 export default async function Page() {
-  const userData = await getUserFromDb();
+
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-12">
       <div className="flex w-full max-w-md flex-col gap-6">
@@ -22,9 +13,7 @@ export default async function Page() {
           <h2 className="font-display text-5xl font-bold text-center">
             Créez un compte
           </h2>
-
           <Form inputs={basicProfileFormInputs} conf={basicProfileConf}/>
-
           <p className="text-center text-sm">
             {' '}
             <Link href="/login" className="font-semibold underline">

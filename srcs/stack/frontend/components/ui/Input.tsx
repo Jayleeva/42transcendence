@@ -16,6 +16,7 @@ export default function Input({ label, id, name, className = '', ...props }: Inp
         id={id}
         className={`rounded-lg border border-slate-300 px-4 py-3 focus:border-black focus:outline-none ${className}`}
         name={name}
+        onChange={() => {}}
         {...props}
       />
     </div>

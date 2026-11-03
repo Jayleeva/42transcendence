@@ -10,12 +10,6 @@
 
   export const detailedProfileFormInputs = [
     {
-      id:"avatar",
-      name:"avatar",
-      type:"image",
-      label:"Photo de profil"
-    },
-    {
       id:"firstname",
       name:"firstname",
       type:"name",

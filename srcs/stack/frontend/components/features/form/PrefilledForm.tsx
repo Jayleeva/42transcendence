@@ -2,6 +2,7 @@
 
 import Input from "@/components/ui/Input";
 import MiniButton from "@/components/ui/MiniButton";
+import { useState, useEffect } from 'react';
 
 type InputProps = {
     id: string;
@@ -24,8 +25,30 @@ interface FormProps {
     initialData: any; //à changer
 }
 
+interface FormState {
+  [key: string]: any; // 👈 Ceci autorise TypeScript à indexer l'objet avec une variable (ex: formData[input.name])
+  firstname: string;
+  lastname: string;
+  username: string;
+  birth: string;
+  email: string;
+}
+
 export default function PrefilledForm({inputs, miniconf, initialData}: FormProps)
 {
+    const [formData, setFormData] = useState<FormState>({
+    firstname: initialData?.firstname || '',
+    lastname: initialData?.lastname || '',
+    username: initialData?.username || '',
+    birth: initialData?.birth || '',
+    email: initialData?.email || '',
+    // ... vos champs
+    });
+
+    useEffect(() => {
+        setFormData(initialData);
+    }, [initialData])
+
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault(); // empeche le reload
 
@@ -52,8 +75,7 @@ export default function PrefilledForm({inputs, miniconf, initialData}: FormProps
             <div className="flex flex-col gap-4">
                 {inputs.map((i:any) => (
                     <div key={i.id}>
-                        {initialData[i.name]}
-                        <Input id={i.id} name={i.name} type={i.type} label={i.label} value={initialData[i.name]} />
+                        <Input id={i.id} name={i.name} type={i.type} label={i.label} value={formData[i.name]} />
                     </div>
                 ))}
             </div>
