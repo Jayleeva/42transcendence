@@ -2,51 +2,11 @@
 import Link from 'next/link';
 import BackButton from '@/components/ui/BackButton';
 import Form from '@/components/features/form/Form';
+import { basicProfileConf, basicProfileFormInputs } from '@/utils/types/basicProfileForm';
 
 
 export default function Page() {
-  const values = [
-    {
-      id:"firstname",
-      name:"firstname",
-      type:"name",
-      label:"Prénom"
-    },
-    {
-      id:"lastname",
-      name:"lastname",
-      type:"name",
-      label:"Nom"
-    },
-    {
-      id:"username",
-      name:"username",
-      type:"username",
-      label:"Pseudo"
-    },
-    {
-      id:"email",
-      name:"email",
-      type:"email",
-      label:"Email"
-    },
-    {
-      id:"password",
-      name:"password",
-      type:"password",
-      label:"Mot de passe"
-    }
-  ];
-  const conf = 
-  {
-    type:"submit",
-    variant:"outline",
-    name:"S'enregistrer",
-    call:"POST", // quel call ?
-    endpoint:"/api/auth/register", // quel endpoint?
-    redirect:"/login" // où redirige?
-  } as const;
-
+  const userData = await getUserFromDb();
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-12">
       <div className="flex w-full max-w-md flex-col gap-6">
@@ -55,7 +15,7 @@ export default function Page() {
             Créez un compte
           </h2>
 
-          <Form inputs={values} conf={conf} />
+          <Form inputs={basicProfileFormInputs} conf={basicProfileConf}/>
 
           <p className="text-center text-sm">
             {' '}

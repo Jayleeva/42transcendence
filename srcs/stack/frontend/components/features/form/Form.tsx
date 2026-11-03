@@ -5,10 +5,10 @@ import Button from '@/components/ui/Button';
 import { redirect } from 'next/navigation';
 
 type InputProps = {
-    label: string;
     id: string;
     name: string;
     type: string;
+    label: string;
 }
 
 type ButtonProps = {
@@ -56,7 +56,7 @@ export default function Form({inputs, conf}: FormProps)
             <div className="flex flex-col gap-4">
                 {inputs.map((i:any) => (
                     <div key={i.id}>
-                        <Input label={i.label} id={i.id} name={i.name} type={i.type}  />
+                        <Input id={i.id} name={i.name} type={i.type} label={i.label} />
                     </div>
                 ))}
             </div>
