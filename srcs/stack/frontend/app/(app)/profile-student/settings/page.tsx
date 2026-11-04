@@ -27,7 +27,7 @@ async function getUserFromDb() {
 
     console.log("[STEP 3] Lancement du fetch vers l'API...");
     
-    const response = await fetch('http://backend:8000/auth/me', {
+    const response = await fetch('http://backend:8000/api/auth/me', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
