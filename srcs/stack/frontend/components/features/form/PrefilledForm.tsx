@@ -42,13 +42,28 @@ export default function PrefilledForm({inputs, miniconf, initialData}: FormProps
     username: initialData?.username || '',
     birth: initialData?.birth || '',
     email: initialData?.email || '',
-    // ... vos champs
     });
 
     useEffect(() => {
-        setFormData(initialData);
-    }, [initialData])
+        if (initialData) {
+            setFormData({
+                firstname: initialData.firstname || '',
+                lastname: initialData.lastname || '',
+                username: initialData.username || '',
+                birth: initialData.birth || '',
+                email: initialData.email || '',
+            });
+        }
+    }, [initialData]);
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+    
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault(); // empeche le reload
 
@@ -75,7 +90,7 @@ export default function PrefilledForm({inputs, miniconf, initialData}: FormProps
             <div className="flex flex-col gap-4">
                 {inputs.map((i:any) => (
                     <div key={i.id}>
-                        <Input id={i.id} name={i.name} type={i.type} label={i.label} value={formData[i.name]} />
+                        <Input id={i.id} name={i.name} type={i.type} label={i.label} value={formData[i.name] || ''} onChange={handleChange} />
                     </div>
                 ))}
             </div>
