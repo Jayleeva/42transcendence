@@ -10,7 +10,7 @@ import Avatar from '@/components/ui/Avatar';
 import Textarea from '@/components/ui/Textarea';
 import { redirect } from 'next/navigation';
 import PrefilledForm from '@/components/features/form/PrefilledForm';
-import { detailedProfileConf, detailedProfileFormInputs, detailedProfilePassword } from '@/utils/types/detailedProfileForm';
+import { detailedProfileFormInputs, detailedProfilePassword, detailedProfileConf, modPasswordConf } from '@/utils/types/detailedProfileForm';
 
 async function getUserFromDb() {
   console.log("[STEP 1] Entrée dans getUserFromDb");
@@ -115,7 +115,7 @@ export default async function Page() {
         {/* FORMULAIRE 4 : Changement de mot de passe */}
           <section className="flex flex-col gap-4">
             <h2 className="font-bold">Changer de mot de passe</h2>
-            <PrefilledForm inputs={detailedProfilePassword} miniconf={detailedProfileConf} initialData={userData} />
+            <PrefilledForm inputs={detailedProfilePassword} miniconf={modPasswordConf} initialData={userData} />
           </section>
 
         {/* Partie pour les animaux */}

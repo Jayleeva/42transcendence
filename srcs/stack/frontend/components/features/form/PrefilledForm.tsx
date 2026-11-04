@@ -9,6 +9,7 @@ type InputProps = {
     name: string;
     type: string;
     label: string;
+    disabled: boolean;
 }
 
 type MiniButtonProps = {
@@ -30,7 +31,7 @@ interface FormState {
   firstname: string;
   lastname: string;
   username: string;
-  birth: string;
+  birth: Date;
   email: string;
 }
 
@@ -63,7 +64,7 @@ export default function PrefilledForm({inputs, miniconf, initialData}: FormProps
             [name]: value,
         }));
     };
-    
+
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault(); // empeche le reload
 
@@ -90,7 +91,7 @@ export default function PrefilledForm({inputs, miniconf, initialData}: FormProps
             <div className="flex flex-col gap-4">
                 {inputs.map((i:any) => (
                     <div key={i.id}>
-                        <Input id={i.id} name={i.name} type={i.type} label={i.label} value={formData[i.name] || ''} onChange={handleChange} />
+                        <Input id={i.id} name={i.name} type={i.type} label={i.label} value={formData[i.name] || ''} disabled={i.disabled} onChange={handleChange} />
                     </div>
                 ))}
             </div>
