@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import BackButton from '@/components/ui/BackButton';
-import Form from '@/components/features/form/Form';
+import Form from '@/components/features/Form';
 
 export default function Page() {
   const values = [

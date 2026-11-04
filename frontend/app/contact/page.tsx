@@ -1,5 +1,6 @@
 // contact page
 
+import StudentCard from '@/components/features/StudentCard';
 import Avatar from '@/components/ui/Avatar';
 import MiniButton from '@/components/ui/MiniButton';
 
@@ -20,6 +21,8 @@ export default function Page() {
       <br />
       <br />
       <Avatar src="/Placeholder-test.png" alt="Test Avatar"></Avatar>
+      <br />
+      <br />
     </main>
   );
 }
