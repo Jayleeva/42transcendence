@@ -1,18 +1,24 @@
-# Prerequisites
-Install Make.
+# Installation
+## Prerequisites
+- A machine (virtual or not) to host the webapp, with Ubuntu as the OS 
+- Make
+- Docker
+- Docker Compose
 
-Command for Linux (Ubuntu):
+### Make
 ```
 sudo apt install make
 ```
 
-Install Docker and Docker Compose.
-
-Commands for Linux (Ubuntu):
+### Docker
 ```
 sudo apt-get update
 sudo apt install docker
 docker --version
+```
+
+### Docker Compose
+```
 sudo apt-get install docker-compose-plugin
 mkdir -p ~/.docker/cli-plugins
 ln -sf /usr/libexec/docker/cli-plugins/docker-compose ~/.docker/cli-plugins/docker-compose
@@ -25,8 +31,8 @@ sudo usermod -aG docker $USER
 sudo reboot
 ```
 
-# Set up the environment
-Create a folder named "tocopy" on your machine, at ~/. If you want to use a different name or path, don't forget to adapt the Makefile's "copy" rule's variables.
+## Set up the environment
+Create a folder named "tocopy" on your machine, at ~/. If you want to use a different name or path, don't forget to adapt the Makefile's "ENV_SRC" variable.
 
 Prepare a .env file inside that contains at least the following variables (please change only their values):
 ````
@@ -40,29 +46,44 @@ SESSION_SECRET=chooseAsessionSecretOfAtLeast32Chars
 
 CAREFUL: once the username and password have been used to create the database, you won't be able to change them without erasing all its data.
 
-# Make commands
-## Build and Launch the stack
+## Clone the git
+Clone the repot where you see fit.
+
+Move where you want the git to be cloned:
+````
+cd path/to/where/you/want/it
+````
+
+Clone the git:
+````
+git clone 
+````
+
+
+# Use
+### Make commands
+### Build and Launch the stack
 To build and launch the stack, type:
 ```
 make
 ```
 
-## Stop the stack
+### Stop the stack
 ```
 make down
 ```
 
-## Restart the stack
+### Restart the stack
 ```
 make up
 ```
 
-## Stop and restart the stack
+### Stop and restart the stack
 ```
 make re
 ```
 
-## Stop and delete the stack
+### Stop and delete the stack
 **!! CAREFUL !!
 
 This action will erase ALL DATA.**
@@ -76,7 +97,46 @@ This alternative will erase everything except for the WAF's logs:
 make clean
 ```
 
-# Secrets management
+## Accessing the webapp
+Open the browser of your choice. 
+
+Type the DOMAIN_NAME written in the Makefile:
+```
+https://lauzanimo.ch
+```
+
+
+# Debug
+## Consulting the logs
+```
+docker logs the-service-you-want-to-check
+```
+
+# How it works
+## Services
+The stack contains the following services:
+- nginx
+- frontend (Next.js)
+- backend (Nest.js)
+- pgdb (Postgres database)
+- vault (HashiCorp Vault)
+
+## Volumes
+The stack contains the following volumes:
+- srcs_vault_data
+- srcs_vault_logs
+- srcs_certs_data
+- srcs_pgdb_data
+- srcs_modsecs_logs
+
+## Networks
+
+## Data persistance
+All data is kept in named volumes of the stack that survive down and up commands. 
+
+If you want to erase it, refer to the "make commands" section.
+
+## Secrets management
 Secrets are managed by HarshiCorp Vault.
 
 During the building phase, Vault prepares AppRoles for the services that need to retrieve their respective secrets, and stores the related ids and keys in a shared volume named "certs_data".
