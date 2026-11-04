@@ -33,7 +33,7 @@ clean:
 	rm -f $(ENV_DEST)
 
 fclean: clean
-	docker volume rm srcs_modsec_logs
+#	docker volume rm srcs_modsec_logs
 
 re: down up
 

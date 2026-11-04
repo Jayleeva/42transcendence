@@ -95,9 +95,11 @@ export default function PrefilledForm({inputs, miniconf, initialData}: FormProps
                     </div>
                 ))}
             </div>
-            <MiniButton type={miniconf.type} variant={miniconf.variant}>
-                {miniconf.name}
-            </MiniButton>
+            <div>
+                <MiniButton type={miniconf.type} variant={miniconf.variant}>
+                    {miniconf.name}
+                </MiniButton>
+            </div>
         </form>
     );
 }

@@ -98,7 +98,7 @@ export default async function Page() {
                 maxLength={300} 
                 defaultValue={userData?.bio || ''} 
               />
-              <MiniButton type="submit">Valider les modifications</MiniButton>
+              <MiniButton type="submit" variant="outline">Valider les modifications</MiniButton>
             </div>
           </section>
         </form>
