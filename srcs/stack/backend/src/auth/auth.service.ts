@@ -57,7 +57,7 @@ export class AuthService {
 
   // Retrieve the currently authenticated user's public account information.
   async getMe(userId: string) {
-    const user = await this.userService.findById(userId);
+    const user = await this.userService.findMyself(userId);
 
     if (!user) {
       throw new UnauthorizedException();

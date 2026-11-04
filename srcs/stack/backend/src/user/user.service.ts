@@ -13,6 +13,17 @@ const publicUserSelect = {
   createdAt: true,
 } as const;
 
+const privateUserSelect = {
+  id: true,
+  username: true,
+  firstname: true,
+  lastname: true,
+  avatar: true,
+  bio: true,
+  createdAt: true,
+  email: true,
+} as const;
+
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
@@ -27,6 +38,18 @@ export class UserService {
     const user = await this.prisma.user.findUnique({
       where: { id },
       select: publicUserSelect,
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return user;
+  }
+
+  async findMyself(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      select: privateUserSelect,
     });
 
     if (!user) {
