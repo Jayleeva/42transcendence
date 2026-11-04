@@ -1,10 +1,37 @@
+# Prerequisites
+Install Make.
+
+Command for Linux (Ubuntu):
+```
+sudo apt install make
+```
+
+Install Docker and Docker Compose.
+
+Commands for Linux (Ubuntu):
+```
+sudo apt-get update
+sudo apt install docker
+docker --version
+sudo apt-get install docker-compose-plugin
+mkdir -p ~/.docker/cli-plugins
+ln -sf /usr/libexec/docker/cli-plugins/docker-compose ~/.docker/cli-plugins/docker-compose
+docker compose version
+```
+
+If you encounter a permission problem:
+```
+sudo usermod -aG docker $USER
+sudo reboot
+```
+
 # Set up the environment
 Create a folder named "tocopy" on your machine, at ~/. If you want to use a different name or path, don't forget to adapt the Makefile's "copy" rule's variables.
 
-Prepare a .env file inside.
-
-Example of .env:
+Prepare a .env file inside that contains at least the following variables (please change only their values):
 ````
+# !! SENSITIVE DATA !! DO NOT SHARE 
+
 POSTGRES_USER=insertUSERhere
 POSTGRES_PASSWORD=insertPASSWORDhere
 POSTGRES_DB=nameyourDB
@@ -42,6 +69,11 @@ This action will erase ALL DATA.**
 
 ```
 make fclean
+```
+
+This alternative will erase everything except for the WAF's logs:
+```
+make clean
 ```
 
 # Secrets management

@@ -30,9 +30,10 @@ clean:
 	docker image rmi -f $(IMAGES)
 	docker volume rm $(VOLUMES)
 	docker network rm $(NETWORKS) 2>/dev/null
-	
-fclean: clean
 	rm -f $(ENV_DEST)
+
+fclean: clean
+	docker volume rm srcs_modsec_logs
 
 re: down up
 
