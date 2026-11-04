@@ -5,10 +5,12 @@ import MiniButton from '@/components/ui/MiniButton';
 import Input from '@/components/ui/Input';
 import Avatar from '@/components/ui/Avatar';
 import Textarea from '@/components/ui/Textarea';
+import MiniPetCard from '@/components/features/MiniPetCard';
+import AddPetCard from '@/components/features/AddPetCard';
 
 export default function Page() {
   return (
-    <main className="flex flex-1 flex-col px-4 pt-4 pb-12">
+    <main className="flex flex-1 flex-col px-4 pt-4 pb-20">
         <BackButton />
        <div className="mx-auto flex w-full max-w-md flex-col gap-8 pt-4">
         <h1 className="font-display text-5xl font-bold text-center">
@@ -23,7 +25,7 @@ export default function Page() {
                 est ce qu'on met un placeholder ? 
                 est ce qu'il faut un petit bouton modif ? ou on clique dessus pour mnodif 
                 Attention !! penser a integrer potentiellement une taille ( large ici )*/}
-            <Avatar src="/Placeholder-test.png" alt="Test Avatar"></Avatar>
+            <Avatar src={undefined}></Avatar>
                 <MiniButton type="button" variant="outline">Ajouter / modifier</MiniButton>
           </section>
           </form>
@@ -66,15 +68,17 @@ export default function Page() {
         {/* Partie pour les animaux*/}
         <section className="flex flex-col gap-4">
           <h2 className="font-bold">Mes animaux</h2>
-          {/* ici mettre les pet card 
-            avatar dans une card
-            + une card pour creer un pet */}
-        </section>
-            <div>
-                {/* le boutton de supp un pet // changer en commemorer ?*/}
-                <MiniButton type="submit">Supprimer</MiniButton>
+          {/* ici les pet card mais qui sont la uniquement si user a deja fait un profil pet ? 
+          je sais pas comment conceptualiser ca donc ici c'est mi juste pour le visu */}
+            <div className="flex flex-wrap gap-4">
+            <MiniPetCard id={1} name="Milo" />
+            <AddPetCard />
             </div>
+        </section>
       </div>
     </main>
   );
 }
+
+// enlever le bouton supp car on peut p[as le synchro avec la carte du dessus ( enfin c'est conplique)
+// donbc mettre une option "supprimer", "commemorer" directemebt sur la page de setting de l'animal 
