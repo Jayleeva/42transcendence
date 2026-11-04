@@ -1,8 +1,8 @@
-import { Body, Controller, Post, HttpCode, HttpStatus, Req, } from '@nestjs/common';
+import { Body, Controller, Get, Post, HttpCode, HttpStatus, Req, Res, UnauthorizedException, } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import type { Request } from 'express';
+import type { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -51,5 +51,44 @@ export class AuthController {
 
     // Return HTTP 200 OK to indicate successful login.
     return;
+  }
+
+  // Return the user associated with the current session.
+  @Get('me')
+  async me(@Req() req: Request) {
+    const userId = req.session.userId;
+
+    if (!userId) {
+      throw new UnauthorizedException();
+    }
+
+    return this.authService.getMe(userId);
+  }
+
+  // Destroy the current session and clear its cookie.
+  @Post('logout')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async logout(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    // Destroy the server-side session.
+    await new Promise<void>((resolve, reject) => {
+      req.session.destroy((err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve();
+      });
+    });
+
+    // Remove the session cookie from the browser.
+    res.clearCookie('transcendence.sid', {
+      path: '/',
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+    });
   }
 }

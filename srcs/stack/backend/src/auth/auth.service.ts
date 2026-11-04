@@ -55,6 +55,17 @@ export class AuthService {
     return { userId: user.id };
   }
 
+  // Retrieve the currently authenticated user's public account information.
+  async getMe(userId: string) {
+    const user = await this.userService.findById(userId);
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    return user;
+  }
+
   // Hash a plaintext password using Argon2id and a random salt.
   async hashPassword(password: string): Promise<string> {
     return argon2.hash(password, { type: argon2.argon2id });
