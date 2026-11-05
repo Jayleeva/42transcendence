@@ -63,18 +63,7 @@ export default function Page() {
                 <MiniButton type="submit" variant="outline">Valider les modifications</MiniButton>
             </div>
         </section>
-        </form>
-
-        {/* Partie pour les animaux*/}
-        <section className="flex flex-col gap-4">
-          <h2 className="font-bold">Mes animaux</h2>
-          {/* ici les pet card mais qui sont la uniquement si user a deja fait un profil pet ? 
-          je sais pas comment conceptualiser ca donc ici c'est mi juste pour le visu */}
-            <div className="flex flex-wrap gap-4">
-            <MiniPetCard id={1} name="Milo" />
-            <AddPetCard />
-            </div>
-        </section>
+        </form>  
       </div>
     </main>
   );

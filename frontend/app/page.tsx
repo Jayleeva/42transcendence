@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import Form from '@/components/features/form/Form';
+import Form from '@/components/features/Form';
 
 export default function Page() {
   const values = [

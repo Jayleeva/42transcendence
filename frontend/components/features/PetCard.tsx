@@ -33,11 +33,10 @@ export default function PetCard({
         <p className="font-semibold text-black">{typeLabel}</p>
         {race && <p><span className="font-bold text-black">Race :</span> {race}</p>}
         {info && <p><span className="font-bold text-black">Info :</span> {info}</p>}
-
         {isOwner && (
           <Link
             href={`/pet/${id}/edit`}
-            className="w-max rounded-xl px-4 py-1 font-normal text-xs transition-colors bg-brand text-white">
+            className="w-max rounded-xl px-4 py-1 font-normal text-xs transition-colors bg-brand text-white mt-2">
             Modifier le profil
           </Link>
         )}
