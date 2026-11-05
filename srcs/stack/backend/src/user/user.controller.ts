@@ -1,6 +1,9 @@
-import { Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Param, ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
+import { SessionGuard } from '../auth/guards/session.guard';
+import { CurrentUserId } from '../auth/decorators/current-user-id.decorator'; 
 
+@UseGuards(SessionGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -8,6 +11,11 @@ export class UserController {
   @Get()
   findAll() {
     return this.userService.findAll();
+  }
+
+  @Get('me')
+  findMe(@CurrentUserId() userId: string) {
+    return this.userService.findMyself(userId);
   }
 
   @Get(':id')
