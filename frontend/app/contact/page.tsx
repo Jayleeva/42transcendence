@@ -1,6 +1,7 @@
 // contact page
 
 import StudentCard from '@/components/features/StudentCard';
+import PetCard from '@/components/features/PetCard';
 import Avatar from '@/components/ui/Avatar';
 import MiniButton from '@/components/ui/MiniButton';
 
@@ -23,6 +24,10 @@ export default function Page() {
       <Avatar src="/Placeholder-test.png" alt="Test Avatar"></Avatar>
       <br />
       <br />
+      <PetCard id={1} type="dog" race="Labrador" info=" blablabli blala treeeeeeees long pour voir comment ca fait avec plusieurs lignes etc ................... " />
+      <br />
+      <br />
+      <StudentCard id={1} name="John Doe"  bio=" blablabli blala treeeeeeees long pour voir comment ca fait avec plusieurs lignes etc ................... " />
     </main>
   );
 }

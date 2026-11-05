@@ -2,6 +2,7 @@
 
 import Avatar from '@/components/ui/Avatar';
 import MiniButton from '../ui/MiniButton';
+import Link from 'next/dist/client/link';
 
 type StudentCardProps = {
   id: string | number;
@@ -23,14 +24,17 @@ export default function StudentCard({ id, name, photoUrl, bio }: StudentCardProp
     <h2 className="text-xl font-bold text-slate-800">{name}</h2>
 
     <p className="text-sm font-medium text-slate-500">👥 99 amis ( attention c'est juste pour le visu)</p>
-    
  
       <p className="text-sm text-slate-600">
       {bio ?? "Test bio : blablabli blala treeeeeeees long pour voir comment ca fait avec plusieurs lignes etc ................... "}
     </p>
     
     <div className="mt-2">
-      <MiniButton type="button" variant="outline">Modifier le profil</MiniButton>
+        <Link
+            href={`/profile-student/settings`}
+            className="w-max rounded-xl px-4 py-1 font-normal text-xs transition-colors bg-brand text-white">
+            Modifier le profil
+        </Link>
     </div>
   </div>
 </div>

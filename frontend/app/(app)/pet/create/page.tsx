@@ -7,17 +7,8 @@ import Avatar from '@/components/ui/Avatar';
 import Textarea from '@/components/ui/Textarea';
 import Select from '@/components/ui/Select';
 import Form from '@/components/features/Form';
+import { petTypes } from '@/lib/petTypes';
 
-const petTypes = [
-  { value: 'dog', label: 'Chien' },
-  { value: 'cat', label: 'Chat' },
-  { value: 'bird', label: 'Oiseau' },
-  { value: 'rodent', label: 'Rongeur (hamster, cochon d’Inde...)' },
-  { value: 'rabbit', label: 'Lapin' },
-  { value: 'fish', label: 'Poisson' },
-  { value: 'reptile', label: 'Reptile' },
-  { value: 'other', label: 'Autre' },
-];
 
 export default function Page() {
   return (
@@ -68,3 +59,19 @@ export default function Page() {
     </main>
   );
 }
+
+
+{/*
+  // test tableau local 
+  
+  const petTypes = [
+  { value: 'dog', label: 'Chien' },
+  { value: 'cat', label: 'Chat' },
+  { value: 'bird', label: 'Oiseau' },
+  { value: 'rodent', label: 'Rongeur (hamster, cochon d’Inde...)' },
+  { value: 'rabbit', label: 'Lapin' },
+  { value: 'fish', label: 'Poisson' },
+  { value: 'reptile', label: 'Reptile' },
+  { value: 'other', label: 'Autre' },
+];
+  */}
