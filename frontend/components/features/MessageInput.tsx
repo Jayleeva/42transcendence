@@ -2,7 +2,7 @@
 
 export default function MessageInput() {
   return (
-    <form className="px-0 pb-4 pt-2">
+    <form className="px-4 pb-4 pt-2">
       <label htmlFor="message" className="sr-only">
         Votre message
       </label>

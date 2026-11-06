@@ -31,4 +31,13 @@ export default function ChatBubble({ message, isOwn = false, time }: ChatBubbleP
     new Date(date).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
     
     isIwn va etre gerer par le back ? en foncrtion de qui est co ? 
+
+    littéraux de gabarits (les guillemets inversés ` ` avec ${...}
+    ca va apploquer dynamiquement selon si c'est own ou pas 
+
+    important : • whitespace-pre-wrap : Indispensable pour les messages. 
+    Cela respecte les retours à la ligne ( touche Entrée) 
+    et les espaces tapés par l'utilisateur.
+
+    
     */}
