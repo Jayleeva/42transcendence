@@ -5,6 +5,8 @@ import PetCard from '@/components/features/PetCard';
 import Avatar from '@/components/ui/Avatar';
 import MiniButton from '@/components/ui/MiniButton';
 import ChatBubble from '@/components/features/ChatBubble';
+import MessageInput from '@/components/features/MessageInput';
+import SearchBar from '@/components/ui/SearchBar';
 
 export default function Page() {
   return (
@@ -36,7 +38,9 @@ export default function Page() {
       <ChatBubble message="Salut ! merci pour l'ajout ! voici mon chien Milo" isOwn time="14:35" />
       <ChatBubble message="il est trop beau c'est le plus beau chien de toute la vie de toute la terre j'ai jamais vu un chien aussi beau, je suis emerveillee de tant de beaute" time="14:40" />
       <ChatBubble message="Merci ! entierement d'accord!" isOwn time="14:45" />
+      <MessageInput />
       </div>
+      <SearchBar placeholder="Rechercher un utilisateur..." />
     </main>
   );
 }
