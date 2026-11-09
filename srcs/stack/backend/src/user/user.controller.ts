@@ -6,11 +6,13 @@ import {
   UseGuards,
   Patch,
   Body,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { SessionGuard } from '../auth/guards/session.guard';
 import { CurrentUserId } from '../auth/decorators/current-user-id.decorator';
 import { UpdateProfilDto } from './dto/update-profile.dto';
+import { SearchUserDto } from './dto/search-user.dto';
 
 @UseGuards(SessionGuard)
 @Controller('users')
@@ -18,8 +20,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  search(@CurrentUserId() userId: string, @Query() query: SearchUserDto) {
+    return this.userService.searchUsers(userId, query);
   }
 
   @Get('me')

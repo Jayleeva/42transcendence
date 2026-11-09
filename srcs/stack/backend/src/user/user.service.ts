@@ -7,6 +7,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '../generated/prisma/client';
 import { CreateUserData } from './user.types';
 import { UpdateProfilDto } from './dto/update-profile.dto';
+import { SearchUserDto } from './dto/search-user.dto';
 
 const publicUserSelect = {
   id: true,
@@ -33,9 +34,22 @@ const privateUserSelect = {
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
+  searchUsers(currentUserId: string, query: SearchUserDto) {
+    const where: Prisma.UserWhereInput = { id: { not: currentUserId } };
+
+    if (query.search) {
+      where.OR = [
+        { username: { contains: query.search, mode: 'insensitive' } },
+        { firstname: { contains: query.search, mode: 'insensitive' } },
+        { lastname: { contains: query.search, mode: 'insensitive' } },
+      ];
+    }
     return this.prisma.user.findMany({
+      where,
       select: publicUserSelect,
+      orderBy: { username: 'asc' },
+      take: query.take,
+      skip: query.skip,
     });
   }
 
