@@ -5,11 +5,6 @@ import MiniPetCard from "@/components/features/MiniPetCard";
 import StudentCard from "@/components/features/StudentCard";
 import { redirect } from 'next/navigation';
 import { getDataFromDb } from '@/utils/getDatafromDb';
-/*import { PetCardProps } from "@/components/features/PetCard";
-
-interface PetsProps {
-    inputs: PetCardProps[];
-}*/
 
 export default async function Page() {
   const userData = await getDataFromDb('http://backend:8000/api/auth/me', 'GET');
@@ -34,6 +29,3 @@ export default async function Page() {
     </main>
   );
 }
-
-/* AJOUTER AVANT ADDPETCARD
- */
