@@ -2,23 +2,39 @@
 
 import Image from 'next/image';
 
-{/* 
-    Chekc si on arrive a predefinir plusieurs tailles
-    small pour messageire ( ou xs ? )
-    medium pour les card
-    large pour les profils
-    */}
+const AVATAR_SIZES = {
+  sm: { box: 'size-10', px: 40, text: 'text-base' },   // messagerie
+  md: { box: 'size-20', px: 80, text: 'text-3xl' },    // cards
+  lg: { box: 'size-30', px: 120, text: 'text-5xl' },   // profils
+};
 
-export default function Avatar({ src, alt, children }: { src?: string; alt?: string; children?: React.ReactNode }) {
+type AvatarProps = {
+  src?: string | null;
+  alt?: string;
+  size?: keyof typeof AVATAR_SIZES;
+  children?: React.ReactNode;
+};
+
+export default function Avatar({ src, alt, size = 'lg', children }: AvatarProps) {
+  const s = AVATAR_SIZES[size];
+
   return (
-    <div className="relative w-30 h-30 rounded-full overflow-hidden bg-gray-200">
-        {src ? (
-            <Image src={src} alt={alt || 'Avatar'} fill sizes="100%" className="object-cover" />
-        ) : (
-            <div className="flex items-center justify-center w-full h-full text-gray-500">
-            {children || 'A'}
-            </div>
-        )}
+    <div className={`relative ${s.box} shrink-0 overflow-hidden rounded-full bg-gray-200`}>
+      {src ? (
+        <Image
+          src={src}
+          alt={alt || 'Avatar'}
+          fill
+          sizes={`${s.px}px`}
+          className="object-cover"
+        />
+      ) : (
+        <div className={`flex h-full w-full items-center justify-center text-gray-500 ${s.text}`}>
+          {children || '?'}
         </div>
-    );
-    }
+      )}
+    </div>
+  );
+}
+
+{/* Avatar component */}

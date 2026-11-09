@@ -11,60 +11,15 @@ import Textarea from '@/components/ui/Textarea';
 import { redirect } from 'next/navigation';
 import PrefilledForm from '@/components/features/form/PrefilledForm';
 import { detailedProfileFormInputs, detailedProfilePassword, detailedProfileConf, modPasswordConf } from '@/utils/types/detailedProfileForm';
-
-async function getUserFromDb() {
-  console.log("[STEP 1] Entrée dans getUserFromDb");
-  try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get('transcendence.sid')?.value;
-
-    console.log("[STEP 2] Token extrait :", token ? "Oui (existe)" : "Non (indéfini)");
-
-    if (!token) {
-      console.log("[STEP 2b] Arrêt : Pas de token");
-      return null;
-    }
-
-    console.log("[STEP 3] Lancement du fetch vers l'API...");
-    
-    const response = await fetch('http://backend:8000/api/auth/me', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Cookie': `transcendence.sid=${token}` 
-      },
-      cache: 'no-store' 
-    });
-
-    console.log("[STEP 4] Réponse reçue ! Statut HTTP :", response.status);
-
-    if (!response.ok) {
-      const textError = await response.text();
-      console.log("[STEP 4b] Échec de l'API (not ok). Message :", textError);
-      return null;
-    }
-
-    const userData = await response.json();
-    console.log("[STEP 5] JSON décodé avec succès :", userData);
-    return userData;
-
-  } catch (error: any) {
-    console.log("[CRITICAL CATCH] La fonction a planté !");
-    console.log("-> Nom de l'erreur :", error?.name);
-    console.log("-> Message :", error?.message);
-    console.log("-> Stack trace :", error?.stack);
-    return null;
-  }
-}
-
+import { getDataFromDb } from '@/utils/getDatafromDb';
 
 export default async function Page() {
-  const userData = await getUserFromDb();
+  const userData = await getDataFromDb('http://backend:8000/api/auth/me', 'GET');
 
   console.log("recieved userdata = " + userData);
-  //if (!userData) {
-  //  redirect('/login');
-  //}
+  if (!userData) {
+    redirect('/login');
+  }
 
   return (
     <main className="flex flex-1 flex-col px-4 pt-4 pb-12">
