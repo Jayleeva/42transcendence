@@ -1,7 +1,12 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '../generated/prisma/client';
 import { CreateUserData } from './user.types';
+import { UpdateProfilDto } from './dto/update-profile.dto';
 
 const publicUserSelect = {
   id: true,
@@ -60,38 +65,50 @@ export class UserService {
 
   findById(id: string) {
     return this.prisma.user.findUnique({
-        where: { id },
-        select: publicUserSelect,
+      where: { id },
+      select: publicUserSelect,
     });
   }
 
   findByEmailWithPassword(email: string) {
     return this.prisma.user.findUnique({
-        where: { email },
-        select: {
-            id: true,
-            email: true,
-            username: true,
-            password: true,
-        },
+      where: { email },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        password: true,
+      },
     });
   }
 
   findByOAuthAccount(provider: string, providerAccountId: string) {
     return this.prisma.oAuthAccount.findUnique({
-        where: { provider_providerAccountId: {provider, providerAccountId} },
-        select: { user: { select: publicUserSelect}},
+      where: { provider_providerAccountId: { provider, providerAccountId } },
+      select: { user: { select: publicUserSelect } },
     });
   }
 
   async createUser(data: CreateUserData) {
     try {
-        return await this.prisma.user.create({
-            data,
-            select: publicUserSelect,
-        });
+      return await this.prisma.user.create({
+        data,
+        select: publicUserSelect,
+      });
     } catch (error) {
-        this.rethrowPrismaError(error);
+      this.rethrowPrismaError(error);
+    }
+  }
+
+  async updateProfile(id: string, data: UpdateProfilDto) {
+    try {
+      return await this.prisma.user.update({
+        where: { id },
+        data,
+        select: privateUserSelect,
+      });
+    } catch (error) {
+      this.rethrowPrismaError(error);
     }
   }
 
@@ -101,20 +118,21 @@ export class UserService {
     providerAccountId: string,
   ) {
     try {
-        return await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
-            const user = await tx.user.create({
-                data,
-                select: publicUserSelect,
-            });
+      return await this.prisma.$transaction(
+        async (tx: Prisma.TransactionClient) => {
+          const user = await tx.user.create({
+            data,
+            select: publicUserSelect,
+          });
 
-        await tx.oAuthAccount.create({
-            data: {userId: user.id, provider, providerAccountId},
-        });
-        return user;
-        });
-    }
-    catch (error) {
-        this.rethrowPrismaError(error);
+          await tx.oAuthAccount.create({
+            data: { userId: user.id, provider, providerAccountId },
+          });
+          return user;
+        },
+      );
+    } catch (error) {
+      this.rethrowPrismaError(error);
     }
   }
 
@@ -124,7 +142,7 @@ export class UserService {
     providerAccountId: string,
   ) {
     return this.prisma.oAuthAccount.create({
-        data: {userId, provider, providerAccountId},
+      data: { userId, provider, providerAccountId },
     });
   }
 
@@ -133,15 +151,17 @@ export class UserService {
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === 'P2002'
     ) {
-      const meta = error.meta as {
-        driverAdapterError?: {
-          cause?: {
-            constraint?: {
-              index?: string;
+      const meta = error.meta as
+        | {
+            driverAdapterError?: {
+              cause?: {
+                constraint?: {
+                  index?: string;
+                };
+              };
             };
-          };
-        };
-      } | undefined;
+          }
+        | undefined;
 
       const index = meta?.driverAdapterError?.cause?.constraint?.index;
 
