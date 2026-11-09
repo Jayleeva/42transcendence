@@ -9,6 +9,7 @@ type InputProps = {
     name: string;
     type: string;
     label: string;
+    error?: string;
 }
 
 type ButtonProps = {
@@ -56,7 +57,7 @@ export default function Form({inputs, conf}: FormProps)
             <div className="flex flex-col gap-4">
                 {inputs.map((i:any) => (
                     <div key={i.id}>
-                        <Input id={i.id} name={i.name} type={i.type} label={i.label} />
+                        <Input id={i.id} name={i.name} type={i.type} label={i.label}/>
                     </div>
                 ))}
             </div>

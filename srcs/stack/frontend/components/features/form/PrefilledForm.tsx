@@ -82,7 +82,13 @@ export default function PrefilledForm({inputs, miniconf, initialData}: FormProps
         if (response.ok) {
             alert("Action confirmée!");
         } else {
-            alert("Erreur");
+            const errorData = await response.json();
+            const err = errorData.errors?.[0];
+            let msg = "Error(s): \n" + err.field + " :" + errorData.errors?.[0]?.code;
+            //errorData.errors?.forEach((err:any) => {
+            //    msg.concat(err.field, " :", err.code, "\n");
+            //});   // marche pas
+            alert(msg);
         };
     };
     

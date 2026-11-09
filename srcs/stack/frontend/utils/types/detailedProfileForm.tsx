@@ -28,7 +28,7 @@
       name:"username",
       type:"username",
       label:"Pseudo",
-      disabled:true
+      disabled:false
     },
     {
       id:"birth",

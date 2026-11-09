@@ -15,7 +15,7 @@ export default async function Page() {
   }
   return (
     <main className="flex flex-col items-start item-centerjustify-center gap-6 px-6 py-12 min-h-screen max-w-2xl mx-auto">
-      <StudentCard id={userData.id} username={userData.username } photoUrl={userData.avatarUrl}></StudentCard>
+      <StudentCard id={userData.id} username={userData.username } photoUrl={userData.avatarUrl} bio={userData.bio} nfriends={99} /> 
 
       <div className="flex flex-row items-center gap-4 w-full">
         <MiniPetCard id={1} name={'Milo'} />

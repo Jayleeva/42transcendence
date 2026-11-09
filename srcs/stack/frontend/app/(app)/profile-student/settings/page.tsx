@@ -3,7 +3,6 @@
 // 1. FORCE LE RENDU DYNAMIQUE POUR ÉVITER L'ERREUR DE BUILD AVEC LES COOKIES
 export const dynamic = 'force-dynamic';
 
-import { cookies, headers } from 'next/headers';
 import BackButton from '@/components/ui/BackButton';
 import MiniButton from '@/components/ui/MiniButton';
 import Avatar from '@/components/ui/Avatar';
@@ -34,7 +33,7 @@ export default async function Page() {
           <section className="flex flex-col items-start gap-4">
             <h2 className="font-bold">Photo de profil</h2>
             {/* Si l'API renvoie une image, on l'affiche, sinon placeholder */}
-            <Avatar src={userData?.avatarUrl || "/Placeholder-test.png"} alt="Avatar Utilisateur" />
+            <Avatar src={userData.avatarUrl || "/Placeholder-test.png"} alt="Avatar Utilisateur" />
             <MiniButton type="button" variant="outline">Ajouter / modifier</MiniButton>
           </section>
         </form>
@@ -47,11 +46,11 @@ export default async function Page() {
               {/* Note: Pour un formulaire contrôlé ou pré-rempli côté serveur, 
                   on passe la valeur de l'API dans defaultValue */}
               <Textarea 
-                id="bio" 
-                name="bio" 
-                placeholder="Écrivez quelque chose à propos de vous..." 
-                maxLength={300} 
-                defaultValue={userData?.bio || ''} 
+                id="bio"
+                name="bio"
+//                placeholder="Écrivez quelque chose à propos de vous..."
+                maxLength={300}
+                value={userData.bio || "Écrivez quelque chose à propos de vous..."}
               />
               <MiniButton type="submit" variant="outline">Valider les modifications</MiniButton>
             </div>
