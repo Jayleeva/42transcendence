@@ -13,8 +13,8 @@ type StudentCardProps = {
 };
 
 export default function StudentCard({ id, username, photoUrl, bio, nfriends }: StudentCardProps) {
-  if (!bio)
-    bio = "Ceci est une bio test ahahah faudra remplacer par userData.bio quand ça sera fonctionnel lalala";
+  //if (!bio)
+  //  bio = "Ceci est une bio test ahahah faudra remplacer par userData.bio quand ça sera fonctionnel lalala";
   return (
 <div className="flex items-center gap-6 w-full max-w-2xl bg-brand-secondary rounded-2xl p-6 shadow-sm">
   

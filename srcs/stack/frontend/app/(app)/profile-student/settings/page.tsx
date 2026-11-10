@@ -10,7 +10,7 @@ import Textarea from '@/components/ui/Textarea';
 import { redirect } from 'next/navigation';
 import PrefilledForm from '@/components/features/form/PrefilledForm';
 import { detailedProfileFormInputs, detailedProfilePassword, detailedProfileConf, modPasswordConf } from '@/utils/types/detailedProfileForm';
-import { getDataFromDb } from '@/utils/getDatafromDb';
+import { getDataFromDb } from '@/utils/functions/getDatafromDb';
 
 export default async function Page() {
   const userData = await getDataFromDb('http://backend:8000/api/auth/me', 'GET');
@@ -50,7 +50,7 @@ export default async function Page() {
                 name="bio"
 //                placeholder="Écrivez quelque chose à propos de vous..."
                 maxLength={300}
-                value={userData.bio || "Écrivez quelque chose à propos de vous..."}
+                defaultValue={userData.bio || "Écrivez quelque chose à propos de vous..."}
               />
               <MiniButton type="submit" variant="outline">Valider les modifications</MiniButton>
             </div>

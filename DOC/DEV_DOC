@@ -152,3 +152,21 @@ That way, every secret is written only in RAM, in isolated volumes, and is kept 
 For NGINX, the retrieval of the certificate happens through its script: it then stores it in files isolated inside the NGINX docker, so that the configuration file can access them.
 
 For the backend, a function was created in the file vault.ts: its only purpose is to use the backend's id and key to retrieve the secret it needs, "DATABASE_URL". The file prisma.service.ts awaits for it to be done so that it can use the url for its connection to the database.
+
+
+# Clean the memory
+Display the usage:
+df -h
+
+Erase the trash:
+rm -rf ~/.local/share/Trash/*
+
+Erase the cache:
+rm -rf ~/.cache/*
+
+Erase the Node.js installation cache:
+npm cache clean --force
+yarn cache clean
+
+Erase the tmp of USER:
+find /tmp -user $USER -delete 2>/dev/null
