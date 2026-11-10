@@ -16,8 +16,7 @@ import { UpdateProfilDto } from './dto/update-profile.dto';
 import { SearchUserDto } from './dto/search-user.dto';
 
 const parseUserId = new ParseUUIDPipe({
-  exceptionFactory: () =>
-    new BadRequestException({
+  exceptionFactory: () => new BadRequestException({
       statusCode: 400,
       errors: [{ field: 'id', code: 'ID_INVALID_FORMAT' }],
     }),
