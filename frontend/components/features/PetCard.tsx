@@ -8,6 +8,7 @@ type PetCardProps = {
   id: string | number;
   type: string;
   race?: string | null;
+  dateOfBirth?: string | null;
   photoUrl?: string | null;
   info?: string | null;
   isOwner?: boolean;
@@ -17,6 +18,7 @@ export default function PetCard({
   id,
   type,
   race,
+  dateOfBirth,
   photoUrl,
   info,
   isOwner = true,
@@ -24,7 +26,7 @@ export default function PetCard({
   const typeLabel = getPetTypeLabel(type);
 
   return (
- <div className="flex items-center gap-6 w-full max-w-2xl bg-brand-secondary rounded-2xl p-6 shadow-sm">
+ <div className="flex items-center gap-6 w-full max-w-2xl bg-white border-brand border-3 rounded-2xl p-6 shadow-sm">
   <div className="w-1/4 flex justify-center shrink-0">
         <Avatar src={photoUrl} alt={typeLabel} />
       </div>
@@ -32,6 +34,7 @@ export default function PetCard({
       <div className="flex flex-1 flex-col gap-2 text-sm text-slate-600">
         <p className="font-semibold text-black">{typeLabel}</p>
         {race && <p><span className="font-bold text-black">Race :</span> {race}</p>}
+        {dateOfBirth && <p><span className="font-bold text-black">Date de naissance :</span> {dateOfBirth}</p>}
         {info && <p><span className="font-bold text-black">Info :</span> {info}</p>}
         {isOwner && (
           <Link

@@ -25,12 +25,6 @@ export default function Page() {
       label:"Pseudo"
     },
     {
-      id:"birth",
-      name:"birth",
-      type:"date",
-      label:"Date de naissance"
-    },
-    {
       id:"email",
       name:"email",
       type:"email",

@@ -13,7 +13,7 @@ type StudentCardProps = {
 
 export default function StudentCard({ id, name, photoUrl, bio }: StudentCardProps) {
   return (
-<div className="flex items-center gap-6 w-full max-w-2xl bg-brand-secondary rounded-2xl p-6 shadow-sm">
+<div className="flex items-center gap-6 w-full max-w-2xl bg-white border-brand border-3 rounded-2xl p-6 shadow-sm">
   
   <div className="w-1/4 flex justify-center shrink-0">
    <Avatar src={photoUrl ?? undefined} alt={name} />

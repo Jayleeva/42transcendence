@@ -7,6 +7,7 @@ const links = [
   { href: '/terms', label: 'CGU' },
   { href: '/team', label: 'Équipe' },
   { href: '/contact', label: 'Contact' },
+  { href: '/', label: 'Langue 🇫🇷' },
 ];
 
 export default function Footer() {
