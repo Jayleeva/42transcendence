@@ -2,12 +2,15 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '../generated/prisma/client';
 import { CreateUserData } from './user.types';
 import { UpdateProfilDto } from './dto/update-profile.dto';
 import { SearchUserDto } from './dto/search-user.dto';
+
+const MIN_AGE = 13;
 
 const publicUserSelect = {
   id: true,
@@ -24,6 +27,7 @@ const privateUserSelect = {
   username: true,
   firstname: true,
   lastname: true,
+  birthDate: true,
   avatar: true,
   bio: true,
   createdAt: true,
@@ -114,14 +118,41 @@ export class UserService {
     }
   }
 
-  async updateProfile(id: string, data: UpdateProfilDto) {
+  async updateProfile(id: string, dto: UpdateProfilDto) {
+    const { birthDate, ...rest } = dto;
+    const data: Prisma.UserUpdateInput = { ...rest };
+    const where: Prisma.UserWhereUniqueInput = { id };
+
+    if (birthDate !== undefined) {
+      const date = new Date(birthDate);
+      const latestAllowed = new Date();
+      latestAllowed.setUTCFullYear(latestAllowed.getUTCFullYear() - MIN_AGE);
+      if (date > latestAllowed) {
+        throw new BadRequestException({
+          statusCode: 400,
+          errors: [{ field: 'birthDate', code: 'BIRTHDATE_TOO_YOUNG' }],
+        });
+      }
+      data.birthDate = date;
+      where.birthDate = null;
+    }
     try {
       return await this.prisma.user.update({
-        where: { id },
+        where,
         data,
         select: privateUserSelect,
       });
     } catch (error) {
+      if (
+        birthDate !== undefined &&
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new ConflictException({
+          statusCode: 409,
+          errors: [{ field: 'birthDate', code: 'BIRTHDATE_ALREADY_SET' }],
+        });
+      }
       this.rethrowPrismaError(error);
     }
   }
