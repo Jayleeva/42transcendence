@@ -64,7 +64,10 @@ export class UserService {
     });
 
     if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new NotFoundException({
+        statusCode: 404,
+        errors: [{ field: 'id', code: 'USER_NOT_FOUND' }],
+      });
     }
     return user;
   }
@@ -76,7 +79,10 @@ export class UserService {
     });
 
     if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new NotFoundException({
+        statusCode: 404,
+        errors: [{ field: 'id', code: 'USER_NOT_FOUND' }],
+      });
     }
     return user;
   }
