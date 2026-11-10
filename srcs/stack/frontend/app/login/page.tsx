@@ -24,7 +24,7 @@ export default function Page() {
     variant:"outline",
     name:"Se connecter",
     call:"POST", // quel call ?
-    endpoint:"/api/auth/login", // quel endpoint?
+    endpoint:"http://backend:8000/api/auth/login", // quel endpoint?
     redirect:"/feed" // où redirige?
   } as const;
 

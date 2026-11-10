@@ -2,6 +2,7 @@
 
 import Input from "../../ui/Input";
 import Button from '@/components/ui/Button';
+import { callApiWithCookie } from "@/utils/functions/callApiWithCookie";
 import { redirect } from 'next/navigation';
 
 type InputProps = {
@@ -37,13 +38,14 @@ export default function Form({inputs, conf}: FormProps)
         const data = Object.fromEntries(formData.entries());
         console.log("Donnees : ", data);
 
-        const response = await fetch(conf.endpoint, {
+        const response = await callApiWithCookie(conf.endpoint, conf.call, JSON.stringify(data));
+        /*const response = await fetch(conf.endpoint, {
             method: conf.call,
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
-        });
+        });*/
 
-        if (response.ok) {
+        if (response != null) {
             alert("Action confirmée!");
             if (conf.redirect)
                 redirect(conf.redirect);

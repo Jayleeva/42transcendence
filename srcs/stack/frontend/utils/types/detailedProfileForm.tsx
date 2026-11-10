@@ -76,7 +76,7 @@
     variant:"outline",
     name:"Valider les modifications",
     call:"PATCH",
-    endpoint:"/api/users/me",
+    endpoint:"http://backend:8000/api/users/me",
   } as const;
 
     export const modPasswordConf = 
@@ -85,5 +85,5 @@
     variant:"outline",
     name:"Valider les modifications",
     call:"PATCH",
-    endpoint:"/api/auth/password",
+    endpoint:"http://backend:8000/api/auth/password",
   } as const;

@@ -2,9 +2,10 @@
 
 import Input from "@/components/ui/Input";
 import MiniButton from "@/components/ui/MiniButton";
+import { callApiWithCookie } from "@/utils/functions/callApiWithCookie";
 import { useState, useEffect } from 'react';
 
-type InputProps = {
+type FieldProps = {
     id: string;
     name: string;
     type: string;
@@ -20,42 +21,62 @@ type MiniButtonProps = {
     endpoint: "/api/auth/register" | "/api/auth/login" | string;
 }
 
-interface FormProps {
-    inputs: InputProps[];
+interface FormProps<T extends Record<string, any>> {
+    fields: FieldProps[];
     miniconf: MiniButtonProps;
-    initialData: any; //à changer
+    initialData?: Partial<T> | null;
 }
 
-interface FormState {
-  [key: string]: any; // 👈 Ceci autorise TypeScript à indexer l'objet avec une variable (ex: formData[input.name])
-  firstname: string;
-  lastname: string;
-  username: string;
-  birth: Date;
-  email: string;
+export interface StudentProfileFormState {
+    firstname: string;
+    lastname: string;
+    username: string;
+    email: string;
+    avatar: string;
+    bio: string;
+    birth: string;
 }
 
-export default function PrefilledForm({inputs, miniconf, initialData}: FormProps)
-{
-    const [formData, setFormData] = useState<FormState>({
-    firstname: initialData?.firstname || '',
-    lastname: initialData?.lastname || '',
-    username: initialData?.username || '',
-    birth: initialData?.birth || '',
-    email: initialData?.email || '',
+export interface PetProfileFormState {
+    name: string;
+    type: string;
+    race: string;
+    avatar: string;
+    bio: string;
+    birth: string;
+}
+
+export interface PasswordFormState {
+    oldpassword: string;
+    newpassword: string;
+    confirmpassword: string;
+}
+
+function buildEmptyState<T extends Record<string, any>>(
+    fields: FieldProps[],
+    initialData?: Partial<T> | null
+): T {
+    const state: Record<string, any> = {};
+    fields.forEach((field) => {
+        state[field.name] = initialData?.[field.name] ?? '';
     });
+    return state as T;
+}
+
+export default function PrefilledForm<T extends Record<string, any>>({
+    fields,
+    miniconf,
+    initialData,
+}: FormProps<T>) {
+    const [formData, setFormData] = useState<T>(() =>
+        buildEmptyState<T>(fields, initialData)
+    );
 
     useEffect(() => {
-        if (initialData) {
-            setFormData({
-                firstname: initialData.firstname || '',
-                lastname: initialData.lastname || '',
-                username: initialData.username || '',
-                birth: initialData.birth || '',
-                email: initialData.email || '',
-            });
+        if (initialData != null) {
+            setFormData(buildEmptyState<T>(fields, initialData));
         }
-    }, [initialData]);
+    }, [initialData, fields]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -66,38 +87,39 @@ export default function PrefilledForm({inputs, miniconf, initialData}: FormProps
     };
 
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
-        event.preventDefault(); // empeche le reload
+        event.preventDefault();
 
-        const formData = new FormData(event.currentTarget);
+        const submittedFormData = new FormData(event.currentTarget);
+        const data = Object.fromEntries(submittedFormData.entries());
+        console.log("Données envoyées : ", data);
 
-        const data = Object.fromEntries(formData.entries());
-        console.log("Donnees : ", data);
+        const response = await callApiWithCookie(
+            miniconf.endpoint,
+            miniconf.call,
+            JSON.stringify(data)
+        );
 
-        const response = await fetch(miniconf.endpoint, {
-            method: miniconf.call,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });
-
-        if (response.ok) {
+        if (response != null) {
             alert("Action confirmée!");
         } else {
-            const errorData = await response.json();
-            const err = errorData.errors?.[0];
-            let msg = "Error(s): \n" + err.field + " :" + errorData.errors?.[0]?.code;
-            //errorData.errors?.forEach((err:any) => {
-            //    msg.concat(err.field, " :", err.code, "\n");
-            //});   // marche pas
-            alert(msg);
-        };
-    };
-    
+            alert("Erreur");
+        }
+    }
+
     return (
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4">
-                {inputs.map((i:any) => (
-                    <div key={i.id}>
-                        <Input id={i.id} name={i.name} type={i.type} label={i.label} value={formData[i.name] || ''} disabled={i.disabled} onChange={handleChange} />
+                {fields.map((field) => (
+                    <div key={field.id}>
+                        <Input
+                            id={field.id}
+                            name={field.name}
+                            type={field.type}
+                            label={field.label}
+                            value={formData[field.name] ?? ''}
+                            disabled={field.disabled}
+                            onChange={handleChange}
+                        />
                     </div>
                 ))}
             </div>

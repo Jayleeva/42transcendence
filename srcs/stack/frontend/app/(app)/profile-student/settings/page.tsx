@@ -8,12 +8,12 @@ import MiniButton from '@/components/ui/MiniButton';
 import Avatar from '@/components/ui/Avatar';
 import Textarea from '@/components/ui/Textarea';
 import { redirect } from 'next/navigation';
-import PrefilledForm from '@/components/features/form/PrefilledForm';
+import PrefilledForm, { StudentProfileFormState, PetProfileFormState, PasswordFormState } from '@/components/features/form/PrefilledForm';
 import { detailedProfileFormInputs, detailedProfilePassword, detailedProfileConf, modPasswordConf } from '@/utils/types/detailedProfileForm';
-import { getDataFromDb } from '@/utils/functions/getDatafromDb';
+import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 
 export default async function Page() {
-  const userData = await getDataFromDb('http://backend:8000/api/auth/me', 'GET');
+  const userData = await callApiWithCookie('http://backend:8000/api/auth/me', 'GET');
 
   console.log("recieved userdata = " + userData);
   if (!userData) {
@@ -62,14 +62,14 @@ export default async function Page() {
           <section className="flex flex-col gap-4">
             <h2 className="font-bold">Informations générales</h2>
             {/* L'objet userData est transmis ici pour pré-remplir les inputs */}
-            <PrefilledForm inputs={detailedProfileFormInputs} miniconf={detailedProfileConf} initialData={userData} />
+            <PrefilledForm<StudentProfileFormState> fields={detailedProfileFormInputs} miniconf={detailedProfileConf} initialData={userData}/>
           </section>
         
 
         {/* FORMULAIRE 4 : Changement de mot de passe */}
           <section className="flex flex-col gap-4">
             <h2 className="font-bold">Changer de mot de passe</h2>
-            <PrefilledForm inputs={detailedProfilePassword} miniconf={modPasswordConf} initialData={userData} />
+            <PrefilledForm<PasswordFormState> fields={detailedProfilePassword} miniconf={modPasswordConf} initialData={userData}/>
           </section>
 
         {/* Partie pour les animaux */}

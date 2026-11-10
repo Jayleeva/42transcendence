@@ -4,11 +4,11 @@ import AddPetCard from "@/components/features/AddPetCard";
 import MiniPetCard from "@/components/features/MiniPetCard";
 import StudentCard from "@/components/features/StudentCard";
 import { redirect } from 'next/navigation';
-import { getDataFromDb } from '@/utils/functions/getDatafromDb';
+import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 import { getNfriends } from "@/utils/functions/getNfriends";
 
 export default async function Page() {
-  const userData = await getDataFromDb('http://backend:8000/api/auth/me', 'GET');
+  const userData = await callApiWithCookie('http://backend:8000/api/auth/me', 'GET');
 
   console.log("recieved userdata = " + userData);
   if (!userData) {
