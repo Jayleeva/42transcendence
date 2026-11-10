@@ -16,7 +16,7 @@ export default function Page() {
         <BackButton />
        <div className="mx-auto flex w-full max-w-md flex-col gap-8 pt-4">
         <h1 className="font-display text-5xl font-bold text-center">
-          Ajouter ou modifier un animal
+          Ajouter un animal
         </h1>
 
     {/* un seul form ici avec toutes les infos*/}

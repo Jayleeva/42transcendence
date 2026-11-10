@@ -6,22 +6,22 @@ import Link from 'next/dist/client/link';
 
 type StudentCardProps = {
   id: string | number;
-  name: string;
+  username: string;
   photoUrl?: string | null;
   bio?: string | null;
 };
 
-export default function StudentCard({ id, name, photoUrl, bio }: StudentCardProps) {
+export default function StudentCard({ id, username, photoUrl, bio }: StudentCardProps) {
   return (
 <div className="flex items-center gap-6 w-full max-w-2xl bg-white border-brand border-3 rounded-2xl p-6 shadow-sm">
   
   <div className="w-1/4 flex justify-center shrink-0">
-   <Avatar src={photoUrl ?? undefined} alt={name} />
+   <Avatar src={photoUrl ?? undefined} alt={username} />
   </div>
 
   <div className="flex-1 flex flex-col gap-2">
     
-    <h2 className="text-xl font-bold text-slate-800">{name}</h2>
+    <h2 className="text-xl font-bold text-slate-800">{username}</h2>
 
     <p className="text-sm font-medium text-slate-500">👥 99 amis ( attention c'est juste pour le visu)</p>
  
