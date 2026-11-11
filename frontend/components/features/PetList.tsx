@@ -1,6 +1,10 @@
 import PetCard from '@/components/features/PetCard';
 import AddPetCard from '@/components/features/AddPetCard';
 
+// check tout ca pas encore verif 
+// faire layout ? ou alors faire un composant petlist qui va etre dynamique du coup
+
+{/*
 type Pet = { id: number; name: string; photoUrl: string | null };
 
 type PetListProps = {
@@ -20,3 +24,5 @@ export default function PetList({ pets, isOwner }: PetListProps) {
 }
 
 // comme ca on peut reutiliser sur un profil de user si on est pas proprietaire la carte addpet existe pas
+
+ */}

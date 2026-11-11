@@ -72,6 +72,3 @@ export default function Page() {
     </main>
   );
 }
-
-// enlever le bouton supp car on peut p[as le synchro avec la carte du dessus ( enfin c'est conplique)
-// donbc mettre une option "supprimer", "commemorer" directemebt sur la page de setting de l'animal 

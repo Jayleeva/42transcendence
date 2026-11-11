@@ -42,10 +42,8 @@ export default function StudentCard({ id, username, photoUrl, bio }: StudentCard
 }   
 
 
-{/*
-option 1 : fond colore
-className="flex items-center gap-6 w-full max-w-2xl bg-brand-secondary rounded-2xl p-6 shadow-sm"
-
-option 2 : fond blanc et bordure couleur
-className="flex items-center gap-6 w-full max-w-2xl bg-white border-brand border-3 rounded-2xl p-6 shadow-sm"
-    */}
+{/* 
+    Pour linstant encore pleibn de truc codes en dur
+    faire passer les trucs en props
+    et faire la partie dynamique avec number of friends etc   
+*/}

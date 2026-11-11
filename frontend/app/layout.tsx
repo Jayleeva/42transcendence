@@ -7,8 +7,11 @@ import { dongle } from '@/lib/fonts';
 
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Lauzanimo',
+export const metadata = {
+  title: {
+    default: 'Lauzanimo',
+    template: '%s | Lauzanimo',
+  },
   description: 'Le réseau social des animaux de compagnie des étudiants de 42',
 };
 

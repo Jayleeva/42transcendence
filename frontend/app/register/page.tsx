@@ -48,6 +48,10 @@ export default function Page() {
     name:"S'enregistrer"
   } as const;
 
+  // as const = instruction TypeScript
+  // fige les valeurs de l'objet pour garantir que "submit" et "outline" traités comme 
+  // valeurs exactes et non comme de simples chaînes de caractères modifiables.
+
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-12">
       <div className="flex w-full max-w-md flex-col gap-6">

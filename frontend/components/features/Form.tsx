@@ -48,3 +48,26 @@ export default function Form({inputs, conf}: FormProps)
         </form>
     );
 }
+
+{/* 
+    typage TypeScript
+    Type et interface. POur input et button va definir forme exacte 
+    FormProps. Précise que le composant <Form /> attend un tableau d'inputs
+    et un objet de configuration pour le bouton (conf)
+
+    handleSubmit = fonction qui sera appelée lors de la soumission du formulaire
+    new FormData(event.currentTarget) = recup valeur contenue en utilisnt attributn name comme clé
+
+    Object.fromEntries(formData.entries()). 
+    Transforme ces données brutes en un objet JavaScript simple et lisible 
+    (ex. : { firstname: "Alice", email: "alice@mail.com" }).
+
+    console.log(...). Affiche l'objet final dans la console du navigateur
+
+    return = rendu visuel
+    <form onSubmit={handleSubmit}>. Relie l'événement de soumission du formulaire à la fonction handleSubmit.
+    inputs.map(...). Parcourt le tableau inputs reçu en paramètre
+    et crée un composant <Input /> pour chaque élément, en utilisant i.id comme key unique.
+
+    <Button ...>. Affiche le bouton final en lui transmettant son type, son style (variant) et son texte (conf.name).
+*/}

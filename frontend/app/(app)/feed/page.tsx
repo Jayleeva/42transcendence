@@ -7,7 +7,6 @@ export const metadata={
     title:'Fil d’actualité',
 };
 
-// a mettre qd le layout sera fait 
 export default function FeedPage() {
     return (
         <main>

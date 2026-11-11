@@ -27,8 +27,6 @@ export default function Page() {
 }
 
 {/* 
-
     Juste visu ici
     rien est vraiment codé pour que ca link avec le back
-
-    */}
+*/}
