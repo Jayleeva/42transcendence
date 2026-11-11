@@ -8,6 +8,10 @@ import Textarea from '@/components/ui/Textarea';
 import MiniPetCard from '@/components/features/MiniPetCard';
 import AddPetCard from '@/components/features/AddPetCard';
 
+export const metadata={
+    title:'Paramètres',
+};
+
 export default function Page() {
   return (
     <main className="flex flex-1 flex-col px-4 pt-4 pb-20">

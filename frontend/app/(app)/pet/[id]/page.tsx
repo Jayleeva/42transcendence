@@ -4,6 +4,10 @@
 
 import PetCard from '@/components/features/PetCard';
 
+export const metadata={
+    title:'Profil',
+};
+
 export default function Page() {
   return (
     <main className="flex flex-col item-center gap-6 px-6 py-12 min-h-screen max-w-2xl mx-auto">

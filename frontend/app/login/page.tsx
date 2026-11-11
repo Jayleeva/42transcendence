@@ -3,6 +3,10 @@ import Button from '@/components/ui/Button';
 import BackButton from '@/components/ui/BackButton';
 import Form from '@/components/features/Form';
 
+export const metadata={
+    title:'Se connecter',
+};
+
 export default function Page() {
   const values = [
     {

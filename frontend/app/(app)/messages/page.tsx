@@ -2,6 +2,10 @@
 
 import ChatBubble from "@/components/features/ChatBubble";
 
+export const metadata={
+    title:'Messagerie',
+};
+
 export default function Page() {
   return (
     <main className="min-h-screen px-6 py-12 md:px-8 max-w-7xl mx-auto">

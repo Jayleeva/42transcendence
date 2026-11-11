@@ -4,6 +4,10 @@ import Avatar from '@/components/ui/Avatar';
 import ChatBubble from '@/components/features/ChatBubble';
 import MessageInput from '@/components/features/MessageInput';
 
+export const metadata={
+    title:'Messagerie',
+};
+
 export default function Page() {
   return (
     <>
@@ -26,5 +30,5 @@ export default function Page() {
 
     Juste visu ici
     rien est vraiment codé pour que ca link avec le back
-    
+
     */}

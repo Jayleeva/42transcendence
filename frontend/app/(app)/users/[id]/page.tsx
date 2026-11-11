@@ -3,3 +3,6 @@
 // penser a passer isOwner={false}
 // comme ca la card addpet apparait pas 
 
+export const metadata={
+    title:'Profil',
+};

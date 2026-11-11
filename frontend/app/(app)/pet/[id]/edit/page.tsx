@@ -9,6 +9,10 @@ import Select from '@/components/ui/Select';
 import Form from '@/components/features/Form';
 import { petTypes } from '@/lib/petTypes';
 
+export const metadata={
+    title:'Modifier un animal',
+};
+
 
 export default function Page() {
   return (

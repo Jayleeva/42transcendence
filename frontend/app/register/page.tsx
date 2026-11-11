@@ -3,6 +3,10 @@ import Link from 'next/link';
 import BackButton from '@/components/ui/BackButton';
 import Form from '@/components/features/Form';
 
+export const metadata={
+    title:'Créer un compte',
+};
+
 
 export default function Page() {
   const values = [

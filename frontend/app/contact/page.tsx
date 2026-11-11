@@ -8,6 +8,10 @@ import ChatBubble from '@/components/features/ChatBubble';
 import MessageInput from '@/components/features/MessageInput';
 import SearchBar from '@/components/ui/SearchBar';
 
+export const metadata={
+    title:'Contact',
+};
+
 export default function Page() {
   return (
     <main className="min-h-screen px-6 py-12 md:px-8 max-w-7xl mx-auto">
@@ -30,7 +34,7 @@ export default function Page() {
       <PetCard id={1} type="dog" race="Labrador" info=" blablabli blala treeeeeeees long pour voir comment ca fait avec plusieurs lignes etc ................... " />
       <br />
       <br />
-      <StudentCard id={1} name="John Doe"  bio=" blablabli blala treeeeeeees long pour voir comment ca fait avec plusieurs lignes etc ................... " />
+      <StudentCard id={1} username="John Doe"  bio=" blablabli blala treeeeeeees long pour voir comment ca fait avec plusieurs lignes etc ................... " />
       <br />
       <br />
       <div className="flex flex-col gap-2">

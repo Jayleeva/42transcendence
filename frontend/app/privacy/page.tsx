@@ -1,6 +1,10 @@
 // privacy page
 import BackButton from '@/components/ui/BackButton';
 
+export const metadata={
+    title:'Politique de confidentialité',
+};
+
 export default function PrivacyPolicyPage() {
   return (
     <main className="w-full px-6 py-10 pb-18 text-left text-sm leading-relaxed">

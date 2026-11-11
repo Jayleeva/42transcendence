@@ -4,6 +4,10 @@ import AddPetCard from "@/components/features/AddPetCard";
 import MiniPetCard from "@/components/features/MiniPetCard";
 import StudentCard from "@/components/features/StudentCard";
 
+export const metadata={
+    title:'Profil',
+};
+
 export default function Page() {
   return (
     <main className="flex flex-col items-start item-centerjustify-center gap-6 px-6 py-12 min-h-screen max-w-2xl mx-auto">
