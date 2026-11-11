@@ -39,9 +39,4 @@ export class UpdateProfilDto {
   @IsString({ message: 'BIO_INVALID_TYPE' })
   @MaxLength(300, { message: 'BIO_TOO_LONG' })
   bio?: string;
-
-  @IsOptional()
-  @IsString({ message: 'AVATAR_INVALID_TYPE' })
-  @MaxLength(255, { message: 'AVATAR_TOO_LONG' })
-  avatar?: string;
 }
