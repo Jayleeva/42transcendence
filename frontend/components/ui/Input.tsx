@@ -37,4 +37,24 @@ Il relie le label au champ qui a le même id : cliquer sur « Email » active le
 
 focus : qd le champs est actif 
 
+--
+
+import { InputHTMLAttributes } from 'react';
+Importe le dictionnaire officiel de React qui contient tous les attributs d'un <input> classique 
+(type, placeholder, required, disabled, onChange, etc.).
+
+InputHTMLAttributes<HTMLInputElement> : 
+Précise à TypeScript que ces attributs s'appliquent spécifiquement à une balise HTML <input>.
+
+className = '' : Définit une valeur par défaut (du texte vide) 
+si aucune classe CSS supplémentaire n'est fournie lors de l'utilisation du composant.
+
+...props
+• Il récupère toutes les autres propriétés passees au composant 
+(comme type="email", placeholder="Votre nom", required) et les regroupe dans un seul objet nommé props.
+
+{...props} (opérateur spread) : 
+Reverse toutes les propriétés aspirées précédemment directement sur la balise <input>. 
+Si on ecrit <Input label="Email" type="email" required />, React génère <input type="email" required ... />.
+
 */

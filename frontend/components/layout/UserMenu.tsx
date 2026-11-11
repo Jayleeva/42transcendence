@@ -69,3 +69,28 @@ export default function UserMenu() {
     </div>
   );
 }
+
+{/* 
+    const [open, setOpen] = useState(false); : Crée une variable d'état booléenne (true ou false). 
+    Par défaut, le menu est fermé (false). Appeler setOpen demande à React de mettre à jour l'affichage à l'écran.
+
+    const ref = useRef<HTMLDivElement>(null);  
+    Crée une référence (un pointeur) qui sera attachée à la balise <div> principale du menu (<div ref={ref}>). 
+    Cela permet au code de savoir exactement quelle zone de l'écran appartient au menu.
+
+    handleClick : Vérifie si l'utilisateur a cliqué en dehors de la zone pointée par ref (!ref.current.contains(...)). 
+    Si c'est le cas, il ferme le menu (setOpen(false)).
+    Same pour Handle key avec la touche echap du clavier
+
+    Cleaning avec nettoyage (return () => { ... })
+    Il faut retirer les ecoutes pour eviter bug et ralentissements 
+
+    onClick={() => setOpen((o) => !o)}
+    Inverse l'état actuel du menu à chaque clic. Si open est false, il passe à true, et inversement.
+
+    La liste <ul> ne s'affiche que si open est vrai (true) 
+
+    Fermeture au clic sur un lien : 
+    Chaque <Link> possède onClick={() => setOpen(false)} pour que le menu se referme proprement 
+    dès que l'utilisateur navigue vers son profil ou ses paramètres.
+*/}
