@@ -1,13 +1,13 @@
 // Footer
 
 import Link from 'next/link';
+import LanguageMenu from './LanguageMenu';
 
 const links = [
   { href: '/privacy', label: 'Politique de confidentialité' },
   { href: '/terms', label: 'CGU' },
   { href: '/team', label: 'Équipe' },
   { href: '/contact', label: 'Contact' },
-  { href: '/', label: 'Langue 🇫🇷' },
 ];
 
 export default function Footer() {
@@ -21,6 +21,9 @@ export default function Footer() {
             </Link>
           </li>
         ))}
+        <li>
+          <LanguageMenu />
+        </li>
       </ul>
     </footer>
   );
