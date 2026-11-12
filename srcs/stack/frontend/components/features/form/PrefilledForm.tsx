@@ -104,8 +104,11 @@ export default function PrefilledForm<T extends Record<string, any>>({
             JSON.stringify(data)
         );
 
+        console.log(response);
+
         if (response != null) {
             alert("Action confirmée!");
+            setFormData(buildState<T>(fields, response));
         } else {
         // Affiche les erreurs précises du backend NestJS ou un message par défaut
         const details = response?.error?.errors
