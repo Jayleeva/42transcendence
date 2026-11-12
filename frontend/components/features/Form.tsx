@@ -8,6 +8,8 @@ type InputProps = {
     id: string;
     name: string;
     type: string;
+    variant?: 'primary' | 'disabled';
+    defaultValue?: string; 
 }
 
 type ButtonProps = {
@@ -38,7 +40,8 @@ export default function Form({inputs, conf}: FormProps)
             <div className="flex flex-col gap-4">
                 {inputs.map((i:any) => (
                     <div key={i.id}>
-                        <Input label={i.label} id={i.id} name={i.name} type={i.type}  />
+                       {/* <Input label={i.label} id={i.id} name={i.name} type={i.type}  /> */}
+                       <Input {...i} />
                     </div>
                 ))}
             </div>

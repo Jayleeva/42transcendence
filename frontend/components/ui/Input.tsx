@@ -7,16 +7,32 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   variant?: 'primary' | 'disabled';
 };
 
-export default function Input({ label, id, name, className = '', ...props }: InputProps) {
+export default function Input({ 
+  label,
+  id,
+  name,
+  variant = 'primary',
+  disabled,
+  className = '',
+  ...props 
+  }: InputProps) {
+
+  // si prop disabled est true ou si variant est 'disabled', on desactive le champ
+  const isDisabled = disabled || variant === 'disabled';
+
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={id} className="text-sm font-medium">
+      <label 
+        htmlFor={id} 
+        className={`text-sm font-medium ${isDisabled ? 'text-slate-400 cursor-not-allowed' : 'text-slate-900'}`}
+      >
         {label}
       </label>
       <input
         id={id}
-        className={`rounded-lg border border-slate-300 px-4 py-3 focus:border-black focus:outline-none ${className}`}
         name={name}
+        disabled={isDisabled}
+        className={`rounded-lg border border-slate-300 px-4 py-3 focus:border-black focus:outline-none disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 ${className}`}
         {...props}
       />
     </div>
