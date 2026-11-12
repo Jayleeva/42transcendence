@@ -52,7 +52,7 @@ export interface PasswordFormState {
     confirmpassword: string;
 }
 
-function buildEmptyState<T extends Record<string, any>>(
+function buildState<T extends Record<string, any>>(
     fields: FieldProps[],
     initialData?: Partial<T> | null
 ): T {
@@ -69,12 +69,12 @@ export default function PrefilledForm<T extends Record<string, any>>({
     initialData,
 }: FormProps<T>) {
     const [formData, setFormData] = useState<T>(() =>
-        buildEmptyState<T>(fields, initialData)
+        buildState<T>(fields, initialData)
     );
 
     useEffect(() => {
         if (initialData != null) {
-            setFormData(buildEmptyState<T>(fields, initialData));
+            setFormData(buildState<T>(fields, initialData));
         }
     }, [initialData, fields]);
 

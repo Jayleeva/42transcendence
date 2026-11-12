@@ -13,7 +13,7 @@ import { detailedProfileFormInputs, detailedProfilePassword, detailedProfileConf
 import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 
 export default async function Page() {
-  const userData = await callApiWithCookie('http://backend:8000/api/auth/me', 'GET');
+  const userData = await callApiWithCookie('/api/auth/me', 'GET');
 
   console.log("recieved userdata = " + userData);
   if (!userData) {

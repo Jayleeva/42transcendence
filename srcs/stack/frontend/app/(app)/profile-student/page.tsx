@@ -8,7 +8,7 @@ import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 import { getNfriends } from "@/utils/functions/getNfriends";
 
 export default async function Page() {
-  const userData = await callApiWithCookie('http://backend:8000/api/auth/me', 'GET');
+  const userData = await callApiWithCookie('/api/auth/me', 'GET');
 
   console.log("recieved userdata = " + userData);
   if (!userData) {

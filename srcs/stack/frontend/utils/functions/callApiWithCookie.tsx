@@ -12,17 +12,14 @@ export async function callApiWithCookie(path: string, _method: string, arg?: str
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'X-Forwarded-Proto': 'https',
+      'Cookie': `transcendence.sid=${token}`,
     };
-
-    if (token) {
-      headers['Cookie'] = `transcendence.sid=${token}`;
-    }
 
     // 2. Appel vers le backend Docker
     const response = await fetch(fullUrl , {
       method: _method,
       headers,
-      // On n'envoie un body que si ce n'est pas un GET
+      // On n'envoie un body que si ce n'est pas un GET ou un HEAD
       body: _method !== 'GET' && _method !== 'HEAD' ? arg : undefined,
       cache: 'no-store',
     });
@@ -41,7 +38,7 @@ export async function callApiWithCookie(path: string, _method: string, arg?: str
       const match = setCookieHeader.match(/transcendence\.sid=([^;]+)/);
       console.log("[DEBUG COOKIE] Résultat du match :", match ? match : "Aucun match");
 
-      if (match && match) {
+      if (match && match[1]) {
         cookieStore.set('transcendence.sid', match[1], { // 👈 Sans decodeURIComponent pour garder la valeur exacte
           httpOnly: true,
           path: '/',
@@ -60,7 +57,10 @@ export async function callApiWithCookie(path: string, _method: string, arg?: str
     return text ? JSON.parse(text) : { success: true };
 
   } catch (error: any) {
-    console.error("[callApiWithCookie] Crash :", error?.message);
+    console.log("[CRITICAL CATCH] La fonction a planté !");
+    console.log("-> Nom de l'erreur :", error?.name);
+    console.log("-> Message :", error?.message);
+    console.log("-> Stack trace :", error?.stack);
     return null;
   }
 }
