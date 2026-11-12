@@ -3,10 +3,10 @@ import * as fs from 'fs';
 const VAULT_URL = process.env.VAULT_ADDR || 'http://vault:8200';
 const SHARED_DIR = '/app/vault_shared';
 
-let cachedDatabaseUrl: string | null = null;
+let cachedSecrets: Record<string, string> | null = null;
 
-export async function getDatabaseUrlFromVault(): Promise<string> {
-  if (cachedDatabaseUrl) return cachedDatabaseUrl;
+async function loadSecrets(): Promise<Record<string, string>> {
+  if (cachedSecrets) return cachedSecrets;
 
   try {
     // 1. Lecture des identifiants AppRole du volume partagé
@@ -33,12 +33,28 @@ export async function getDatabaseUrlFromVault(): Promise<string> {
     const secretData = await secretRes.json();
     
     // 4. Stockage en mémoire RAM
-    cachedDatabaseUrl = secretData.data.data.database_url;
-    console.log("✅ [Vault] DATABASE_URL chargée nativement en RAM !");
+    cachedSecrets = secretData.data.data;
+    console.log("✅ [Vault] Secrets chargés en RAM :", Object.keys(cachedSecrets!).join(', '));
     
-    return cachedDatabaseUrl!;
+    return cachedSecrets!;
   } catch (error) {
     console.error("❌ [Vault] Erreur de récupération du secret :", error);
     throw error;
   }
+}
+
+// Récupérer un secret donné par son nom dans Vault (mis en cache après le premier appel).
+export async function getVaultSecret(key: string): Promise<string> {
+  const secrets = await loadSecrets();
+  const value = secrets[key];
+
+  if(!value) {
+    throw new Error(`[Vault] Secret "${key}" manquant ou vide`);
+  }
+  return value;
+}
+
+// Réservé à PrismaModule : renvoie l'URL de connexion à la base de données.
+export async function getDatabaseUrlFromVault(): Promise<string> {
+  return getVaultSecret('database_url');
 }

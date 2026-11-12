@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Post, HttpCode, HttpStatus, Req, Res, UnauthorizedException, } from '@nestjs/common';
+import { Body, Controller, Get, Post, HttpCode, HttpStatus, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import type { Request, Response } from 'express';
+import { SessionGuard } from './guards/session.guard';
+import { CurrentUserId } from './decorators/current-user-id.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -55,13 +57,8 @@ export class AuthController {
 
   // Return the user associated with the current session.
   @Get('me')
-  async me(@Req() req: Request) {
-    const userId = req.session.userId;
-
-    if (!userId) {
-      throw new UnauthorizedException();
-    }
-
+  @UseGuards(SessionGuard)
+  me(@CurrentUserId() userId: string) {
     return this.authService.getMe(userId);
   }
 

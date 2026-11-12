@@ -46,7 +46,6 @@ model User {
   messages      Message[]
   conversations ConversationMember[]
   achievements  UserAchievement[]
-  sessions      Session[]
 }
 
 model Friendship {
@@ -309,16 +308,4 @@ model UserAchievement {
   achievement   Achievement @relation(fields: [achievementId], references: [id])
 
   @@unique([userId, achievementId])
-}
-
-// ==================== SESSIONS ====================
-
-model Session {
-  id        String   @id @default(uuid()) @db.Uuid
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  userId String @db.Uuid
-  user   User   @relation(fields: [userId], references: [id])
 }
