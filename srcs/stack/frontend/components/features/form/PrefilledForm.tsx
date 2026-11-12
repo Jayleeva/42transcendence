@@ -18,7 +18,7 @@ type MiniButtonProps = {
     variant: 'primary' | 'outline';
     name: string;
     call: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-    endpoint: "/api/auth/register" | "/api/auth/login" | string;
+    endpoint: string;
 }
 
 interface FormProps<T extends Record<string, any>> {
@@ -34,7 +34,7 @@ export interface StudentProfileFormState {
     email: string;
     avatar: string;
     bio: string;
-    birth: string;
+    birthDate?: string;
 }
 
 export interface PetProfileFormState {
@@ -43,7 +43,7 @@ export interface PetProfileFormState {
     race: string;
     avatar: string;
     bio: string;
-    birth: string;
+    birthDate?: string;
 }
 
 export interface PasswordFormState {
@@ -58,7 +58,7 @@ function buildState<T extends Record<string, any>>(
 ): T {
     const state: Record<string, any> = {};
     fields.forEach((field) => {
-        state[field.name] = initialData?.[field.name] ?? '';
+        state[field.name] = initialData?.[field.name] ?? undefined;
     });
     return state as T;
 }
@@ -90,7 +90,12 @@ export default function PrefilledForm<T extends Record<string, any>>({
         event.preventDefault();
 
         const submittedFormData = new FormData(event.currentTarget);
-        const data = Object.fromEntries(submittedFormData.entries());
+        //const data = Object.fromEntries(submittedFormData.entries());
+        const data: Record<string, any> = {};
+        submittedFormData.forEach((value, key) => {
+            // Si le champ est vide (""), on met undefined pour que JSON.stringify retire la clé
+            data[key] = value === '' ? undefined : value;
+        })
         console.log("Données envoyées : ", data);
 
         const response = await callApiWithCookie(
@@ -102,7 +107,11 @@ export default function PrefilledForm<T extends Record<string, any>>({
         if (response != null) {
             alert("Action confirmée!");
         } else {
-            alert("Erreur");
+        // Affiche les erreurs précises du backend NestJS ou un message par défaut
+        const details = response?.error?.errors
+            ?.map((e: any) => `${e.field} : ${e.code}`)
+            .join('\n') || response?.error?.message || "Erreur inconnue";
+        alert(`Erreur :\n${details}`);
         }
     }
 

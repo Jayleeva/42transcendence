@@ -50,8 +50,12 @@ export default function Form({inputs, conf}: FormProps)
             if (conf.redirect)
                 redirect(conf.redirect);
         } else {
-            alert("Erreur");
-        };
+        // Affiche les erreurs précises du backend NestJS ou un message par défaut
+        const details = response?.error?.errors
+            ?.map((e: any) => `${e.field} : ${e.code}`)
+            .join('\n') || response?.error?.message || "Erreur inconnue";
+        alert(`Erreur :\n${details}`);
+        }
     };
     
     return (

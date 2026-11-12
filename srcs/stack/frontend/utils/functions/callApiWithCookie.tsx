@@ -26,7 +26,7 @@ export async function callApiWithCookie(path: string, _method: string, arg?: str
 
     if (!response.ok) {
       const textError = await response.text();
-      console.error(`[callApiWithCookie] Erreur ${response.status} :`, textError);
+      console.log(`[callApiWithCookie] Erreur ${response.status} :`, textError);
       return null;
     }
 
@@ -48,13 +48,23 @@ export async function callApiWithCookie(path: string, _method: string, arg?: str
       }
     }
 
-    // 4. Gestion des réponses vides (ex: statut 204 No Content)
+   // 4. Gestion des réponses vides
     if (response.status === 204) {
       return { success: true };
     }
 
     const text = await response.text();
-    return text ? JSON.parse(text) : { success: true };
+    if (!text) {
+      return { success: true };
+    }
+
+    try {
+      // On essaie de parser en JSON si le backend renvoie du JSON
+      return JSON.parse(text);
+    } catch {
+      // Si le backend renvoie du texte brut (ex: "OK"), on le retourne sans planter
+      return { message: text };
+    }
 
   } catch (error: any) {
     console.log("[CRITICAL CATCH] La fonction a planté !");

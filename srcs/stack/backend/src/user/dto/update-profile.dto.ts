@@ -30,6 +30,7 @@ export class UpdateProfilDto {
   @Matches(/^[a-zA-Z0-9_-]+$/, { message: 'USERNAME_INVALID_FORMAT' })
   username?: string;
 
+  @IsOptional()
   @ValidateIf((_, value) => value !== undefined)
   @Matches(/^\d{4}-\d{2}-\d{2}$/, { message: 'BIRTHDATE_INVALID_FORMAT' })
   @IsDateString({ strict: true }, { message: 'BIRTHDATE_INVALID_FORMAT' })

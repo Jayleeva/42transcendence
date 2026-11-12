@@ -31,8 +31,8 @@
       disabled:false
     },
     {
-      id:"birth",
-      name:"birth",
+      id:"birthDate",
+      name:"birthDate",
       type:"date",
       label:"Date de naissance",
       disabled:false
