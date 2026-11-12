@@ -4,6 +4,7 @@ import { InputHTMLAttributes } from 'react';
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
+  variant?: 'primary' | 'disabled';
 };
 
 export default function Input({ label, id, name, className = '', ...props }: InputProps) {
