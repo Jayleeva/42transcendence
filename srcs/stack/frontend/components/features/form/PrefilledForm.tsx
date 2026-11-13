@@ -99,17 +99,13 @@ export default function PrefilledForm<T extends Record<string, any>>({
         })
         console.log("Données envoyées : ", data);
 
-        const response = await callApiWithCookie(
-            miniconf.endpoint,
-            miniconf.call,
-            JSON.stringify(data)
-        );
+        const response = await callApiWithCookie(miniconf.endpoint, miniconf.call, JSON.stringify(data));
 
         console.log(response);
 
-        if (response != null) {
+        if (response.ok) {
             alert("Action confirmée!");
-            setFormData(buildState<T>(fields, response));
+            setFormData(buildState<T>(fields, response?));
         } else {
         // Affiche les erreurs précises du backend NestJS ou un message par défaut
         const details = response?.error?.errors

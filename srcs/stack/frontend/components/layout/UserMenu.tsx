@@ -32,9 +32,16 @@ export default function UserMenu() {
   const handleLogout = async () => {
     setOpen(false);
     const response = await callApiWithCookie('/api/auth/logout', 'POST');
-    if (!response.ok)
-      console.log(response.text);
-    redirect('/');
+    console.log(response);
+    if (response.status === 204)
+      redirect('/');
+    /*if (!response.success) {
+    // Affiche les erreurs précises du backend NestJS ou un message par défaut
+    const details = response?.error?.errors
+        ?.map((e: any) => `${e.field} : ${e.code}`)
+        .join('\n') || response?.error?.message || "Erreur inconnue";
+    alert(`Erreur :\n${details}`);
+    }*/
   };
 
   const itemClass = 'block w-full px-4 py-2 text-left text-sm hover:bg-brand/10';

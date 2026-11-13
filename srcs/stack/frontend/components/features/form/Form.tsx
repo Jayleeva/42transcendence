@@ -39,13 +39,9 @@ export default function Form({inputs, conf}: FormProps)
         console.log("Donnees : ", data);
 
         const response = await callApiWithCookie(conf.endpoint, conf.call, JSON.stringify(data));
-        /*const response = await fetch(conf.endpoint, {
-            method: conf.call,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-        });*/
 
-        if (response != null) {
+        console.log(response);
+        if (response.success) {
             alert("Action confirmée!");
             if (conf.redirect)
                 redirect(conf.redirect);
