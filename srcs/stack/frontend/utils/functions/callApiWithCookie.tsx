@@ -30,6 +30,10 @@ export async function callApiWithCookie(path: string, _method: string, arg?: str
       return null;
     }
 
+    if (path === '/api/auth/logout' && response.status === 204) {
+    cookieStore.delete('transcendence.sid');
+    return { success: true };
+    }
     // 3. Si le backend renvoie un cookie de session (ex: lors du /login), on le sauvegarde dans le navigateur !
     const setCookieHeader = response.headers.get('set-cookie');
     console.log("[DEBUG COOKIE] En-tête brut reçu du backend :", setCookieHeader);
@@ -43,6 +47,7 @@ export async function callApiWithCookie(path: string, _method: string, arg?: str
           httpOnly: true,
           path: '/',
           sameSite: 'lax',
+          //secure: true,
         });
         console.log("[DEBUG COOKIE] Cookie enregistré avec succès dans cookieStore !");
       }

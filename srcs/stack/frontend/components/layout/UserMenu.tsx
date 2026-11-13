@@ -34,8 +34,6 @@ export default function UserMenu() {
     const response = await callApiWithCookie('/api/auth/logout', 'POST');
     if (!response.ok)
       console.log(response.text);
-    if (response.status === 204)
-      console.log("Delog réussi!!!");
     redirect('/');
   };
 
