@@ -11,6 +11,7 @@ type FieldProps = {
     type: string;
     label: string;
     disabled: boolean;
+//    variant: 'primary' | 'disabled' | undefined;
 }
 
 type MiniButtonProps = {
@@ -129,6 +130,7 @@ export default function PrefilledForm<T extends Record<string, any>>({
                             type={field.type}
                             label={field.label}
                             value={formData[field.name] ?? ''}
+                            //variant={field.variant}
                             disabled={field.disabled}
                             onChange={handleChange}
                         />
