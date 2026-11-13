@@ -1,7 +1,6 @@
 "use server"
 
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 export async function callApiWithCookie(path: string, _method: string, arg?: string) {
   try {
@@ -28,15 +27,13 @@ export async function callApiWithCookie(path: string, _method: string, arg?: str
     if (!response.ok) {
       const textError = await response.text();
       console.log(`[callApiWithCookie] Erreur ${response.status} :`, textError);
-      return response;
+      return null;
     }
 
     if (path === '/api/auth/logout' && response.status === 204) {
-      cookieStore.delete('transcendence.sid');
-      console.log(`[callApiWithCookie] Success : cookie deleted!`);
-      return response;
+    cookieStore.delete('transcendence.sid');
+    return { success: true };
     }
-
     // 3. Si le backend renvoie un cookie de session (ex: lors du /login), on le sauvegarde dans le navigateur !
     const setCookieHeader = response.headers.get('set-cookie');
     console.log("[DEBUG COOKIE] En-tête brut reçu du backend :", setCookieHeader);
@@ -56,7 +53,6 @@ export async function callApiWithCookie(path: string, _method: string, arg?: str
       }
     }
 
-    //return response;
    // 4. Gestion des réponses vides
     if (response.status === 204) {
       return { success: true };

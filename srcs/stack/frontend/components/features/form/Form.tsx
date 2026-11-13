@@ -41,7 +41,7 @@ export default function Form({inputs, conf}: FormProps)
         const response = await callApiWithCookie(conf.endpoint, conf.call, JSON.stringify(data));
 
         console.log(response);
-        if (response.success) {
+        if (response !== null) {
             alert("Action confirmée!");
             if (conf.redirect)
                 redirect(conf.redirect);
