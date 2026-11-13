@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Bell, CirclePlus, House, Mail, Search } from 'lucide-react';
 import UserMenu from '@/components/layout/UserMenu';
+import SearchModal from "@/components/ui/SearchModal";
 
 // tableau pour creer les boutons
 // url de dest, texte descrip, l'icone ( importé de lucide-react )
@@ -11,8 +12,7 @@ const links = [
   { href: '/feed', label: 'Accueil', Icon: House },
   { href: '/messages', label: 'Messages', Icon: Mail },
   { href: '/notifications', label: 'Notifications', Icon: Bell },
-  { href: '/search', label: 'Recherche', Icon: Search },
-  { href: '/pet/create', label: 'Créer un animal', Icon: CirclePlus },
+  { href: '/post/create', label: 'Créer un post', Icon: CirclePlus },
 ];
 
 export default function Navbar() {
@@ -23,6 +23,7 @@ export default function Navbar() {
           <Icon size={32} />
         </Link>
       ))}
+    <SearchModal />
     <UserMenu />
     </nav>
   );

@@ -31,8 +31,26 @@ export default function Page() {
         <p>1020 Renens</p>
         <p>Suisse</p>
         <br />
-        <p className="italic">(mettre un formulaire de contact ?)</p>
+        <br />
+        <div className="mx-auto w-full md:w-1/2 rounded-[20px] overflow-hidden shadow-[10px_10px_0_0_#3e7d9e]">          
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2744.776562648884!2d6.591994399999999!3d46.5323231!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478c313bc50f881d%3A0x3391ff3a058119b7!2s42%20Lausanne!5e0!3m2!1sfr!2sch!4v1777026935914!5m2!1sfr!2sch" 
+            className="w-full h-96 border-0 map-iframe" 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade" 
+            title="Carte indiquant l'emplacement du campus"
+          ></iframe>
+        </div>
+        <br />
+        <br />
+        <p className="italic">(mettre un formulaire de contact en plus ?)</p>
       </div>
     </main>
   );
 }
+
+{/* 
+    <iframe> = in line frame
+    integre une page internet externe dans la page actuelle
+    utile pour integrer map, youtube, spotify etc ... 
+*/}
