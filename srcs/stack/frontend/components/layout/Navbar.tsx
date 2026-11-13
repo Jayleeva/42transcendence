@@ -1,7 +1,11 @@
 // Navigation bar 
 
 import Link from "next/link";
-import { Bell, CirclePlus, CircleUserRound, House, Mail, Search } from 'lucide-react';
+import { Bell, CirclePlus, House, Mail, Search } from 'lucide-react';
+import UserMenu from '@/components/layout/UserMenu';
+
+// tableau pour creer les boutons
+// url de dest, texte descrip, l'icone ( importé de lucide-react )
 
 const links = [
   { href: '/feed', label: 'Accueil', Icon: House },
@@ -9,7 +13,6 @@ const links = [
   { href: '/notifications', label: 'Notifications', Icon: Bell },
   { href: '/search', label: 'Recherche', Icon: Search },
   { href: '/pet/create', label: 'Créer un animal', Icon: CirclePlus },
-  { href: '/profile-student', label: 'Mon profil', Icon: CircleUserRound },
 ];
 
 export default function Navbar() {
@@ -20,11 +23,18 @@ export default function Navbar() {
           <Icon size={32} />
         </Link>
       ))}
+    <UserMenu />
     </nav>
   );
 }
 
-
-
 // meme technique que pour le form, on passe par une map()
-// si barre em bas add : fixed bottom-0 inset-x-0 ( mais non du coup footer )
+
+// key={href} est l'identifiant unique pour react 
+// React utilise cette key pour mettre à jour uniquement l'élément concerné
+
+// href={href} est l'url de destination du lien. Variable extraite du tableau links.
+
+// aria-label={label}. Indique le nom du lien aux lecteurs d'écran pour l'accessibilité
+// car le bouton ne contient qu'une icône et pas de texte visible
+// et aussi pour le SEO 

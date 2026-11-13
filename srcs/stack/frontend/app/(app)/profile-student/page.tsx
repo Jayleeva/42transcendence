@@ -7,6 +7,10 @@ import { redirect } from 'next/navigation';
 import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 import { getNfriends } from "@/utils/functions/getNfriends";
 
+export const metadata={
+    title:'Profil',
+};
+
 export default async function Page() {
   const userData = await callApiWithCookie('/api/users/me', 'GET');
 

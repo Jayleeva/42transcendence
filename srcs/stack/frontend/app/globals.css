@@ -3,7 +3,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand: #3e7d9e; 
+  --color-brand: #3e7d9e;
+  --color-brand-secondary: color-mix(in srgb, var(--color-brand) 30%, white);
 }
 
 @theme inline {

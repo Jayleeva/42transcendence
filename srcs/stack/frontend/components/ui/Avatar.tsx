@@ -37,4 +37,27 @@ export default function Avatar({ src, alt, size = 'lg', children }: AvatarProps)
   );
 }
 
-{/* Avatar component */}
+{/* 
+    Avatar component 
+    children?: React.ReactNode; = rend le composant flexible
+    accepter et d'afficher du contenu placé entre sa balise ouvrante et sa balise fermante
+
+    React.ReactNode : C'est le type le plus large pour tout ce que React est capable d'afficher à l'écran. 
+    Cela inclut du texte brut, un nombre, une balise HTML (<span>), une icône, un autre composant React, 
+    ou même rien du tout (null ou undefined).
+
+    Apres on pourra jouter une pastille de statut par exemple 
+    Afficher les initiale si pas de photo. OU alors juste le ? par defaut pour l'instant ? 
+    afficher les badges eventuel si besoin sur l'avatar
+
+    alt pour accessibilité : alt={alt || 'Avatar'}
+    Veut dire que si on donne une description precise elle est utilisee, 
+    sinon on met juste "Avatar" par defaut
+
+    Les accolades ${...} à l'intérieur des guillemets obliques (`) permettent d'injecter ces valeurs directement dans les classes CSS Tailwind :
+    • ${s.box} : Injecte les classes de largeur et de hauteur du cercle (ex: h-16 w-16).
+    • ${s.text} : Injecte la taille de la police pour les initiales ou le ? (ex: text-xl), afin que le texte reste proportionnel à la taille du cercle.
+    
+    sizes={${s.px}px} = permet de choisir la bonne resolution d'image
+    
+*/}

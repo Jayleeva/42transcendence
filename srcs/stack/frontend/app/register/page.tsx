@@ -4,6 +4,10 @@ import BackButton from '@/components/ui/BackButton';
 import Form from '@/components/features/form/Form';
 import { basicProfileConf, basicProfileFormInputs } from '@/utils/types/basicProfileForm';
 
+export const metadata={
+    title:'Créer un compte',
+};
+
 export default async function Page() {
 
   return (

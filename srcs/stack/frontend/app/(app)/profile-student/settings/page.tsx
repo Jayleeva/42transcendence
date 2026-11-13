@@ -12,6 +12,11 @@ import PrefilledForm, { StudentProfileFormState, PetProfileFormState, PasswordFo
 import { detailedProfileFormInputs, detailedProfilePassword, detailedProfileConf, modPasswordConf } from '@/utils/types/detailedProfileForm';
 import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 
+export const metadata={
+    title:'Paramètres',
+};
+
+
 export default async function Page() {
   
   const userData = await callApiWithCookie('/api/users/me', 'GET');
