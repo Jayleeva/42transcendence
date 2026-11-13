@@ -10,7 +10,7 @@ import { CreateUserData } from './user.types';
 import { UpdateProfilDto } from './dto/update-profile.dto';
 import { SearchUserDto } from './dto/search-user.dto';
 
-const MIN_AGE = 13;
+const MIN_AGE = 18;
 
 const publicUserSelect = {
   id: true,
