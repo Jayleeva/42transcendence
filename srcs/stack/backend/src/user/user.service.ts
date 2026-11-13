@@ -17,6 +17,7 @@ const publicUserSelect = {
   username: true,
   firstname: true,
   lastname: true,
+  birthDate: true,
   avatar: true,
   bio: true,
   createdAt: true,
