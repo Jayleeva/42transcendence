@@ -42,7 +42,7 @@ model User {
   comments      Comment[]
   postlikes     PostLike[]
   commentlikes  CommentLike[]
-  petlikes      PetLike[]
+  petphotolikes PetPhotoLike[]
   messages      Message[]
   conversations ConversationMember[]
   achievements  UserAchievement[]
@@ -98,9 +98,8 @@ model Pet {
   ownerId String @db.Uuid
   owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
-  photos   PetPhoto[]
-  posts    Post[]
-  petLikes PetLike[]
+  photos PetPhoto[]
+  posts  Post[]
 }
 
 enum Species {
@@ -128,7 +127,7 @@ model PetPhoto {
   petId String @db.Uuid
   pet   Pet    @relation(fields: [petId], references: [id], onDelete: Cascade)
 
-  likes PetLike[]
+  likes PetPhotoLike[]
 }
 
 // ==================== POST ====================
@@ -207,7 +206,7 @@ model CommentLike {
   @@unique([authorId, commentId])
 }
 
-model PetLike {
+model PetPhotoLike {
   id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -215,12 +214,10 @@ model PetLike {
   authorId String @db.Uuid
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
-  petId      String    @db.Uuid
-  pet        Pet       @relation(fields: [petId], references: [id], onDelete: Cascade)
-  petPhoto   PetPhoto? @relation(fields: [petPhotoId], references: [id], onDelete: Cascade)
-  petPhotoId String?   @db.Uuid
+  petPhotoId String   @db.Uuid
+  petPhoto   PetPhoto @relation(fields: [petPhotoId], references: [id], onDelete: Cascade)
 
-  @@unique([authorId, petId])
+  @@unique([authorId, petPhotoId])
 }
 
 // ==================== MESSAGES ====================
@@ -278,7 +275,7 @@ enum NotificationType {
   FRIEND_ACCEPTED
   POST_LIKE
   COMMENT_LIKE
-  PET_LIKE
+  PET_PHOTO_LIKE
   COMMENT
   MESSAGE
   ACHIEVEMENT
