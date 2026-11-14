@@ -4,7 +4,6 @@ import { CreatePetDto } from './dto/create-pet.dto';
 import { SessionGuard } from '../auth/guards/session.guard';
 import { CurrentUserId } from '../auth/decorators/current-user-id.decorator';
 import { parseId } from '../common/pipes/parse-id.pipe';
-import { parse } from 'path';
 
 @UseGuards(SessionGuard)
 @Controller()
@@ -15,7 +14,7 @@ export class PetController {
   create(@CurrentUserId() userId: string, @Body() dto: CreatePetDto) {
     return this.petService.create(userId, dto);
   }
-  @Get('pet/:id')
+  @Get('pets/:id')
   findOne(@Param('id', parseId) id: string) {
     return this.petService.findOne(id);
   }
