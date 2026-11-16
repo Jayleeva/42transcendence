@@ -1,6 +1,7 @@
 // test de page erreur 404 personnalisée 
 
 import BackButton from "@/components/ui/BackButton"
+import Link from "next/dist/client/link";
 import Image from 'next/image';
 
 export default function NotFound() {
@@ -10,7 +11,7 @@ export default function NotFound() {
             <div>
                 <h1>
                     <Image
-                        src="/404-dogpic.webp"
+                        src="/404_dog.webp"
                         alt="404 Error"
                         width={600}
                         height={400}
@@ -18,11 +19,14 @@ export default function NotFound() {
                         className="items-center justify-center mx-auto"
                     />
                 </h1>
-                <h1 className="font-display text-5xl font-bold text-center">
+                <h2 className="font-display text-5xl font-bold text-center">
                     La page que vous cherchez n’existe pas...
-                </h1>
+                </h2>
                 <p className="font-display text-3xl text-center">
-                    Vérifiez l’URL ou retournez à la page d’accueil.
+                    Vérifiez l’URL ou retournez à la page {''}
+                    <Link href="/" className="underline">
+                        d’accueil
+                    </Link>.
                 </p>
             </div>
         </main>

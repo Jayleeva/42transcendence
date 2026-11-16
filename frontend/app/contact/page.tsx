@@ -8,6 +8,7 @@ import ChatBubble from '@/components/features/ChatBubble';
 import MessageInput from '@/components/features/MessageInput';
 import SearchBar from '@/components/ui/SearchBar';
 import BackButton from '@/components/ui/BackButton';
+import Image from 'next/image';
 
 export const metadata={
     title:'Contact',
@@ -17,10 +18,19 @@ export default function Page() {
   return (
     <main className="min-h-screen px-6 py-12 md:px-8 max-w-7xl mx-auto">
       <BackButton />
-      <h1 className="font-display text-6xl font-bold text-brand text-center">
+      <h1 className="font-display text-8xl font-bold text-brand text-center">
         Contact
       </h1>
-      <br />
+                <h1>
+                    <Image
+                        src="/contact_bird.webp"
+                        alt="404 Error"
+                        width={200}
+                        height={100}
+                        priority
+                        className="items-center justify-center mx-auto"
+                    />
+                </h1>
       <br />
       <div className="text-center text-lg"> 
         <p>Des questions ? Vous pouvez nous contacter à l'adresse suivante :</p>
@@ -41,8 +51,6 @@ export default function Page() {
             title="Carte indiquant l'emplacement du campus"
           ></iframe>
         </div>
-        <br />
-        <br />
       </div>
     </main>
   );
