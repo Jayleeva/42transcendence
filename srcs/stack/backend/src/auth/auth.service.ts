@@ -1,8 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import * as argon2 from 'argon2';
 import { UserService } from '../user/user.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -59,9 +60,10 @@ export class AuthService {
   async getMe(userId: string) {
     const user = await this.userService.findMyself(userId);
 
-    if (!user) {
-      throw new UnauthorizedException();
-    }
+    if (!user) ({
+      statusCode: 401,
+      errors: [{ field: 'session', code: 'NOT_AUTHENTICATED' }],
+    });
 
     return user;
   }
@@ -77,5 +79,39 @@ export class AuthService {
     password: string,
   ): Promise<boolean> {
     return argon2.verify(hashedPassword, password);
+  }
+
+  async changePassword(userId: string, dto: ChangePasswordDto) {
+    const user = await this.userService.findByIdWithPassword(userId);
+
+    if (!user) {
+    throw new UnauthorizedException({
+      statusCode: 401,
+      errors: [{ code: 'NOT_AUTHENTICATED' }],
+    });
+  }
+
+  if (!user.password) {
+    throw new BadRequestException({
+      statusCode: 400,
+      errors: [{ code: 'PASSWORD_NOT_SET' }],
+    });
+  }
+
+    const isValid = await this.verifyPassword(
+      user.password,
+      dto.currentPassword,
+    );
+
+    if (!isValid) {
+      throw new UnauthorizedException({
+        statusCode: 401,
+        errors: [{ code: 'INVALID_CURRENT_PASSWORD' }],
+      });
+    }
+
+    const hashedPassword = await this.hashPassword(dto.newPassword);
+
+    await this.userService.updatePassword(userId, hashedPassword);
   }
 }

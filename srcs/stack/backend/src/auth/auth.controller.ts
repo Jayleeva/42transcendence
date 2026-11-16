@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, HttpCode, HttpStatus, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, HttpCode, HttpStatus, Req, Res, UseGuards, Patch, } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import type { Request, Response } from 'express';
 import { SessionGuard } from './guards/session.guard';
 import { CurrentUserId } from './decorators/current-user-id.decorator';
@@ -87,5 +88,15 @@ export class AuthController {
       secure: true,
       sameSite: 'lax',
     });
+  }
+
+  @Patch('password')
+  @UseGuards(SessionGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async changePassword(
+    @CurrentUserId() userId: string,
+    @Body() dto: ChangePasswordDto,
+  ) {
+    await this.authService.changePassword(userId, dto);
   }
 }
