@@ -164,6 +164,27 @@ export class UserService {
     }
   }
 
+  async deleteAccount(id: string) {
+    try {
+      await this.prisma.$transaction([
+        this.prisma.user.delete({ where: { id } }),
+        this.prisma
+          .$executeRaw`DELETE FROM "session" WHERE "sess"->>'userId' = ${id}`,
+      ]);
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code == 'P2025'
+      ) {
+        throw new NotFoundException({
+          statusCode: 404,
+          errors: [{ field: 'id', code: 'USER_NOT_FOUND' }],
+        });
+      }
+      this.rethrowPrismaError(error);
+    }
+  }
+
   async createOAuthUser(
     data: CreateUserData,
     provider: string,
