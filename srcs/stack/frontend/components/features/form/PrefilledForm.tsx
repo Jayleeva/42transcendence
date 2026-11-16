@@ -3,7 +3,6 @@
 import Input from "@/components/ui/Input";
 import MiniButton from "@/components/ui/MiniButton";
 import { callApiWithCookie } from "@/utils/functions/callApiWithCookie";
-import { format } from "path";
 import { useState, useEffect } from 'react';
 
 type FieldProps = {
@@ -12,6 +11,7 @@ type FieldProps = {
     type: string;
     label: string;
     disabled: boolean;
+    placeholder?: string;
 }
 
 type MiniButtonProps = {
@@ -77,9 +77,13 @@ export default function PrefilledForm<T extends Record<string, any>>({
     const [formData, setFormData] = useState<T>(() =>
         buildState<T>(fields, initialData)
     );
+    
+    // 1. Nouveau state pour mémoriser les données déjà enregistrées
+    const [savedData, setSavedData] = useState<Partial<T> | null | undefined>(initialData);
 
     useEffect(() => {
         if (initialData != null) {
+            setSavedData(initialData);
             setFormData(buildState<T>(fields, initialData));
         }
     }, [initialData, fields]);
@@ -96,47 +100,49 @@ export default function PrefilledForm<T extends Record<string, any>>({
         event.preventDefault();
 
         const submittedFormData = new FormData(event.currentTarget);
-        //const data = Object.fromEntries(submittedFormData.entries());
         const data: Record<string, any> = {};
         submittedFormData.forEach((value, key) => {
-            // Si le champ est vide (""), on met undefined pour que JSON.stringify retire la clé
             data[key] = value === '' ? undefined : value;
-        })
-        console.log("Données envoyées : ", data);
+        });
 
         const response = await callApiWithCookie(miniconf.endpoint, miniconf.call, JSON.stringify(data));
 
-        console.log(response);
-
-        if (response !== null) {
+        if (response !== null && !response?.error) {
             alert("Action confirmée!");
+            // 2. On met à jour savedData pour verrouiller immédiatement le champ birthDate
+            setSavedData(response);
             setFormData(buildState<T>(fields, response));
         } else {
-        // Affiche les erreurs précises du backend NestJS ou un message par défaut
-        const details = response?.error?.errors
-            ?.map((e: any) => `${e.field} : ${e.code}`)
-            .join('\n') || response?.error?.message || "Erreur inconnue";
-        alert(`Erreur :\n${details}`);
+            const details = response?.error?.errors
+                ?.map((e: any) => `${e.field} : ${e.code}`)
+                .join('\n') || response?.error?.message || "Erreur inconnue";
+            alert(`Erreur :\n${details}`);
         }
     }
 
     return (
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4">
-                {fields.map((field) => (
-                    <div key={field.id}>
-                        <Input
-                            id={field.id}
-                            name={field.name}
-                            type={field.type}
-                            label={field.label}
-                            value={formData[field.name] ?? ''}
-                            //variant={field.variant}
-                            disabled={field.disabled}
-                            onChange={handleChange}
-                        />
-                    </div>
-                ))}
+                {fields.map((field) => {
+                    // 3. Le champ est désactivé s'il est configuré comme tel OU si c'est birthDate déjà enregistré
+                    const isFieldDisabled =
+                        field.disabled ||
+                        (field.name === "birthDate" && Boolean(savedData?.birthDate));
+
+                    return (
+                        <div key={field.id}>
+                            <Input
+                                id={field.id}
+                                name={field.name}
+                                type={field.type}
+                                label={field.label}
+                                value={formData[field.name] ?? ''}
+                                disabled={isFieldDisabled}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    );
+                })}
             </div>
             <div>
                 <MiniButton type={miniconf.type} variant={miniconf.variant}>
