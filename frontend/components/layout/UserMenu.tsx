@@ -60,7 +60,7 @@ export default function UserMenu() {
             </Link>
           </li>
           <li className="border-t border-slate-200">
-            <button type="button" onClick={handleLogout} className={`${itemClass} cursor-pointer`}>
+            <button type="button" onClick={handleLogout} className={`${itemClass} cursor-pointer text-brand font-bold`}>
               Déconnexion
             </button>
           </li>

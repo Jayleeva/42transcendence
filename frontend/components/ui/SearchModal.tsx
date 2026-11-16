@@ -52,8 +52,8 @@ export default function SearchModal() {
           <SearchBar
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Rechercher un étudiant ou un animal..."
-            aria-label="Rechercher un étudiant ou un animal"
+            placeholder="Rechercher un utilisateur ou un animal..."
+            aria-label="Rechercher un utilisateur ou un animal"
           />
 
           {search && (
@@ -71,7 +71,7 @@ export default function SearchModal() {
                       </Avatar>
                       <span className="flex-1 truncate font-medium">{r.name}</span>
                       <span className="shrink-0 text-xs text-slate-500">
-                        {r.kind === 'user' ? 'Étudiant' : 'Animal'}
+                        {r.kind === 'user' ? 'Utilisateur' : 'Animal'}
                       </span>
                     </Link>
                   </li>

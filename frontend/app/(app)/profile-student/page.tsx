@@ -17,6 +17,7 @@ export default function Page() {
       <MiniPetCard id={1} name="Milo" />
       <AddPetCard />
       </div>
+      <h2 className="font-display text-3xl font-bold pt-4">Derniers posts :</h2>
     </main>
   );
 }

@@ -1,11 +1,16 @@
 export const petTypes = [
   { value: 'dog', label: 'Chien' },
   { value: 'cat', label: 'Chat' },
+  { value: 'bunny', label: 'Lapin' },
   { value: 'bird', label: 'Oiseau' },
-  { value: 'rodent', label: 'Rongeur (hamster, cochon d’Inde...)' },
-  { value: 'rabbit', label: 'Lapin' },
+  { value: 'hamster', label: 'Hamster' },
+  { value: 'gineapig', label: 'Cochon d’Inde' },
+  { value: 'mouse', label: 'Souris' },
+  { value: 'rat', label: 'Rat' },
   { value: 'fish', label: 'Poisson' },
-  { value: 'reptile', label: 'Reptile' },
+  { value: 'lizard', label: 'Lezard' },
+  { value: 'snake', label: 'Serpent' },
+  { value: 'turtle', label: 'Tortue' },
   { value: 'other', label: 'Autre' },
 ];
 

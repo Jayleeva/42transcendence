@@ -43,7 +43,6 @@ export default function Page() {
         </div>
         <br />
         <br />
-        <p className="italic">(mettre un formulaire de contact en plus ?)</p>
       </div>
     </main>
   );
