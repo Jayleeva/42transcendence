@@ -10,9 +10,10 @@ type StudentCardProps = {
   photoUrl?: string | null;
   bio?: string | null;
   nfriends: number | 0;
+  age: number | null;
 };
 
-export default function StudentCard({ id, username, photoUrl, bio, nfriends }: StudentCardProps) {
+export default function StudentCard({ id, username, photoUrl, bio, nfriends, age }: StudentCardProps) {
   //if (!bio)
   //  bio = "Ceci est une bio test ahahah faudra remplacer par userData.bio quand ça sera fonctionnel lalala";
   return (
@@ -28,6 +29,7 @@ export default function StudentCard({ id, username, photoUrl, bio, nfriends }: S
 
     <p className="text-sm font-medium text-slate-500">👥 {nfriends} amis</p>
  
+    <p className="text-sm font-medium text-slate-500"> {age} ans</p>
       <p className="text-sm text-slate-600">
       {bio}
     </p>
