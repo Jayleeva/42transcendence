@@ -15,7 +15,6 @@
       type:"name",
       label:"Prénom",
       disabled:false,
-//      variant:'primary'
     },
     {
       id:"lastname",
@@ -23,7 +22,6 @@
       type:"name",
       label:"Nom",
       disabled:false,
-      variant:'primary'
     },
     {
       id:"username",
@@ -31,7 +29,6 @@
       type:"username",
       label:"Pseudo",
       disabled:false,
-//      variant:'primary'
     },
     {
       id:"birthDate",
@@ -39,7 +36,6 @@
       type:"date",
       label:"Date de naissance",
       disabled:false,
-//      variant:'primary'
     },
     {
       id:"email",
@@ -47,7 +43,6 @@
       type:"email",
       label:"Email",
       disabled:true,
-//      variant:'disabled'
     },
   ];
 
@@ -58,7 +53,6 @@
       type:"password",
       label:"Ancien mot de passe",
       disabled:false,
-//      variant:'primary'
     },
     {
       id:"newpassword",
@@ -66,7 +60,6 @@
       type:"password",
       label:"Nouveau mot de passe",
       disabled:false,
-//      variant:'primary'
     },
     {
       id:"confpassword",
@@ -74,7 +67,6 @@
       type:"password",
       label:"Confirmer le nouveau mot de passe",
       disabled:false,
-//      variant:'primary'
     }
   ];
 

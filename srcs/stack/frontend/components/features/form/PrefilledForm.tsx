@@ -11,7 +11,6 @@ type FieldProps = {
     type: string;
     label: string;
     disabled: boolean;
-//    variant: 'primary' | 'disabled' | undefined;
 }
 
 type MiniButtonProps = {
@@ -33,8 +32,8 @@ export interface StudentProfileFormState {
     lastname: string;
     username: string;
     email: string;
-    avatar: string;
-    bio: string;
+    avatar?: string;
+    bio?: string;
     birthDate?: string;
 }
 

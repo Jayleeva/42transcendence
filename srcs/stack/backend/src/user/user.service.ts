@@ -17,6 +17,7 @@ const publicUserSelect = {
   username: true,
   firstname: true,
   lastname: true,
+  birthDate: true,
   avatar: true,
   bio: true,
   createdAt: true,
@@ -32,8 +33,8 @@ const privateUserSelect = {
   avatar: true,
   bio: true,
   createdAt: true,
-  email: true,
   pets: true,
+  email: true,
 } as const;
 
 @Injectable()
