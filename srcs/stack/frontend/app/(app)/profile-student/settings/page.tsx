@@ -21,7 +21,7 @@ export default async function Page() {
   
   const userData = await callApiWithCookie('/api/users/me', 'GET');
 
-  console.log("recieved userdata = " + userData);
+  //console.log("recieved userdata = " + JSON.stringify(userData));
   if (!userData) {
     redirect('/login');
   }

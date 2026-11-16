@@ -3,6 +3,7 @@
 import Input from "@/components/ui/Input";
 import MiniButton from "@/components/ui/MiniButton";
 import { callApiWithCookie } from "@/utils/functions/callApiWithCookie";
+import { format } from "path";
 import { useState, useEffect } from 'react';
 
 type FieldProps = {
@@ -58,7 +59,12 @@ function buildState<T extends Record<string, any>>(
 ): T {
     const state: Record<string, any> = {};
     fields.forEach((field) => {
-        state[field.name] = initialData?.[field.name] ?? undefined;
+        const tmp = initialData?.[field.name] ?? undefined;
+        if (field.type === "date") {
+            state[field.name] = tmp?.split('T')[0];
+        }
+        else
+            state[field.name] = tmp;
     });
     return state as T;
 }
