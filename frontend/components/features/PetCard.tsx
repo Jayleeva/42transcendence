@@ -12,6 +12,7 @@ type PetCardProps = {
   photoUrl?: string | null;
   info?: string | null;
   isOwner?: boolean;
+  ownerProfileLink?: string | null;
 };
 
 export default function PetCard({
@@ -22,6 +23,7 @@ export default function PetCard({
   photoUrl,
   info,
   isOwner = true,
+  ownerProfileLink,
 }: PetCardProps) {
   const typeLabel = getPetTypeLabel(type);
 
@@ -36,6 +38,11 @@ export default function PetCard({
         {race && <p><span className="font-bold text-black">Race :</span> {race}</p>}
         {dateOfBirth && <p><span className="font-bold text-black">Date de naissance :</span> {dateOfBirth}</p>}
         {info && <p><span className="font-bold text-black">Info :</span> {info}</p>}
+        {ownerProfileLink && <p><span className="font-bold text-black">Profil du propriétaire :</span> (
+          <Link href={ownerProfileLink} className="underline">
+            Test profil Melo
+          </Link>
+        )</p>}
         {isOwner && (
           <Link
             href={`/pet/${id}/edit`}
