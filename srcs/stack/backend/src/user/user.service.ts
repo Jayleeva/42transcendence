@@ -107,6 +107,23 @@ export class UserService {
     });
   }
 
+  findByIdWithPassword(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        password: true,
+      },
+    });
+  }
+
+  async updatePassword(id: string, hashedPassword: string) {
+    await this.prisma.user.update({
+      where: { id },
+      data: { password: hashedPassword },
+    });
+  }
+
   findByOAuthAccount(provider: string, providerAccountId: string) {
     return this.prisma.oAuthAccount.findUnique({
       where: { provider_providerAccountId: { provider, providerAccountId } },
