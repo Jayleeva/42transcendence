@@ -38,8 +38,9 @@ export class UserController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.userService.findOne(id);
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
+    const toot = await this.userService.findOne(id);
+    return (toot);
   }
 
   @Patch('me')

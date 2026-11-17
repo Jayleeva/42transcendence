@@ -109,7 +109,7 @@ https://lauzanimo.ch
 
 If you can't use the DOMAIN_NAME, type:
 ```
-https://localhost/
+https://localhost:8443/
 ```
 
 If you're on a 42 session, type:

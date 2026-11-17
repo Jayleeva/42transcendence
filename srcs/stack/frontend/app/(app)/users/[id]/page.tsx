@@ -1,5 +1,6 @@
 // page des autres utilisateurs ( consulter uniquement, on peut pas modif ou ajouter de photo )
 
+import NotFound from "@/app/not-found";
 import MiniPetCard from "@/components/features/MiniPetCard";
 import StudentCard from "@/components/features/StudentCard";
 import { callApiWithCookie } from "@/utils/functions/callApiWithCookie";
@@ -16,17 +17,18 @@ export const metadata={
 export default async function Page({
   params,
   }: {
-  params: Promise<{ 'user-id': string }>;
+  params: Promise<{ 'id': string }>;
   }) {
   // 1. On attend la résolution de params et on extrait 'user-id' dans la variable userId
-  const { 'user-id': userId } = await params;
+  const { 'id': userId } = await params;
+  
 
   // 2. On injecte userId directement dans l'URL de l'API
   const userData = await callApiWithCookie(`/api/users/${userId}`, 'GET');
   
   console.log("recieved userdata recieved userdata for searched profile = " + JSON.stringify(userData));
   if (!userData) {
-    redirect('/login');
+    return (NotFound());
   }
 
   return (
