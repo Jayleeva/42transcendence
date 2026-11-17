@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { CircleUserRound } from 'lucide-react';
-import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 import { redirect } from 'next/navigation';
+import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 
 export default function UserMenu() {
   const [open, setOpen] = useState(false);
@@ -34,7 +34,15 @@ export default function UserMenu() {
     const response = await callApiWithCookie('/api/auth/logout', 'POST');
     console.log(response);
     if (response.status === 204)
+      cookieStore.delete({name:'transcendence.sid', path: '/'});
       redirect('/');
+    /*if (!response.success) {
+    // Affiche les erreurs précises du backend NestJS ou un message par défaut
+    const details = response?.error?.errors
+        ?.map((e: any) => `${e.field} : ${e.code}`)
+        .join('\n') || response?.error?.message || "Erreur inconnue";
+    alert(`Erreur :\n${details}`);
+    }*/
   };
 
   const itemClass = 'block w-full px-4 py-2 text-left text-sm hover:bg-brand/10';
@@ -64,7 +72,7 @@ export default function UserMenu() {
             </Link>
           </li>
           <li className="border-t border-slate-200">
-            <button type="button" onClick={handleLogout} className={`${itemClass} cursor-pointer text-brand font-bold`}>
+            <button type="button" onClick={handleLogout} className={`${itemClass} cursor-pointer`}>
               Déconnexion
             </button>
           </li>
