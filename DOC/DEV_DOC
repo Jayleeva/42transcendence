@@ -5,6 +5,8 @@
 - Docker
 - Docker Compose
 
+You don't need roots priviledges in order to use this stack, only to install the prerequisites if not already done.
+
 ### Make
 ```
 sudo apt install make
@@ -105,6 +107,15 @@ Type the DOMAIN_NAME written in the Makefile:
 https://lauzanimo.ch
 ```
 
+If you can't use the DOMAIN_NAME, type:
+```
+https://localhost/
+```
+
+If you're on a 42 session, type:
+```
+https://127.0.0.1:8443/
+```
 
 # Debug
 ## Consulting the logs
@@ -121,6 +132,20 @@ The stack contains the following services:
 - pgdb (Postgres database)
 - vault (HashiCorp Vault)
 
+### Nginx
+Hosts the site and acts as proxy. Makes it available to the public.
+
+### Frontend
+What the users see. It asks for API calls to the backend and presents the data recieved in an ordered, predefined, aesthetic way.
+
+### Backend
+Where the actual SQL requests are made to the database.
+
+### Pgdb
+Structures what info is stored where and which info are related how.
+
+The frontend calls the backend which itself calls the database in order to retrieve the info it needs to show the user, or store the info the user gave.
+
 ## Volumes
 The stack contains the following volumes:
 - srcs_vault_data
@@ -129,7 +154,37 @@ The stack contains the following volumes:
 - srcs_pgdb_data
 - srcs_modsecs_logs
 
+### Vault_data
+Where the secrets are stored. Only Vault has access to it.
+
+### Vault_logs
+Keeps records of whatever happened in vault. Only Vault has access to it.
+
+### Certs_data
+Where the accesses to the secrets are stored. Every service that needs to retrieve secrets from Vault has its own access to it.
+
+### Pgdb_data
+Where the app's data is stored. Only pgdb has access to it.
+
+### Modsecs_logs
+Keeps records of whatever happened with WAF. Only NGINX has access to it.
+
+
 ## Networks
+The stack contains 3 networks to allow only certain connections between services.
+- srcs_frontend-network
+- srcs_backend-network
+- srcs_vault-network
+
+### Frontend-network
+Connects NGINX, the frontend and the backend.
+
+### Backend-network
+Connects the backend and the database.
+
+### Vault-network
+Connects Vault, the backend and NGINX.
+
 
 ## Data persistance
 All data is kept in named volumes of the stack that survive down and up commands. 
