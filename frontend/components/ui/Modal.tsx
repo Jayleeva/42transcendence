@@ -47,7 +47,7 @@ export default function Modal({ open, onClose, title, size = 'md', children }: M
         >
           <X size={20} />
         </button>
-        <h2 className="mb-4 pr-8 font-display text-3xl font-bold">{title}</h2>
+        <h2 className="mb-4 px-8 text-center font-display text-3xl font-bold">{title}</h2>
         {children}
       </div>
     </dialog>

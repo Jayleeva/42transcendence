@@ -18,12 +18,35 @@ type PhotoGalleryProps = {
 };
 
 export default function PhotoGallery({ photos, petName, isOwner = false }: PhotoGalleryProps) {
-  const [selected, setSelected] = useState<Photo | null>(null);
-  const [uploadOpen, setUploadOpen] = useState(false);
+    const [selected, setSelected] = useState<Photo | null>(null);
+    const [uploadOpen, setUploadOpen] = useState(false);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
 
-  if (photos.length === 0 && !isOwner) {
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (previewUrl) URL.revokeObjectURL(previewUrl); // Libère la mémoire précédente
+
+    if (file) {
+        setSelectedFileName(file.name);
+        setPreviewUrl(URL.createObjectURL(file));
+    } else {
+        setSelectedFileName(null);
+        setPreviewUrl(null);
+    }
+};
+
+const handleCloseUpload = () => {
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setUploadOpen(false);
+    setSelectedFileName(null);
+    setPreviewUrl(null);
+};
+
+
+if (photos.length === 0 && !isOwner) {
     return <p className="text-slate-500">Aucune photo pour le moment.</p>;
-  }
+}
 
   return (
     <>
@@ -60,28 +83,83 @@ export default function PhotoGallery({ photos, petName, isOwner = false }: Photo
         )}
       </div>
 
-      {/* photo agrandie */}
-      <Modal
+        {/* photo agrandie */}
+        <Modal
         open={selected !== null}
         onClose={() => setSelected(null)}
         title={`Photo de ${petName}`}
         size="lg"
-      >
+        >
         {selected && (
             // conteneur de 70% de l ecran
-          <div className="relative h-[70vh] w-full">
+            <div className="relative h-[70vh] w-full">
             <Image
-              src={selected.url}
-              alt={`Photo de ${petName}`}
-              fill
-              sizes="(min-width: 1024px) 800px, 100vw"
-              className="object-contain"
+                src={selected.url}
+                alt={`Photo de ${petName}`}
+                fill
+                sizes="(min-width: 1024px) 800px, 100vw"
+                className="object-contain"
             />
-          </div>
+            </div>
         )}
-      </Modal>
+        </Modal>
 
-      {/* upload d'une nouvelle photo */}
+
+        {/* upload d'une nouvelle photo */}
+        <Modal open={uploadOpen} onClose={handleCloseUpload} title="Ajouter une photo">
+            <form className="flex items-center flex-col gap-4">
+                {/* Miniature affichée uniquement quand une image est choisie */}
+                {previewUrl && (
+                <div className="flex justify-center">
+                    <img
+                    src={previewUrl}
+                    alt="Aperçu de la photo sélectionnée"
+                    className="h-32 w-32 rounded-xl border border-slate-200 object-cover shadow-sm"
+                    />
+                </div>
+                )}
+
+                {/* Bouton et nom du fichier sur la même ligne */}
+                <div className="flex items-center gap-3">
+                <label
+                    htmlFor="photo-upload"
+                    className="shrink-0 cursor-pointer rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium transition-colors hover:bg-slate-50"
+                >
+                    Choisir un fichier
+                </label>
+
+                <input
+                    id="photo-upload"
+                    type="file"
+                    name="photo"
+                    accept="image/*"
+                    required
+                    onChange={handleFileChange}
+                    className="sr-only"
+                />
+
+                {/* truncate évite que les noms de fichiers très longs ne cassent la mise en page */}
+                <span className="truncate text-sm italic text-slate-500">
+                    {selectedFileName || 'Aucun fichier choisi'}
+                </span>
+                </div>
+
+                <div>
+                <MiniButton type="submit" variant="outline">
+                    Ajouter
+                </MiniButton>
+                </div>
+            </form>
+        </Modal>
+    </>
+  );
+}
+
+
+
+{/* 
+    back up modal simple:
+
       <Modal open={uploadOpen} onClose={() => setUploadOpen(false)} title="Ajouter une photo">
         <form className="flex flex-col gap-4">
           <input type="file" name="photo" accept="image/*" required />
@@ -92,10 +170,5 @@ export default function PhotoGallery({ photos, petName, isOwner = false }: Photo
           </div>
         </form>
       </Modal>
-    </>
-  );
-}
-
-{/* 
     
 */}
