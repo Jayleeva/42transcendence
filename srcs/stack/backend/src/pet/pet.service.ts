@@ -54,4 +54,27 @@ export class PetService {
     }
     return pet;
   }
+
+  findByOwner(ownerId: string) {
+    return this.prisma.pet.findMany({
+      where: { ownerId },
+      select: petSelect,
+      orderBy: { createdAt: 'asc' },
+    });
+  }
+
+  async findByUser(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException({
+        statusCode: 404,
+        errors: [{ field: 'id', code: 'USER_NOT_FOUND' }],
+      });
+    }
+    return this.findByOwner(userId);
+  }
 }

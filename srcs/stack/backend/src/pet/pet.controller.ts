@@ -18,4 +18,12 @@ export class PetController {
   findOne(@Param('id', parseId) id: string) {
     return this.petService.findOne(id);
   }
+  @Get('users/me/pets')
+  findMine(@CurrentUserId() userId: string) {
+    return this.petService.findByOwner(userId);
+  }
+  @Get('users/:id/pets')
+  findByUser(@Param('id', parseId) id: string) {
+    return this.petService.findByUser(id);
+  }
 }
