@@ -21,9 +21,6 @@ up:
 	cp $(ENV_SRC) $(ENV_DEST)
 	echo "DOMAIN_NAME=$(DOMAIN_NAME)" >> $(ENV_DEST)
 	$(CMP) up -d --build
-	@if ! grep "$(DOMAIN_NAME)" /etc/hosts ;then \
-		echo "127.0.0.1 $(DOMAIN_NAME)" | sudo tee -a /etc/hosts; \
-	fi
 
 down:
 	$(CMP) down

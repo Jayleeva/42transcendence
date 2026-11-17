@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // ⚡️ À METTRE ICI : À la racine de la configuration, sans http/https ni port
-  allowedDevOrigins: ["188.213.129.234"],
+  allowedDevOrigins: ["188.213.129.234", "127.0.0.1"],
 
   experimental: {
     serverActions: {
