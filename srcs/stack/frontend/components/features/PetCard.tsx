@@ -4,15 +4,15 @@ import Link from 'next/link';
 import Avatar from '@/components/ui/Avatar';
 import { getPetTypeLabel } from '@/lib/petTypes';
 
-export type PetCardProps = {
+type PetCardProps = {
   id: string | number;
-  name: string;
   type: string;
   race?: string | null;
   dateOfBirth?: string | null;
   photoUrl?: string | null;
   info?: string | null;
   isOwner?: boolean;
+  ownerProfileLink?: string | null;
 };
 
 export default function PetCard({
@@ -23,11 +23,12 @@ export default function PetCard({
   photoUrl,
   info,
   isOwner = true,
+  ownerProfileLink,
 }: PetCardProps) {
   const typeLabel = getPetTypeLabel(type);
 
   return (
- <div className="flex items-center gap-6 w-full max-w-2xl bg-brand-secondary rounded-2xl p-6 shadow-sm">
+ <div className="flex items-center gap-6 w-full max-w-2xl bg-white border-brand border-3 rounded-2xl p-6 shadow-sm">
   <div className="w-1/4 flex justify-center shrink-0">
         <Avatar src={photoUrl} alt={typeLabel} />
       </div>
@@ -37,6 +38,11 @@ export default function PetCard({
         {race && <p><span className="font-bold text-black">Race :</span> {race}</p>}
         {dateOfBirth && <p><span className="font-bold text-black">Date de naissance :</span> {dateOfBirth}</p>}
         {info && <p><span className="font-bold text-black">Info :</span> {info}</p>}
+        {ownerProfileLink && <p><span className="font-bold text-black">Profil du propriétaire :</span> (
+          <Link href={ownerProfileLink} className="underline">
+            Test profil Melo
+          </Link>
+        )</p>}
         {isOwner && (
           <Link
             href={`/pet/${id}/edit`}

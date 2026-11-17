@@ -95,7 +95,7 @@ export default function SearchModal() {
               {results.length > 0 ? (
                 results.map((r) => {
                   // 4. Adaptation aux vraies propriétés renvoyées par /api/users
-                  const displayName = r.username || r.name || 'Utilisateur';
+                  const displayName = r.username || 'Utilisateur';
                   const userHref = r.href || `/users/${r.id}`;
 
                   return (
