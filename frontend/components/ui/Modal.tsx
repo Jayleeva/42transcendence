@@ -53,3 +53,17 @@ export default function Modal({ open, onClose, title, size = 'md', children }: M
     </dialog>
   );
 }
+
+{/* 
+    balise HTML native <dialog> pour gérer l'affichage,
+
+    use effect va surveiller les changements de la prop
+    Si open est true appel la methode showModal
+    Si false appel la methode close
+
+    onClose={onClose} avec touche echap
+    onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    Si l'utilisateur clique en dehors de la fenêtre modale, onClose est appelé pour fermer le modal.
+
+
+*/}

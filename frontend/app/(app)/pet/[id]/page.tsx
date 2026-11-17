@@ -11,9 +11,10 @@ export const metadata={
 
 // hard code a remplacer par le back end
 const photos = [
-  { id: 1, url: '/Placeholder-test.png' },
-  { id: 2, url: '/Placeholder-test.png' },
-
+  { id: 1, url: '/images-test/milo-couch.jpg' },
+  { id: 2, url: '/images-test/milo-beach.jpg' },
+  { id: 3, url: '/images-test/milo-sunset.jpg' },
+  { id: 4, url: '/images-test/milo-mountain.jpg' },
 ];
 
 export default function Page() {

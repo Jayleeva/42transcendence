@@ -27,7 +27,9 @@ export default function PhotoGallery({ photos, petName, isOwner = false }: Photo
 
   return (
     <>
+    {/* 2 colonne sur mobile, 4 sur ecran*/}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {/* chaque photo est dans un bouton carre*/}
         {photos.map((photo, i) => (
           <button
             key={photo.id}
@@ -66,6 +68,7 @@ export default function PhotoGallery({ photos, petName, isOwner = false }: Photo
         size="lg"
       >
         {selected && (
+            // conteneur de 70% de l ecran
           <div className="relative h-[70vh] w-full">
             <Image
               src={selected.url}
@@ -92,3 +95,7 @@ export default function PhotoGallery({ photos, petName, isOwner = false }: Photo
     </>
   );
 }
+
+{/* 
+    
+*/}
