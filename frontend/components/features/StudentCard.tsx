@@ -9,9 +9,10 @@ type StudentCardProps = {
   username: string;
   photoUrl?: string | null;
   bio?: string | null;
+  nfriends: number | 0;
 };
 
-export default function StudentCard({ id, username, photoUrl, bio }: StudentCardProps) {
+export default function StudentCard({ id, username, photoUrl, bio, nfriends }: StudentCardProps) {
   return (
 <div className="flex items-center gap-6 w-full max-w-2xl bg-white border-brand border-3 rounded-2xl p-6 shadow-sm">
   
@@ -23,10 +24,10 @@ export default function StudentCard({ id, username, photoUrl, bio }: StudentCard
     
     <h2 className="text-xl font-bold text-slate-800">{username}</h2>
 
-    <p className="text-sm font-medium text-slate-500">👥 99 amis ( attention c'est juste pour le visu)</p>
+    <p className="text-sm font-medium text-slate-500">👥 {nfriends} amis ( attention c'est juste pour le visu)</p>
  
       <p className="text-sm text-slate-600">
-      {bio ?? "Test bio : blablabli blala treeeeeeees long pour voir comment ca fait avec plusieurs lignes etc ................... "}
+      {bio}
     </p>
     
     <div className="mt-2">

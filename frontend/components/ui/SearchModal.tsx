@@ -1,34 +1,64 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import React, { useRef, useState, useTransition } from 'react';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
 import Avatar from '@/components/ui/Avatar';
 import SearchBar from '@/components/ui/SearchBar';
+import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 
-// données de test, à remplacer par les résultats du backend
-const fakeResults = [
-  { id: 'u1', kind: 'user', name: 'Melo', href: '/users/1' },
-  { id: 'u2', kind: 'user', name: 'Marjo', href: '/users/2' },
-  { id: 'p1', kind: 'pet', name: 'Milo', href: '/pet/12' },
-  { id: 'p2', kind: 'pet', name: 'Pepito', href: '/pet/13' },
-];
-
+// 1. Retrait du mot-clé "async" ici (obligatoire pour un 'use client')
 export default function SearchModal() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [query, setQuery] = useState('');
+  const [results, setResults] = useState<any[]>([]);
+  const [isPending, startTransition] = useTransition();
 
   const open = () => dialogRef.current?.showModal();
-  const close = () => dialogRef.current?.close();
+  const close = () => {
+    dialogRef.current?.close();
+    setQuery('');
+    setResults([]);
+  };
 
   const search = query.trim().toLowerCase();
-  const results = search
-    ? fakeResults.filter((r) => r.name.toLowerCase().includes(search))
-    : [];
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setQuery(value);
+
+    // 2. On utilise directement "value" (et non "search" qui a un train de retard)
+    const cleanSearch = value.trim().toLowerCase();
+
+    if (!cleanSearch) {
+      setResults([]);
+      return;
+    }
+
+    startTransition(async () => {
+      try {
+        const data = await callApiWithCookie('/api/users', 'GET');
+
+        // 3. On vérifie que "data" est bien un tableau avant de faire .filter()
+        if (Array.isArray(data)) {
+          const filtered = data.filter((r: any) =>
+            r.username?.toLowerCase().includes(cleanSearch)
+          );
+          setResults(filtered);
+        } else {
+          console.error('Format inattendu reçu du backend :', data);
+          setResults([]);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la recherche :', error);
+        setResults([]);
+      }
+    });
+  };
 
   return (
     <>
-    {/* Bouton declebcheur */}
+      {/* Bouton déclencheur */}
       <button
         type="button"
         onClick={open}
@@ -38,11 +68,11 @@ export default function SearchModal() {
         <Search size={32} />
       </button>
 
-      {/* Fenetre modal pop-up*/}
+      {/* Fenêtre modal pop-up */}
       <dialog
         ref={dialogRef}
         aria-label="Recherche"
-        onClose={() => setQuery('')}
+        onClose={close}
         onClick={(e) => {
           if (e.target === e.currentTarget) close();
         }}
@@ -51,33 +81,47 @@ export default function SearchModal() {
         <div className="p-4">
           <SearchBar
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Rechercher un utilisateur ou un animal..."
-            aria-label="Rechercher un utilisateur ou un animal"
+            onChange={handleSearch}
+            placeholder="Rechercher un utilisateur..."
+            aria-label="Rechercher un utilisateur"
           />
 
-          {search && (
+          {isPending && (
+            <p className="mt-2 px-3 text-sm text-slate-500">Chargement...</p>
+          )}
+
+          {search && !isPending && (
             <ul className="mt-4 max-h-80 overflow-y-auto">
               {results.length > 0 ? (
-                results.map((r) => (
-                  <li key={r.id}>
-                    <Link
-                      href={r.href}
-                      onClick={close}
-                      className="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-brand/10"
-                    >
-                      <Avatar size="sm" alt={r.name}>
-                        {r.name.charAt(0).toUpperCase()}
-                      </Avatar>
-                      <span className="flex-1 truncate font-medium">{r.name}</span>
-                      <span className="shrink-0 text-xs text-slate-500">
-                        {r.kind === 'user' ? 'Utilisateur' : 'Animal'}
-                      </span>
-                    </Link>
-                  </li>
-                ))
+                results.map((r) => {
+                  // 4. Adaptation aux vraies propriétés renvoyées par /api/users
+                  const displayName = r.username || 'Utilisateur';
+                  const userHref = r.href || `/users/${r.id}`;
+
+                  return (
+                    <li key={r.id}>
+                      <Link
+                        href={userHref}
+                        onClick={close}
+                        className="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-brand/10"
+                      >
+                        <Avatar size="sm" alt={displayName}>
+                          {displayName.charAt(0).toUpperCase()}
+                        </Avatar>
+                        <span className="flex-1 truncate font-medium">
+                          {displayName}
+                        </span>
+                        <span className="shrink-0 text-xs text-slate-500">
+                          {r.kind === 'pet' ? 'Animal' : 'Utilisateur'}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })
               ) : (
-                <li className="px-3 py-2 text-sm text-slate-500">Aucun résultat</li>
+                <li className="px-3 py-2 text-sm text-slate-500">
+                  Aucun résultat
+                </li>
               )}
             </ul>
           )}
@@ -86,33 +130,3 @@ export default function SearchModal() {
     </>
   );
 }
-
-{/* 
-    useRef (dialogRef). 
-    Crée un lien direct vers la balise HTML <dialog> pour pouvoir lui donner l'ordre de s'ouvrir (showModal()) ou de se fermer (close()).
-
-    useState (query). 
-    Crée une variable en mémoire qui retient ce que l'utilisateur tape dans la barre de recherche. 
-    À chaque lettre tapée, setQuery met à jour cette variable et force le composant à se rafraîchir.
-
-    Le filtrage (search et results). 
-    Le code nettoie le texte tapé (trim() enlève les espaces inutiles, toLowerCase() met tout en minuscules).
-    S'il y a du texte, il filtre le tableau fakeResults pour ne garder que les éléments dont le nom contient la recherche.
-
-    C'est la balise <dialog> qui gere automatiquement l'affichage de la fenetre modale
-    
-    Réinitialisation (onClose). 
-    Dès que la fenêtre se ferme, setQuery('') vide le champ de recherche pour la prochaine fois.
-
-    Fermeture au clic extérieur (onClick). La condition if (e.target === e.currentTarget) close() vérifie si user a cliqué autour de la boîte (le backdrop grisé). 
-    Si oui, la fenêtre se ferme ; s'il clique à l'intérieur sur la barre de recherche, elle reste ouverte.
-
-    A linterieur il y a la barre de recherche (notre composant SearchBar) et la liste des résultats .
-    C'est un affichafe conditionnel, ca affiche uniauement si qqchose est tapé
-
-    Boucle sur les résultats (results.map(...)). Si des correspondances existent, le code génère un lien (<Link>) 
-    pour chacune avec un avatar (la première lettre du nom en majuscule), le nom complet, 
-    et un badge indiquant s'il s'agit d'un 'Étudiant' ou d'un 'Animal'. 
-    Cliquer sur un résultat ferme la modale (onClick={close}) et redirige vers la page correspondante.
-
-*/}

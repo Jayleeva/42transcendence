@@ -5,7 +5,7 @@ import MiniButton from '@/components/ui/MiniButton';
 import ChatBubble from '@/components/features/ChatBubble';
 import MessageInput from '@/components/features/MessageInput';
 import SearchBar from '@/components/ui/SearchBar';
-import Form from '@/components/features/Form';
+import Form from '@/components/features/form/Form';
 
 
 

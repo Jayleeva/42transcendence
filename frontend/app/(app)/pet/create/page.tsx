@@ -6,7 +6,7 @@ import Input from '@/components/ui/Input';
 import Avatar from '@/components/ui/Avatar';
 import Textarea from '@/components/ui/Textarea';
 import Select from '@/components/ui/Select';
-import Form from '@/components/features/Form';
+import Form from '@/components/features/form/Form';
 import { petTypes } from '@/lib/petTypes';
 
 export const metadata={
