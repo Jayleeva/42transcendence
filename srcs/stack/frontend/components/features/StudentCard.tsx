@@ -24,7 +24,7 @@ export default function StudentCard({ id, username, photoUrl, bio, nfriends }: S
     
     <h2 className="text-xl font-bold text-slate-800">{username}</h2>
 
-    <p className="text-sm font-medium text-slate-500">👥 {nfriends} amis ( attention c'est juste pour le visu)</p>
+    <p className="text-sm font-medium text-slate-500">👥 {nfriends} amis </p>
  
       <p className="text-sm text-slate-600">
       {bio}

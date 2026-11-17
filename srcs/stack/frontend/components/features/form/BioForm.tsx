@@ -34,8 +34,6 @@ export default function BioForm({ initialBio }: BioFormProps) {
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-      <section className="flex flex-col gap-4">
-        <h2 className="font-bold">À propos de moi</h2>
         <div className="flex flex-col gap-2">
           <Textarea
             id="bio"
@@ -51,7 +49,6 @@ export default function BioForm({ initialBio }: BioFormProps) {
             </MiniButton>
           </div>
         </div>
-      </section>
     </form>
   );
 }

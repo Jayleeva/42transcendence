@@ -24,7 +24,7 @@ export default async function Page({
   // 2. On injecte userId directement dans l'URL de l'API
   const userData = await callApiWithCookie(`/api/users/${userId}`, 'GET');
   
-  console.log("recieved userdata = " + userData);
+  console.log("recieved userdata recieved userdata for searched profile = " + JSON.stringify(userData));
   if (!userData) {
     redirect('/login');
   }
