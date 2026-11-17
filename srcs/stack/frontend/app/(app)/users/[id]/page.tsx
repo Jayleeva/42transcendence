@@ -4,7 +4,6 @@ import MiniPetCard from "@/components/features/MiniPetCard";
 import StudentCard from "@/components/features/StudentCard";
 import { callApiWithCookie } from "@/utils/functions/callApiWithCookie";
 import { getNfriends } from "@/utils/functions/getNfriends";
-import { getAge } from "@/utils/functions/getAge";
 import { redirect } from "next/navigation";
 
 // penser a passer isOwner={false}
@@ -32,7 +31,7 @@ export default async function Page({
 
   return (
     <main className="flex flex-col items-start item-centerjustify-center gap-6 px-6 py-12 min-h-screen max-w-2xl mx-auto">
-      <StudentCard id={userData.id} username={userData.username } photoUrl={userData.avatarUrl} bio={userData.bio} nfriends={await getNfriends()} age={await getAge()} /> 
+      <StudentCard id={userData.id} username={userData.username } photoUrl={userData.avatarUrl} bio={userData.bio} nfriends={await getNfriends()} /> 
 
       <div className="flex flex-row items-center gap-4 w-full">
         <MiniPetCard id={1} name={'Mochi'} />
