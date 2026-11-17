@@ -24,7 +24,7 @@ export default function NotFound() {
                 </h2>
                 <p className="font-display text-3xl text-center">
                     Vérifiez l’URL ou retournez à la page {''}
-                    <Link href="/" className="underline">
+                    <Link href="/feed" className="underline">
                         d’accueil
                     </Link>.
                 </p>
