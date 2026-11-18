@@ -205,14 +205,45 @@ export class UserService {
     }
   }
 
-  linkOAuthAccount(
+  async link42Account(
     userId: string,
-    provider: string,
     providerAccountId: string,
   ) {
-    return this.prisma.oAuthAccount.create({
-      data: { userId, provider, providerAccountId },
-    });
+    try {
+      return await this.prisma.$transaction(async (tx) => {
+        // Prevent one Lauzanimo user from linking multiple 42 accounts.
+        const existingLink = await tx.oAuthAccount.findFirst({
+          where: { userId, provider: '42' },
+        });
+
+        if (existingLink) {
+          throw new ConflictException({
+            statusCode: 409,
+            errors: [{ code: 'OAUTH_ALREADY_LINKED' }],
+          });
+        }
+
+        // Associate the 42 identity with the existing user.
+        return tx.oAuthAccount.create({
+          data: {
+            userId,
+            provider: '42',
+            providerAccountId,
+          },
+        });
+      });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        throw new ConflictException({
+          statusCode: 409,
+          errors: [{ code: 'OAUTH_ACCOUNT_ALREADY_LINKED' }],
+        });
+      }
+      throw error;
+    }
   }
 
   private rethrowPrismaError(error: unknown): never {
