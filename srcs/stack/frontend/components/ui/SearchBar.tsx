@@ -1,1 +1,0 @@
-// barre de recherche pour la page feed

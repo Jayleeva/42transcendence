@@ -1,1 +1,0 @@
-// bulle de message pour le chat
