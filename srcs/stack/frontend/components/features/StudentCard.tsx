@@ -1,0 +1,50 @@
+// Student Card
+
+import Avatar from '@/components/ui/Avatar';
+import MiniButton from '../ui/MiniButton';
+import Link from 'next/dist/client/link';
+
+type StudentCardProps = {
+  id: string | number;
+  username: string;
+  photoUrl?: string | null;
+  bio?: string | null;
+  nfriends: number | 0;
+};
+
+export default function StudentCard({ id, username, photoUrl, bio, nfriends }: StudentCardProps) {
+  return (
+<div className="flex items-center gap-6 w-full max-w-2xl bg-white border-brand border-3 rounded-2xl p-6 shadow-sm">
+  
+  <div className="w-1/4 flex justify-center shrink-0">
+   <Avatar src={photoUrl ?? undefined} alt={username} />
+  </div>
+
+  <div className="flex-1 flex flex-col gap-2">
+    
+    <h2 className="text-xl font-bold text-slate-800">{username}</h2>
+
+    <p className="text-sm font-medium text-slate-500">👥 {nfriends} amis </p>
+ 
+      <p className="text-sm text-slate-600">
+      {bio}
+    </p>
+    
+    <div className="mt-2">
+        <Link
+            href={`/profile-student/settings`}
+            className="w-max rounded-xl px-4 py-1 font-normal text-xs transition-colors bg-brand text-white">
+            Modifier le profil
+        </Link>
+    </div>
+  </div>
+</div>
+  );
+}   
+
+
+{/* 
+    Pour linstant encore pleibn de truc codes en dur
+    faire passer les trucs en props
+    et faire la partie dynamique avec number of friends etc   
+*/}
