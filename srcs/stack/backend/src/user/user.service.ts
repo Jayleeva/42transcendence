@@ -21,7 +21,6 @@ const publicUserSelect = {
   avatar: true,
   bio: true,
   createdAt: true,
-  pets: true,
 } as const;
 
 const privateUserSelect = {
@@ -33,7 +32,6 @@ const privateUserSelect = {
   avatar: true,
   bio: true,
   createdAt: true,
-  pets: true,
   email: true,
 } as const;
 

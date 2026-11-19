@@ -25,6 +25,7 @@ export default async function Page({
 
   // 2. On injecte userId directement dans l'URL de l'API
   const userData = await callApiWithCookie(`/api/users/${userId}`, 'GET');
+  const petsData = await callApiWithCookie(`/api/users/${userId}/pets`, 'GET');
   
   console.log("recieved userdata recieved userdata for searched profile = " + JSON.stringify(userData));
   if (!userData) {
@@ -37,7 +38,7 @@ export default async function Page({
 
       <div className="flex flex-row items-center gap-4 w-full">
         <MiniPetCard id={1} name={'Mochi'} />
-        {userData.pets.map((i:any) => (
+        {petsData.map((i:any) => (
           <div key={i.id}>
             <MiniPetCard id={i.id} name={i.name} />
           </div>

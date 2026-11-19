@@ -13,8 +13,10 @@ ENV_DEST = ./srcs/.env
 
 all: up
 
-up: 
+front:
+	$(CMP) up -d --build --no-deps frontend
 
+up:
 	cp $(ENV_SRC) $(ENV_DEST)
 	echo "DOMAIN_NAME=$(DOMAIN_NAME)" >> $(ENV_DEST)
 	$(CMP) up -d --build
