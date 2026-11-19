@@ -15,4 +15,5 @@ export class ChangePasswordDto {
   @MinLength(8, { message: 'PASSWORD_TOO_SHORT' })
   @MaxLength(128, { message: 'PASSWORD_TOO_LONG' })
   newPassword: string;
+
 }

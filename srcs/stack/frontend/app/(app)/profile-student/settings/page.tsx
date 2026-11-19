@@ -2,12 +2,13 @@
 
 import { redirect } from 'next/navigation';
 import BackButton from '@/components/ui/BackButton';
-import MiniButton from '@/components/ui/MiniButton';
-import Avatar from '@/components/ui/Avatar';
-import BioForm from '@/components/features/form/BioForm';
-import PrefilledForm, { StudentProfileFormState, PasswordFormState } from '@/components/features/form/PrefilledForm';
-import { detailedProfileFormInputs, detailedProfilePassword, detailedProfileConf, modPasswordConf } from '@/utils/types/detailedProfileForm';
+import PrefilledForm from '@/components/features/form/PrefilledForm';
+import { detailedProfileFormFields, detailedProfileConf } from '@/utils/types/detailedProfileForm';
 import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
+import { StudentProfileFormState } from '@/utils/interfaces/ProfileFormStates';
+import EditPasswordForm from '@/components/features/form/EditPasswordForm';
+import MiniButton from '@/components/ui/MiniButton';
+import DeleteButton from '@/components/ui/DeleteButton';
 
 export const metadata={
     title:'Paramètres',
@@ -19,6 +20,8 @@ export default async function Page() {
   if (!userData) {
     redirect('/login');
   }
+
+
   return (
     <main className="flex flex-1 flex-col px-4 pt-4 pb-20">
         <BackButton />
@@ -27,20 +30,30 @@ export default async function Page() {
           Modifier le profil
         </h1>
 
-        {/* FORMULAIRE 1 : photo*/}
+        <PrefilledForm<StudentProfileFormState> fields={detailedProfileFormFields} miniconf={detailedProfileConf} initialData={userData} />
+
+        {/* FORMULAIRE 3 : Changement de mot de passe*/}
+        <section className="flex flex-col gap-4">
+          <h2 className="font-bold">Changer de mot de passe</h2>
+          <EditPasswordForm />
+        </section>
+
+        <DeleteButton path='/api/users/me'/>
+        </div>
+    </main>
+  );
+}
+
+/*        
         <form className="flex flex-col gap-4">
           <section className="flex flex-col items-start gap-4">
-            <h2 className="font-bold">Photo de profil</h2>
-            {/* ici mettre l'avatar de photo de profil actuel
-                est ce qu'on met un placeholder ? 
-                est ce qu'il faut un petit bouton modif ? ou on clique dessus pour mnodif 
-                Attention !! penser a integrer potentiellement une taille ( large ici )*/}
+            <h2 className="font-bold">Photo de profil</h2>}
             <Avatar src={undefined}></Avatar>
                 <MiniButton type="button" variant="outline">Ajouter / modifier</MiniButton>
           </section>
           </form>
 
-        {/* FORMULAIRE 2 : Info generale*/}
+       
           <section className="flex flex-col gap-4">
             <h2 className="font-bold">A propos de moi</h2>
             <BioForm initialBio={userData.bio} />
@@ -50,13 +63,4 @@ export default async function Page() {
             <h2 className="font-bold">Informations générales</h2>
             <PrefilledForm<StudentProfileFormState> fields={detailedProfileFormInputs} miniconf={detailedProfileConf} initialData={userData} />
           </section>
-
-        {/* FORMULAIRE 3 : Changement de mot de passe*/}
-        <section className="flex flex-col gap-4">
-          <h2 className="font-bold">Changer de mot de passe</h2>
-          <PrefilledForm<PasswordFormState> fields={detailedProfilePassword} miniconf={modPasswordConf} initialData={userData} />
-        </section>
-      </div>
-    </main>
-  );
-}
+*/

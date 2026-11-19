@@ -56,7 +56,7 @@ export default function Page() {
               <hr className="flex-1 border-slate-300" />
             </div>
 
-            <Form inputs={loginFormInputs} conf={loginFormConf} />
+            <Form fields={loginFormInputs} conf={loginFormConf} />
 
             <p className="text-center text-sm">
               Pas de compte ?{' '}

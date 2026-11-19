@@ -2,33 +2,27 @@
 
 import Input from "../../ui/Input";
 import Button from '@/components/ui/Button';
+import Select from "@/components/ui/Select";
 import { callApiWithCookie } from "@/utils/functions/callApiWithCookie";
+import { FieldProps } from "@/utils/types/FieldProps";
 import { redirect } from 'next/navigation';
-
-type InputProps = {
-    id: string;
-    name: string;
-    type: string;
-    label: string;
-    error?: string;
-}
 
 type ButtonProps = {
     type: "submit" | "reset" | "button" | undefined;
     variant: 'primary' | 'outline';
     name: string;
     call: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-    endpoint: "/api/auth/register" | "/api/auth/login" | string;  
-    redirect: "/login" | "/feed" | string;
+    endpoint: string; 
+    redirect: string;
 }
 
 interface FormProps {
-    inputs: InputProps[];
+    fields: FieldProps[];
     conf: ButtonProps;
 }
 
 
-export default function Form({inputs, conf}: FormProps)
+export default function Form({fields, conf}: FormProps)
 {
     async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault(); // empeche le reload
@@ -43,8 +37,13 @@ export default function Form({inputs, conf}: FormProps)
         console.log(response);
         if (response !== null) {
             alert("Action confirmée!");
-            if (conf.redirect)
-                redirect(conf.redirect);
+            if (conf.redirect) {
+                /*if (conf.redirect.includes(":id")) {
+                    redirect();
+                }
+                else*/
+                    redirect(conf.redirect);
+            }
         } else {
         // Affiche les erreurs précises du backend NestJS ou un message par défaut
         const details = response?.error?.errors
@@ -57,9 +56,13 @@ export default function Form({inputs, conf}: FormProps)
     return (
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4">
-                {inputs.map((i:any) => (
-                    <div key={i.id}>
-                        <Input id={i.id} name={i.name} type={i.type} label={i.label}/>
+                {fields.map((field:any) => (
+                    <div key={field.id}>
+                    {field.as === 'select' ? (
+                    <Select id={field.id} label={field.label} placeholder={field.placeholder ?? ''} options={field.options}/>
+                    ) : (
+                    <Input id={field.id} name={field.name} type={field.type} label={field.label}/>
+                    )}
                     </div>
                 ))}
             </div>

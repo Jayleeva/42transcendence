@@ -23,7 +23,7 @@ export default function Page() {
             Créez un compte
           </h2>
 
-          <Form inputs={basicProfileFormInputs} conf={basicProfileConf}/>
+          <Form fields={basicProfileFormInputs} conf={basicProfileConf}/>
 
           <p className="text-center text-sm">
             {' '}

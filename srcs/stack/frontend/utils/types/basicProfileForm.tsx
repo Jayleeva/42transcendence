@@ -3,31 +3,42 @@
       id:"firstname",
       name:"firstname",
       type:"name",
-      label:"Prénom"
+      label:"Prénom",
+      disabled:false,
+      as:'input',
     },
     {
       id:"lastname",
       name:"lastname",
       type:"name",
-      label:"Nom"
+      label:"Nom",
+      disabled:false,
+      as:'input',
     },
     {
       id:"username",
       name:"username",
       type:"username",
-      label:"Pseudo"
+      label:"Pseudo",
+      disabled:false,
+      as:'input',
     },
+
     {
       id:"email",
       name:"email",
       type:"email",
-      label:"Email"
+      label:"Email",
+      disabled:false,
+      as:'input',
     },
     {
       id:"password",
       name:"password",
       type:"password",
-      label:"Mot de passe"
+      label:"Mot de passe",
+      disabled:false,
+      as:'input',
     }
   ];
   export const basicProfileConf = 
@@ -39,3 +50,13 @@
     endpoint:"/api/auth/register", // quel endpoint?
     redirect:"/login" // où redirige?
   } as const;
+
+
+    /*{
+      id:"birthDate",
+      name:"birthDate",
+      type:"date",
+      label:"Date de naissance",
+      disabled:false,
+      as:'input',
+    },*/
