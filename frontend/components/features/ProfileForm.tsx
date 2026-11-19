@@ -113,14 +113,18 @@ export default function ProfileForm({ initialAvatar }: { initialAvatar?: string 
             <Avatar src={tempPreview || avatarUrl} />
 
             <label className="cursor-pointer rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium hover:bg-slate-50">
-              Choisir une image
+              Choisir un fichier
               <input
+                id="user-photo-upload"
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
                 className="hidden"
               />
             </label>
+              <span className="truncate text-sm italic text-slate-500">
+                {tempFile ? tempFile.name : 'Aucun fichier choisi'}
+              </span>
           </div>
 
           <div className="flex items-center justify-center gap-3">
