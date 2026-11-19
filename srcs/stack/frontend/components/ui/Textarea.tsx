@@ -10,6 +10,7 @@ export default function Textarea({ id, name, className = '', ...props }: InputPr
     <div className="flex flex-col gap-1">
       <textarea
         id={id}
+        name={name}
         rows={4}
         className={`rounded-lg border border-slate-300 px-4 py-3 focus:border-black focus:outline-none ${className}`}
         {...props}

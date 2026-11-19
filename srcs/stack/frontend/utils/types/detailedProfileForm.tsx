@@ -1,3 +1,17 @@
+  export const studentBio = {
+    id:"bio",
+    name:"bio",
+    placeholder:"Ecrivez quelque chose à propos de vous...",
+    label:"Bio",
+  }
+
+  export const petBio = {
+    id:"info",
+    name:"bio",
+    placeholder:"Ecrivez quelque chose à propos de votre animal...",
+    label:"Info",
+  }
+
   export const detailedProfileFormFields = [
     {
       id:"firstname",

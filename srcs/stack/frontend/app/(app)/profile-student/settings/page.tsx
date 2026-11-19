@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import BackButton from '@/components/ui/BackButton';
 import PrefilledForm from '@/components/features/form/PrefilledForm';
-import { detailedProfileFormFields, detailedProfileConf } from '@/utils/types/detailedProfileForm';
+import { detailedProfileFormFields, detailedProfileConf, studentBio } from '@/utils/types/detailedProfileForm';
 import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 import { StudentProfileFormState } from '@/utils/interfaces/ProfileFormStates';
 import EditPasswordForm from '@/components/features/form/EditPasswordForm';

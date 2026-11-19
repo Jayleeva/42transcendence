@@ -10,8 +10,6 @@ import { callApiWithCookie } from "@/utils/functions/callApiWithCookie";
 import { petTypes } from "@/lib/petTypes";
 import { FieldProps } from '@/utils/types/FieldProps';
 import Textarea from '@/components/ui/Textarea';
-import { PiUserCircleDashedThin } from 'react-icons/pi';
-import { UNSTABLE_REVALIDATE_RENAME_ERROR } from 'next/dist/lib/constants';
 
 
 type MiniButtonProps = {
@@ -159,7 +157,7 @@ export default function PrefilledForm<T extends Record<string, any>>({
                 </section>
 
                 <h2 className="font-bold">Bio</h2>
-                <Textarea id="bio" name="bio" placeholder="Entrez une description..." value={initialData?.bio}/>
+                <Textarea id="bio" name="bio" placeholder="Entrez une description..."/>
 
                 <h2 className="font-bold">Informations générales</h2>
                 <div className="flex flex-col gap-4">

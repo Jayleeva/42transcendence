@@ -6,6 +6,7 @@ import { petEditFormConf, petFormFields } from '@/utils/types/PetCreateForm';
 import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 import NotFound from '@/app/not-found';
 import { PetProfileFormState } from '@/utils/interfaces/ProfileFormStates';
+import { petBio } from '@/utils/types/detailedProfileForm';
 
 export const metadata={
     title:'Modifier un animal',
