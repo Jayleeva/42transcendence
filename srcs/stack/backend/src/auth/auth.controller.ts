@@ -167,7 +167,7 @@ export class AuthController {
       profile.providerAccountId,
     );
 
-    return res.redirect(303, '/settings');
+    return res.redirect(303, '/profile-student');
   }
 
 
