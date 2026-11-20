@@ -1,3 +1,5 @@
+import { PiPlaceholder } from "react-icons/pi";
+
   export const studentBio = {
     id:"bio",
     name:"bio",
@@ -52,6 +54,15 @@
       label:"Email",
       disabled:true,
       as:'input',
+    },
+    {
+      id:"bio",
+      name:"bio",
+      type:"text",
+      label:"Bio",
+      placeholder:"Ecrivez quelque chose à propos de vous...",
+      disabled:false,
+      as:'textarea',
     },
   ];
 

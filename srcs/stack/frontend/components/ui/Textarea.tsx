@@ -5,13 +5,16 @@ import { TextareaHTMLAttributes } from 'react';
 type InputProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
 };
 
-export default function Textarea({ id, name, className = '', ...props }: InputProps) {
+export default function Textarea({ id, name, className = '', onChange, ...props }: InputProps) {
   return (
     <div className="flex flex-col gap-1">
       <textarea
         id={id}
         name={name}
         rows={4}
+        readOnly={false}
+        disabled={false}
+        onChange={() =>{}}
         className={`rounded-lg border border-slate-300 px-4 py-3 focus:border-black focus:outline-none ${className}`}
         {...props}
       />

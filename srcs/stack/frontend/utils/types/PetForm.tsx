@@ -40,9 +40,10 @@ import { FieldProps } from "./FieldProps";
       id:"bio",
       name:"bio",
       type:"text",
-      label:"Description / Informations",
-      disabled:true,
-      as: 'input',
+      label:"Bio",
+      placeholder:"Ecrivez quelque chose à propos de votre animal...",
+      disabled:false,
+      as: 'textarea',
     },
   ];
 

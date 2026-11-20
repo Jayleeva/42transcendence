@@ -32,6 +32,7 @@ function buildState<T extends Record<string, any>>(
 ): T {
     const state: Record<string, any> = {};
     fields.forEach((field) => {
+        console.log("field name = ", field.name);
         const tmp = initialData?.[field.name] ?? undefined;
         if (field.type === "date") {
             state[field.name] = tmp?.split('T')[0];
@@ -52,6 +53,7 @@ export default function PrefilledForm<T extends Record<string, any>>({
     const [formData, setFormData] = useState<T>(() =>
         buildState<T>(fields, initialData)
     );
+    
     const [savedData, setSavedData] = useState<Partial<T> | null | undefined>(initialData);
 
     // --- États de la modale & avatar (déplacés ici) ---
@@ -65,6 +67,7 @@ export default function PrefilledForm<T extends Record<string, any>>({
         if (initialData != null) {
             setSavedData(initialData);
             setFormData(buildState<T>(fields, initialData));
+            console.log("formdata = ", JSON.stringify(formData));
             if (initialData.avatar) setAvatarUrl(initialData.avatar);
         }
     }, [initialData, fields]);
@@ -158,7 +161,7 @@ export default function PrefilledForm<T extends Record<string, any>>({
                 </section>
 
                 <h2 className="font-bold">Bio</h2>
-                <Textarea id="bio" name="bio" placeholder="Entrez une description..."/>
+                <Textarea id="bio" name="bio" placeholder="Entrez une description..." value={formData.bio ?? ''} onChange={setFormData}/>
 
                 <h2 className="font-bold">Informations générales</h2>
                 <div className="flex flex-col gap-4">
