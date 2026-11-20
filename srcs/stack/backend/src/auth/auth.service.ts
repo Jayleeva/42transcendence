@@ -22,6 +22,7 @@ export class AuthService {
       username: registerDto.username,
       email: registerDto.email,
       password: hashedPassword,
+      birthDate: new Date(registerDto.birthDate),
     });
   }
 
