@@ -3,6 +3,7 @@
 import Input from "../../ui/Input";
 import Button from '@/components/ui/Button';
 import Select from "@/components/ui/Select";
+import Textarea from "@/components/ui/Textarea";
 import { callApiWithCookie } from "@/utils/functions/callApiWithCookie";
 import { FieldProps } from "@/utils/types/FieldProps";
 import { redirect } from 'next/navigation';
@@ -12,7 +13,7 @@ type ButtonProps = {
     variant: 'primary' | 'outline';
     name: string;
     call: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-    endpoint: string; 
+    endpoint: string;
     redirect: string;
 }
 
@@ -60,6 +61,8 @@ export default function Form({fields, conf}: FormProps)
                     <div key={field.id}>
                     {field.as === 'select' ? (
                     <Select id={field.id} label={field.label} placeholder={field.placeholder ?? ''} options={field.options}/>
+                    ) : field.as === 'textarea' ? (
+                    <Textarea id={field.id} name={field.name} placeholder={field.placeholder ?? ''}/>
                     ) : (
                     <Input id={field.id} name={field.name} type={field.type} label={field.label}/>
                     )}

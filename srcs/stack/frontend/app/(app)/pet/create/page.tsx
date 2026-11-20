@@ -2,7 +2,7 @@
 
 import BackButton from '@/components/ui/BackButton';
 import Form from '@/components/features/form/Form';
-import { petCreateFormConf, petFormFields } from '@/utils/types/PetCreateForm';
+import { petCreateFormConf, petCreateFormFields } from '@/utils/types/PetForm';
 
 export const metadata = {
   title: 'Créer un animal',
@@ -17,7 +17,7 @@ export default function Page() {
           Ajouter un animal
         </h1>
 
-        <Form fields={petFormFields} conf={petCreateFormConf} />
+        <Form fields={petCreateFormFields} conf={petCreateFormConf} />
       </div>
     </main>
   );

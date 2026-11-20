@@ -43,7 +43,7 @@ export default async function Page({
         type={petData?.type} 
         race={petData?.race} 
         photoUrl={petData?.photoUrl} 
-        dateOfBirth={petData?.dateOfBirth} 
+        birthDate={petData?.birthDate} 
         info={petData?.info} 
         isOwner={petData?.isOwner}
         ownerProfileLink={petData?.ownerProfileLink} >

@@ -8,7 +8,7 @@ type PetCardProps = {
   id: string | number;
   type: string;
   race?: string | null;
-  dateOfBirth?: string | null;
+  birthDate?: string | null;
   photoUrl?: string | null;
   info?: string | null;
   isOwner?: boolean;
@@ -19,7 +19,7 @@ export default function PetCard({
   id,
   type,
   race,
-  dateOfBirth,
+  birthDate,
   photoUrl,
   info,
   isOwner = true,
@@ -36,7 +36,7 @@ export default function PetCard({
       <div className="flex flex-1 flex-col gap-2 text-sm text-slate-600">
         <p className="font-semibold text-black">{typeLabel}</p>
         {race && <p><span className="font-bold text-black">Race :</span> {race}</p>}
-        {dateOfBirth && <p><span className="font-bold text-black">Date de naissance :</span> {dateOfBirth}</p>}
+        {birthDate && <p><span className="font-bold text-black">Date de naissance :</span> {birthDate}</p>}
         {info && <p><span className="font-bold text-black">Info :</span> {info}</p>}
         {ownerProfileLink && <p><span className="font-bold text-black">Profil du propriétaire :</span> (
           <Link href={ownerProfileLink} className="underline">

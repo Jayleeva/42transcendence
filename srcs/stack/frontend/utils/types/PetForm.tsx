@@ -2,7 +2,7 @@
 import { petTypes } from "@/lib/petTypes";
 import { FieldProps } from "./FieldProps";
 
-  export const petFormFields: FieldProps[] = [
+  export const petCreateFormFields: FieldProps[] = [
     {
       id:"name",
       name:"name",
@@ -12,12 +12,56 @@ import { FieldProps } from "./FieldProps";
       as: 'input',
     },
     {
-      id:"type",
-      name:"type",
-      label:"Type",
+      id:"species",
+      name:"species",
+      label:"Espèce",
       disabled:false,
       as: 'select',
-      placeholder:"Sélectionnez un type d'animal",
+      placeholder:"Sélectionnez une espèce",
+      options:petTypes,
+    },
+    {
+      id:"race",
+      name:"race",
+      type:"text",
+      label:"race",
+      disabled:false,
+      as: 'input',
+    },
+    {
+      id:"birthDate",
+      name:"birthDate",
+      type:"date",
+      label:"Date de naissance",
+      disabled:false,
+      as: 'input',
+    },
+    {
+      id:"bio",
+      name:"bio",
+      type:"text",
+      label:"Description / Informations",
+      disabled:true,
+      as: 'input',
+    },
+  ];
+
+  export const petEditFormFields: FieldProps[] = [
+    {
+      id:"name",
+      name:"name",
+      type:"name",
+      label:"Pseudo",
+      disabled:false,
+      as: 'input',
+    },
+    {
+      id:"species",
+      name:"species",
+      label:"Espèce",
+      disabled:false,
+      as: 'select',
+      placeholder:"Sélectionnez une espèce",
       options:petTypes,
     },
     {
@@ -63,5 +107,4 @@ import { FieldProps } from "./FieldProps";
     variant:"outline",
     name:"Valider les modifications",
     call:"PATCH",
-    endpoint:"/api/pets/:id",
   } as const;

@@ -61,5 +61,4 @@
     variant:"outline",
     name:"Valider les modifications",
     call:"PATCH",
-    endpoint:"/api/users/me",
   } as const;

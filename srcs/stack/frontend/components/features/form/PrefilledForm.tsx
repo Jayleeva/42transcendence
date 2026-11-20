@@ -17,12 +17,12 @@ type MiniButtonProps = {
     variant: 'primary' | 'outline';
     name: string;
     call: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-    endpoint: string;
 };
 
 interface FormProps<T extends Record<string, any>> {
     fields: FieldProps[];
     miniconf: MiniButtonProps;
+    endpoint: string;
     initialData?: Partial<T> | null;
 }
 
@@ -45,6 +45,7 @@ function buildState<T extends Record<string, any>>(
 export default function PrefilledForm<T extends Record<string, any>>({
     fields,
     miniconf,
+    endpoint,
     initialData,
 }: FormProps<T>) {
     // --- États du formulaire ---
@@ -122,7 +123,7 @@ export default function PrefilledForm<T extends Record<string, any>>({
         // Note : Si votre API attend du JSON, avatarFile ne peut pas être envoyé tel quel.
         // Si votre API attend un FormData (multipart), passez `submittedFormData` au lieu de `JSON.stringify(data)`.
         const response = await callApiWithCookie(
-            miniconf.endpoint,
+            endpoint,
             miniconf.call,
             JSON.stringify(data)
         );
@@ -172,6 +173,13 @@ export default function PrefilledForm<T extends Record<string, any>>({
                                     value={formData[field.name] ?? ''}
                                     onChange={handleChange}
                                     options={field.options ?? petTypes}
+                                />
+                            ) : field.as === 'textarea' ? (
+                                <Textarea
+                                    id={field.id}
+                                    name={field.name}
+                                    placeholder={field.placeholder ?? ''}
+//                                    onChange={handleChange}
                                 />
                             ) : (
                                 <Input

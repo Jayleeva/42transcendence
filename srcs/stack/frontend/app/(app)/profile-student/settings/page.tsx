@@ -30,7 +30,7 @@ export default async function Page() {
           Modifier le profil
         </h1>
 
-        <PrefilledForm<StudentProfileFormState> fields={detailedProfileFormFields} miniconf={detailedProfileConf} initialData={userData} />
+        <PrefilledForm<StudentProfileFormState> fields={detailedProfileFormFields} miniconf={detailedProfileConf} endpoint={"/api/users/me"} initialData={userData} />
 
         {/* FORMULAIRE 3 : Changement de mot de passe*/}
         <section className="flex flex-col gap-4">
