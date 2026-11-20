@@ -60,3 +60,48 @@ export default async function Page() {
     </main>
   );
 }
+
+
+// NEW VERSION WITH PROFIL FORM  ( a fusionner avec la version du dessus) 
+// Je code a l'aveugle 
+
+// import BackButton from '@/components/ui/BackButton';
+// import MiniButton from '@/components/ui/MiniButton';
+// import Input from '@/components/ui/Input';
+// import ProfileForm from '@/components/features/form/ProfileForm';
+
+// export const metadata = {
+//   title: 'Paramètres',
+// };
+
+// export default function Page() {
+//   return (
+//     <main className="flex flex-1 flex-col px-4 pt-4 pb-20">
+//       <BackButton />
+//       <div className="mx-auto flex w-full max-w-md flex-col gap-8 pt-4">
+//         <h1 className="font-display text-5xl font-bold text-center">
+//           Modifier le profil
+//         </h1>
+
+//         {/* Photo + Bio + Infos générales */}
+//         <ProfileForm />
+
+//         {/*  Changement de mot de passe */}
+//         <form className="flex flex-col gap-4">
+//           <section className="flex flex-col gap-4">
+//             <h2 className="font-bold">Changer de mot de passe</h2>
+//             <Input id="oldpassword" name="oldpassword" type="password" label="Ancien mot de passe" />
+//             <Input id="newpassword" name="newpassword" type="password" label="Nouveau mot de passe" />
+//             <Input id="confpassword" name="confpassword" type="password" label="Confirmer le nouveau mot de passe" />
+//             <div>
+//               <MiniButton type="submit" variant="outline">
+//                 Valider les modifications
+//               </MiniButton>
+//             </div>
+//           </section>
+//         </form>
+//       </div>
+//     </main>
+//   );
+// }
+
