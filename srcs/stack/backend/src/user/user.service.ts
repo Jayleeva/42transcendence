@@ -134,6 +134,21 @@ export class UserService {
   }
 
   async createUser(data: CreateUserData) {
+    if (data.birthDate) {
+      const latestAllowed = new Date();
+      latestAllowed.setUTCFullYear(
+        latestAllowed.getUTCFullYear() - MIN_AGE,
+      );
+
+      if (data.birthDate > latestAllowed) {
+        throw new BadRequestException({
+          statusCode: 400,
+          errors: [
+            { field: 'birthDate', code: 'BIRTHDATE_TOO_YOUNG' },
+          ],
+        });
+      }
+    }
     try {
       return await this.prisma.user.create({
         data,
