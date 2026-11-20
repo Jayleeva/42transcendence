@@ -13,6 +13,7 @@ export const metadata={
 
 export default async function Page() {
   const userData = await callApiWithCookie('/api/users/me', 'GET');
+  const petsData = await callApiWithCookie(`/api/users/me/pets`, 'GET');
 
   console.log("recieved userdata = " + userData);
   if (!userData) {
@@ -24,7 +25,7 @@ export default async function Page() {
 
       <div className="flex flex-row items-center gap-4 w-full">
         <MiniPetCard id={1} name="Milo" />
-        {userData.pets.map((i:any) => (
+        {petsData.map((i:any) => (
           <div key={i.id}>
             <MiniPetCard id={i.id} name={i.name} />
           </div>
