@@ -12,9 +12,9 @@ import { Species } from '../../generated/prisma/client';
 
 export class UpdatePetDto {
   @ValidateIf((_, value) => value !== undefined)
-  @IsString({ message: 'NAME_INVALID_TYPE' })
-  @IsNotEmpty({ message: 'NAME_REQUIRED' })
-  @MaxLength(30, { message: 'NAME_TOO_LONG' })
+  @IsString({ message: 'PET_NAME_INVALID_TYPE' })
+  @IsNotEmpty({ message: 'PET_NAME_REQUIRED' })
+  @MaxLength(30, { message: 'PET_NAME_TOO_LONG' })
   name?: string;
 
   @ValidateIf((_, value) => value !== undefined)
