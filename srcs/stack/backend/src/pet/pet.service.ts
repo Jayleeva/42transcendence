@@ -32,6 +32,13 @@ function toPetBirthDate(value: string): Date {
   return date;
 }
 
+function petNotFound() {
+  return new NotFoundException({
+    statusCode: 404,
+    errors: [{ field: 'id', code: 'PET_NOT_FOUND' }],
+  });
+}
+
 @Injectable()
 export class PetService {
   constructor(private readonly prisma: PrismaService) {}
@@ -55,10 +62,7 @@ export class PetService {
     });
 
     if (!pet) {
-      throw new NotFoundException({
-        statusCode: 404,
-        errors: [{ field: 'id', code: 'PET_NOT_FOUND' }],
-      });
+      throw petNotFound();
     }
     return pet;
   }
@@ -106,10 +110,23 @@ export class PetService {
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2025'
       ) {
-        throw new NotFoundException({
-          statusCode: 404,
-          errors: [{ field: 'id', code: 'PET_NOT_FOUND' }],
-        });
+        throw petNotFound();
+      }
+      throw error;
+    }
+  }
+
+  async remove(userId: string, id: string): Promise<void> {
+    await this.assertOwner(userId, id);
+
+    try {
+      await this.prisma.pet.delete({ where: { id } });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code == 'P2025'
+      ) {
+        throw petNotFound();
       }
       throw error;
     }
@@ -122,10 +139,7 @@ export class PetService {
     });
 
     if (!pet) {
-      throw new NotFoundException({
-        statusCode: 404,
-        errors: [{ field: 'id', code: 'PET_NOT_FOUND' }],
-      });
+      throw petNotFound();
     }
     if (pet.ownerId !== userId) {
       throw new ForbiddenException({
