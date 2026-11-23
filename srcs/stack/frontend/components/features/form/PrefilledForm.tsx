@@ -145,7 +145,8 @@ export default function PrefilledForm<T extends Record<string, any>>({
             alert(`Erreur :\n${details}`);
         }
     }
-    //const bioPlaceholder = fields[bio].placeholder;
+    const bioField = fields.find((field) => field.id === "bio");
+    const bioPlaceholder = bioField?.placeholder;
 
     return (
         <>
@@ -163,7 +164,7 @@ export default function PrefilledForm<T extends Record<string, any>>({
                 </section>
 
                 <h2 className="font-bold">Bio</h2>
-                <Textarea id="bio" name="bio" placeholder="Entrez une description..." lastValue={savedData?.bio ?? initialData?.bio ?? null}/> 
+                <Textarea id="bio" name="bio" placeholder={bioPlaceholder} lastValue={savedData?.bio ?? initialData?.bio ?? null}/> 
 
                 <h2 className="font-bold">Informations générales</h2>
                 <div className="flex flex-col gap-4">
