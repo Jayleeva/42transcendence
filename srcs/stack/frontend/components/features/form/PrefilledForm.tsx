@@ -203,10 +203,11 @@ export default function PrefilledForm<T extends Record<string, any>>({
                         </div>
                     ))}
                 </div>
-
+                <section className="flex flex-col items-start gap-4">
                 <MiniButton type={miniconf.type} variant={miniconf.variant}>
                     {miniconf.name}
                 </MiniButton>
+                </section>
             </form>
 
             {/* Modale placée en dehors du <form> comme indiqué dans votre commentaire */}
