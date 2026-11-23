@@ -28,7 +28,7 @@
       name:"birthDate",
       type:"date",
       label:"Date de naissance",
-      disabled:true,
+      disabled:false,
       as:'input',
     },
     {
@@ -53,17 +53,7 @@
     type:"submit",
     variant:"outline",
     name:"S'enregistrer",
-    call:"POST", // quel call ?
-    endpoint:"/api/auth/register", // quel endpoint?
-    redirect:"/login" // où redirige?
+    call:"POST",
+    endpoint:"/api/auth/register",
+    redirect:"/login"
   } as const;
-
-
-    /*{
-      id:"birthDate",
-      name:"birthDate",
-      type:"date",
-      label:"Date de naissance",
-      disabled:false,
-      as:'input',
-    },*/
