@@ -20,13 +20,13 @@ export default function StudentCard({ id, username, photoUrl, bio, nfriends }: S
    <Avatar src={photoUrl ?? undefined} alt={username} />
   </div>
 
-  <div className="flex-1 flex flex-col gap-2">
+  <div className="flex-1 min-w-0 flex flex-col gap-2">
     
     <h2 className="text-xl font-bold text-slate-800">{username}</h2>
 
     <p className="text-sm font-medium text-slate-500">👥 {nfriends} amis </p>
  
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-slate-600 break-words whitespace-pre-wrap">
       {bio}
     </p>
     
