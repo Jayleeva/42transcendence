@@ -62,7 +62,7 @@ export default function Form({fields, conf}: FormProps)
                     {field.as === 'select' ? (
                     <Select id={field.id} label={field.label} placeholder={field.placeholder ?? ''} options={field.options}/>
                     ) : field.as === 'textarea' ? (
-                    <Textarea id={field.id} name={field.name} placeholder={field.placeholder ?? ''}/>
+                    <Textarea id={field.id} name={field.name} placeholder={field.placeholder ?? ''} lastValue={field.lastValue}/>
                     ) : (
                     <Input id={field.id} name={field.name} type={field.type} label={field.label}/>
                     )}

@@ -5,6 +5,7 @@ export type FieldProps = {
     label: string;
     disabled: boolean;
     placeholder?: string;
+    lastValue?: string;
     as: string;
     options?: { label: string; value: string }[]; // <-- Optionnel pour rendre le Select générique
 };

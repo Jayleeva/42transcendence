@@ -1,12 +1,18 @@
 // pour la bio ( un grand champs de texte ) pour les users et les pets
 
-import { TextareaHTMLAttributes, useState } from 'react';
+import { TextareaHTMLAttributes, useEffect, useState } from 'react';
 
 type InputProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  lastValue: string | null,
 };
 
-export default function Textarea({ id, name, className = '', onChange, ...props }: InputProps) {
-  const [text, setText] = useState<string>('');
+export default function Textarea({ id, name, className = '', lastValue, onChange, ...props }: InputProps) {
+  const [text, setText] = useState<string>(lastValue ?? '');
+  useEffect(() => {
+    if (lastValue !== undefined) {
+      setText(lastValue ?? '');
+    }
+  }, [lastValue]);
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
@@ -16,6 +22,7 @@ export default function Textarea({ id, name, className = '', onChange, ...props 
         id={id}
         name={name}
         rows={4}
+        defaultValue={text}
         readOnly={false}
         disabled={false}
         onChange={() =>{handleChange}}

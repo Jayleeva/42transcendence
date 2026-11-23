@@ -161,7 +161,7 @@ export default function PrefilledForm<T extends Record<string, any>>({
                 </section>
 
                 <h2 className="font-bold">Bio</h2>
-                <Textarea id="bio" name="bio" placeholder="Entrez une description..." value={formData.bio ?? ''} />
+                <Textarea id="bio" name="bio" placeholder="Entrez une description..." lastValue={formData.bio ?? ''}/>
 
                 <h2 className="font-bold">Informations générales</h2>
                 <div className="flex flex-col gap-4">
@@ -182,7 +182,7 @@ export default function PrefilledForm<T extends Record<string, any>>({
                                     id={field.id}
                                     name={field.name}
                                     placeholder={field.placeholder ?? ''}
-//                                    onChange={handleChange}
+                                    lastValue={formData[field.name] ?? ''}
                                 />
                             ) : (
                                 <Input
