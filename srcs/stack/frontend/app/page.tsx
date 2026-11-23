@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button';
 import Form from '@/components/features/form/Form';
 import { loginFormConf, loginFormInputs } from '@/utils/types/loginForm';
 
+
 export default function Page() {
   return (
     <main className="flex min-h-screen w-full flex-col px-6 py-12 md:px-8 max-w-7xl mx-auto">
@@ -48,7 +49,9 @@ export default function Page() {
               Connectez-vous ou créez un compte
             </h2>
 
-            <Button>Se connecter avec votre login 42</Button>
+            <Button>
+              <a href={"/api/auth/42"}>Se connecter avec votre login 42</a>
+            </Button>
 
             <div className="flex items-center gap-4">
               <hr className="flex-1 border-slate-300" />
