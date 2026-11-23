@@ -24,6 +24,14 @@
       as:'input',
     },
     {
+      id:"birthDate",
+      name:"birthDate",
+      type:"date",
+      label:"Date de naissance",
+      disabled:true,
+      as:'input',
+    },
+    {
       id:"email",
       name:"email",
       type:"email",
