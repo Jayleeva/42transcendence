@@ -21,6 +21,7 @@ const publicUserSelect = {
   avatar: true,
   bio: true,
   createdAt: true,
+  pets: true,
 } as const;
 
 const privateUserSelect = {
@@ -32,6 +33,7 @@ const privateUserSelect = {
   avatar: true,
   bio: true,
   createdAt: true,
+  pets: true,
   email: true,
 } as const;
 
@@ -132,6 +134,21 @@ export class UserService {
   }
 
   async createUser(data: CreateUserData) {
+    if (data.birthDate) {
+      const latestAllowed = new Date();
+      latestAllowed.setUTCFullYear(
+        latestAllowed.getUTCFullYear() - MIN_AGE,
+      );
+
+      if (data.birthDate > latestAllowed) {
+        throw new BadRequestException({
+          statusCode: 400,
+          errors: [
+            { field: 'birthDate', code: 'BIRTHDATE_TOO_YOUNG' },
+          ],
+        });
+      }
+    }
     try {
       return await this.prisma.user.create({
         data,
@@ -226,14 +243,43 @@ export class UserService {
     }
   }
 
-  linkOAuthAccount(
+  async link42Account(
     userId: string,
-    provider: string,
     providerAccountId: string,
   ) {
-    return this.prisma.oAuthAccount.create({
-      data: { userId, provider, providerAccountId },
-    });
+    try {
+      return await this.prisma.$transaction(async (tx) => {
+        const existingLink = await tx.oAuthAccount.findFirst({
+          where: { userId, provider: '42' },
+        });
+
+        if (existingLink) {
+          throw new ConflictException({
+            statusCode: 409,
+            errors: [{ code: 'OAUTH_ALREADY_LINKED' }],
+          });
+        }
+
+        return tx.oAuthAccount.create({
+          data: {
+            userId,
+            provider: '42',
+            providerAccountId,
+          },
+        });
+      });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        throw new ConflictException({
+          statusCode: 409,
+          errors: [{ code: 'OAUTH_ACCOUNT_ALREADY_LINKED' }],
+        });
+      }
+      throw error;
+    }
   }
 
   private rethrowPrismaError(error: unknown): never {

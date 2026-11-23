@@ -4,4 +4,5 @@ export type CreateUserData = {
     firstname: string;
     lastname: string;
     password?: string;
+    birthDate?: Date;
 }

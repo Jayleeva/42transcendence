@@ -161,7 +161,7 @@ export default function PrefilledForm<T extends Record<string, any>>({
                 </section>
 
                 <h2 className="font-bold">Bio</h2>
-                <Textarea id="bio" name="bio" placeholder="Entrez une description..." value={formData.bio ?? ''} onChange={setFormData}/>
+                <Textarea id="bio" name="bio" placeholder="Entrez une description..." value={formData.bio ?? ''} />
 
                 <h2 className="font-bold">Informations générales</h2>
                 <div className="flex flex-col gap-4">
