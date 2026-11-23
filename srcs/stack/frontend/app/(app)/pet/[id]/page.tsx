@@ -4,6 +4,7 @@
 
 import NotFound from '@/app/not-found';
 import PetCard from '@/components/features/PetCard';
+import PetList from '@/components/features/PetList';
 import PhotoGallery from '@/components/features/PhotoGallery';
 import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 
@@ -49,7 +50,8 @@ export default async function Page({
         ownerProfileLink={petData?.ownerProfileLink} >
       </PetCard>
     <h2 className="font-display text-3xl font-bold pt-4">Galerie photo</h2>
-    <PhotoGallery photos={photos} petName={petData?.name} isOwner={petData?.isOwner} />
+    {/* <PhotoGallery photos={photos} petName={petData?.name} isOwner={petData?.isOwner} /> */}
+    <PetList pets={petData?.pets} isOwner={petData?.isOwner} />
     </main>
   );
 }
