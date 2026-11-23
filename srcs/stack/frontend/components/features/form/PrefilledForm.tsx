@@ -120,7 +120,7 @@ export default function PrefilledForm<T extends Record<string, any>>({
         const submittedFormData = new FormData(event.currentTarget);
         const data: Record<string, any> = {};
         submittedFormData.forEach((value, key) => {
-            data[key] = value === '' ? undefined : value;
+            data[key] = value === '' ? null : value;
         });
 
         // Note : Si votre API attend du JSON, avatarFile ne peut pas être envoyé tel quel.
@@ -145,6 +145,8 @@ export default function PrefilledForm<T extends Record<string, any>>({
             alert(`Erreur :\n${details}`);
         }
     }
+    //const bioPlaceholder = fields[bio].placeholder;
+
     return (
         <>
             <form onSubmit={handleSubmit} className="flex flex-col gap-8">
@@ -161,11 +163,13 @@ export default function PrefilledForm<T extends Record<string, any>>({
                 </section>
 
                 <h2 className="font-bold">Bio</h2>
-                <Textarea id="bio" name="bio" placeholder="Entrez une description..." lastValue={formData.bio ?? ''}/>
+                <Textarea id="bio" name="bio" placeholder="Entrez une description..." lastValue={savedData?.bio ?? initialData?.bio ?? null}/> 
 
                 <h2 className="font-bold">Informations générales</h2>
                 <div className="flex flex-col gap-4">
-                    {fields.map((field) => (
+                    {fields
+                    .filter((field) => field.name !== 'bio')
+                    .map((field) => (
                         <div key={field.id}>
                             {field.as === 'select' ? (
                                 <Select

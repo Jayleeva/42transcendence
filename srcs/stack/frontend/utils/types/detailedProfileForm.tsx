@@ -1,17 +1,9 @@
-import { PiPlaceholder } from "react-icons/pi";
-
-  export const studentBio = {
-    id:"bio",
-    name:"bio",
+  export const studentBioPlaceholder = {
     placeholder:"Ecrivez quelque chose à propos de vous...",
-    label:"Bio",
   }
 
-  export const petBio = {
-    id:"info",
-    name:"bio",
+  export const petBioPlaceholder = {
     placeholder:"Ecrivez quelque chose à propos de votre animal...",
-    label:"Info",
   }
 
   export const detailedProfileFormFields = [
