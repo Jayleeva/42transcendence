@@ -18,7 +18,7 @@ export default function MiniPetCard({ id, name, photoUrl }: PetCardProps) {
       className="flex aspect-[2/3] w-40 flex-col items-center justify-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-md hover:bg-brand/10"
     >
       <Avatar src={photoUrl ?? undefined} alt={name} />
-      <span className="line-clamp-2 break-words text-center font-semibold">
+      <span className="w-full line-clamp-2 break-words text-center font-semibold">
         {name}
       </span>
     </Link>
