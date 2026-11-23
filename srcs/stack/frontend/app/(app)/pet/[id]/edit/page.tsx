@@ -6,6 +6,7 @@ import { petEditFormConf, petEditFormFields } from '@/utils/types/PetForm';
 import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 import NotFound from '@/app/not-found';
 import { PetProfileFormState } from '@/utils/interfaces/ProfileFormStates';
+import DeleteButton from '@/components/ui/DeleteButton';
 
 export const metadata={
     title:'Modifier un animal',
@@ -18,9 +19,10 @@ export default async function Page({
   }) {
   // 1. On attend la résolution de params et on extrait 'user-id' dans la variable userId
   const { 'id': petId } = await params;
+  const url = `/api/pets/${petId}`;
   
   // 2. On injecte userId directement dans l'URL de l'API
-  const petData = await callApiWithCookie(`/api/pets/${petId}`, 'GET');
+  const petData = await callApiWithCookie(url, 'GET');
   console.log("recieved petdata for searched pet = " + JSON.stringify(petData));
   if (!petData) {
     return (NotFound());
@@ -34,7 +36,9 @@ export default async function Page({
           Modifier un animal
         </h1>
 
-        <PrefilledForm<PetProfileFormState> fields={petEditFormFields} miniconf={petEditFormConf} endpoint={`/api/pets/${petId}`} initialData={petData} />
+        <PrefilledForm<PetProfileFormState> fields={petEditFormFields} miniconf={petEditFormConf} endpoint={url} initialData={petData} />
+        
+        <DeleteButton path={url}/>
       </div>
     </main>
   );

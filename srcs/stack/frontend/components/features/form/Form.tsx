@@ -31,7 +31,7 @@ export default function Form({fields, conf}: FormProps)
         const formData = new FormData(event.currentTarget);
 
         const data = Object.fromEntries(formData.entries());
-        console.log("Donnees : ", data);
+        console.log("Donnees : ", JSON.stringify(data));
 
         const response = await callApiWithCookie(conf.endpoint, conf.call, JSON.stringify(data));
 
@@ -60,7 +60,7 @@ export default function Form({fields, conf}: FormProps)
                 {fields.map((field:any) => (
                     <div key={field.id}>
                     {field.as === 'select' ? (
-                    <Select id={field.id} label={field.label} placeholder={field.placeholder ?? ''} options={field.options}/>
+                    <Select id={field.id} name={field.name} label={field.label} placeholder={field.placeholder ?? ''} options={field.options}/>
                     ) : field.as === 'textarea' ? (
                     <Textarea id={field.id} name={field.name} placeholder={field.placeholder ?? ''} lastValue={field.lastValue}/>
                     ) : (
