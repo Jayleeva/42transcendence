@@ -1,5 +1,6 @@
 YML = ./srcs/docker-compose.yml
-CMP = docker compose -f $(YML)
+#CMP = docker compose -f $(YML)
+CMP = docker compose --env-file $(ENV_DEST) -f $(YML)
 
 DOCKERS = nginx frontend backend pgdb vault
 IMAGES = nginx frontend backend pgdb vault
@@ -18,7 +19,7 @@ front:
 
 up:
 	cp $(ENV_SRC) $(ENV_DEST)
-	echo "DOMAIN_NAME=$(DOMAIN_NAME)" >> $(ENV_DEST)
+	echo "\nDOMAIN_NAME=$(DOMAIN_NAME)" >> $(ENV_DEST)
 	$(CMP) up -d --build
 
 down:
