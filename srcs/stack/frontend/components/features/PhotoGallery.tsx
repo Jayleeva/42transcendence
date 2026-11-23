@@ -17,9 +17,11 @@ type PhotoGalleryProps = {
   isOwner?: boolean;
 };
 
-export default function PhotoGallery({ photos, petName, isOwner = false }: PhotoGalleryProps) {
+export default function PhotoGallery({ photos, petName, isOwner = true }: PhotoGalleryProps) {
   const [selected, setSelected] = useState<Photo | null>(null);
   const [uploadOpen, setUploadOpen] = useState(false);
+
+  console.log("isOwner = " + isOwner);
 
   if (photos.length === 0 && !isOwner) {
     return <p className="text-slate-500">Aucune photo pour le moment.</p>;
