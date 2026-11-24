@@ -106,10 +106,9 @@ export class AuthService {
     await this.userService.updatePassword(userId, hashedPassword);
   }
 
-  async exchange42Code(code: string): Promise<string> {
+  async exchange42Code(code: string, redirectUri: string,): Promise<string> {
     const clientId = process.env.FT_CLIENT_ID;
     const clientSecret = process.env.FT_CLIENT_SECRET;
-    const redirectUri = process.env.FT_CALLBACK_URL;
 
     if (!clientId || !clientSecret || !redirectUri) {
       throw new InternalServerErrorException({

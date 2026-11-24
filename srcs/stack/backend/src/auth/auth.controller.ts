@@ -47,11 +47,13 @@ export class AuthController {
     const expectedState = req.session.oauthState;
     const mode = req.session.oauthMode;
     const linkUserId = req.session.oauthLinkUserId;
+    const redirectUri = req.session.oauthRedirectUri;
 
     // Consume the OAuth attempt so it cannot be reused.
     delete req.session.oauthState;
     delete req.session.oauthMode;
     delete req.session.oauthLinkUserId;
+    delete req.session.oauthRedirectUri;
 
     await new Promise<void>((resolve, reject) => {
       req.session.save((err) => {
@@ -68,6 +70,7 @@ export class AuthController {
       !state ||
       !expectedState ||
       state !== expectedState ||
+      !redirectUri ||
       (mode !== 'login' && mode !== 'link')
     ) {
       throw new UnauthorizedException({
@@ -112,7 +115,7 @@ export class AuthController {
     }
 
     // Exchange the code and retrieve the 42 identity.
-    const accessToken = await this.authService.exchange42Code(code);
+    const accessToken = await this.authService.exchange42Code(code, redirectUri);
     const profile = await this.authService.get42Profile(accessToken);
 
     const existingUser = await this.authService.find42User(
@@ -177,7 +180,14 @@ export class AuthController {
     mode: 'login' | 'link',
   ) {
     const clientId = process.env.FT_CLIENT_ID;
-    const redirectUri = process.env.FT_CALLBACK_URL;
+
+    // Select the callback URL based on the request hostname.
+    const callbackUrls = new Map([
+      ['localhost', process.env.FT_CALLBACK_URL_LOCAL],
+      ['lauzanimo.ch', process.env.FT_CALLBACK_URL_REMOTE],
+    ]);
+
+    const redirectUri = callbackUrls.get(req.hostname);
 
     if (!clientId || !redirectUri) {
       throw new InternalServerErrorException({
@@ -190,6 +200,7 @@ export class AuthController {
 
     req.session.oauthState = state;
     req.session.oauthMode = mode;
+    req.session.oauthRedirectUri = redirectUri;
 
     if (mode === 'link') {
       req.session.oauthLinkUserId = req.session.userId;
