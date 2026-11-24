@@ -12,7 +12,9 @@ export async function callApiWithCookie(path: string, _method: string, arg?: str
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'X-Forwarded-Proto': 'https',
-      'Cookie': `transcendence.sid=${token}`,
+      ...(token && {
+      'Cookie': `transcendence.sid=${encodeURIComponent(token)}`,
+    }),
     };
 
     // 2. Appel vers le backend Docker
@@ -39,11 +41,11 @@ export async function callApiWithCookie(path: string, _method: string, arg?: str
       console.log("[DEBUG COOKIE] Résultat du match :", match ? match : "Aucun match");
 
       if (match && match[1]) {
-        cookieStore.set('transcendence.sid', match[1], { // 👈 Sans decodeURIComponent pour garder la valeur exacte
+        cookieStore.set('transcendence.sid', decodeURIComponent(match[1]), { // 👈 Sans decodeURIComponent pour garder la valeur exacte
           httpOnly: true,
           path: '/',
           sameSite: 'lax',
-          //secure: true,
+          secure: true,
         });
         console.log("[DEBUG COOKIE] Cookie enregistré avec succès dans cookieStore !");
       }
