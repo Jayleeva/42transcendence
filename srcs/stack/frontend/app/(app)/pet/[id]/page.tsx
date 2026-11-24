@@ -2,12 +2,16 @@
 // ici on mettra une condition ds le code pour differencier si c'est le pet de l'user ou pas 
 // ( pour pouvoir modifier ou pas les infos du pet )
 
+import NotFound from '@/app/not-found';
 import PetCard from '@/components/features/PetCard';
+//import PetList from '@/components/features/PetList';
 import PhotoGallery from '@/components/features/PhotoGallery';
+import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 
 export const metadata={
     title:'Profil',
 };
+
 
 // hard code a remplacer par le back end
 const photos = [
@@ -17,23 +21,38 @@ const photos = [
   { id: 4, url: '/images-test/milo-mountain.jpg' },
 ];
 
-export default function Page() {
+export default async function Page({
+  params,
+  }: {
+  params: Promise<{ 'id': string }>;
+  }) {
+  // 1. On attend la résolution de params et on extrait 'user-id' dans la variable userId
+  const { 'id': petId } = await params;
+  
+  // 2. On injecte userId directement dans l'URL de l'API
+  const petData = await callApiWithCookie(`/api/pets/${petId}`, 'GET');
+  console.log("recieved petdata for searched pet = " + JSON.stringify(petData));
+  /*if (!petData) {
+    return (NotFound());
+  }*/
+
   return (
     <main className="flex flex-col gap-6 px-6 py-12 min-h-screen max-w-2xl mx-auto">
-      
-    <h1 className="font-display text-6xl font-bold text-center">Milo</h1>
+    <h1 className="font-display text-6xl font-bold text-center">{petData?.name} </h1>
       <PetCard 
-        id={1} 
-        type="dog" 
-        race="chihuahuaaaaa" 
-        photoUrl={undefined} 
-        dateOfBirth="04/12/2024" 
-        info="Test info" 
-        isOwner={true}
-        ownerProfileLink="/profile-student">
+        id={petData?.id} 
+        type={petData?.type} 
+        race={petData?.race} 
+        photoUrl={petData?.photoUrl} 
+        birthDate={petData?.birthDate} 
+        bio={petData?.bio} 
+        isOwner={petData?.isOwner}
+        ownerID={petData?.owner.id}
+        ownerUsername={petData?.owner.username} >
       </PetCard>
     <h2 className="font-display text-3xl font-bold pt-4">Galerie photo</h2>
-    <PhotoGallery photos={photos} petName="Milo" isOwner={true} />
+    <PhotoGallery photos={photos} petName={petData?.name} isOwner={petData?.isOwner} />
+    {/* <PetList pets={petData?.pets} isOwner={petData?.isOwner} /> */}
     </main>
   );
 }
