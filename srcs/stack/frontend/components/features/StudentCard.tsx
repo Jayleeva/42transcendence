@@ -65,6 +65,7 @@ export default function StudentCard({ id, username, photoUrl, bio, nfriends, isO
   mais pour les friend changer avec un boutton on click pour appel API ? 
   href={`/friends/add/${id}`}  ??? on a pas de dossier ni page for now 
   
-  Envoyer un message : pour l'instant renvoie sur le lien de la messagerie, mais on peut faire un lien direct vers le chat avec l'utilisateur si on veut  
+  Envoyer un message : pour l'instant renvoie sur le lien de la messagerie 
   Mais pareil, creer une action qui creer une conv avec le user et renvoie sur cette page ? 
+  verif aussi la logique de pouvoir envoyer un mess seulement si on est deja friends
 */}
