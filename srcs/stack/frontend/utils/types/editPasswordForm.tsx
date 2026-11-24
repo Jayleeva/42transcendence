@@ -1,4 +1,4 @@
-  export const editPasswordFormInputs = [
+  export const editPasswordFormFields = [
     {
       id:"currentPassword",
       name:"currentPassword",
