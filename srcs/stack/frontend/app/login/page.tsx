@@ -17,7 +17,9 @@ export default function Page() {
           Connectez-vous
         </h1>
 
-        <Button type="button">Se connecter avec votre login 42</Button>
+        <Button>
+          <a href={"/api/auth/42"}>Se connecter avec votre login 42</a>
+        </Button>
 
         <div className="flex items-center gap-4">
           <hr className="flex-1 border-slate-300" />
