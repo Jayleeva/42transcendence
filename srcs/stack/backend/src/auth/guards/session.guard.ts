@@ -1,6 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import type { Request } from "express";
-import { Observable } from "rxjs";
 
 // Reject requests that do not belong to an authenticated session.
 @Injectable()
