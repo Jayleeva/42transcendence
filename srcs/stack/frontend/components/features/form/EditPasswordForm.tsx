@@ -12,8 +12,11 @@ export default function EditPasswordForm()
 
         const formData = new FormData(event.currentTarget);
 
+        /*if (formData.get(confPassword) != formData[newPassword])
+            alert("Confirmation doesn't match new password");*/
+
         const data = Object.fromEntries(formData.entries());
-        console.log("Donnees : ", data);
+        console.log("Donnees : ", JSON.stringify(data));
 
         const response = await callApiWithCookie(editPasswordFormConf.endpoint, editPasswordFormConf.call, JSON.stringify(data));
 
