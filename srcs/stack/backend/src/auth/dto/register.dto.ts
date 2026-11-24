@@ -1,4 +1,6 @@
+
 import {
+  IsDateString,
   IsEmail,
   IsNotEmpty,
   IsString,
@@ -36,4 +38,8 @@ export class RegisterDto {
   @MinLength(8, { message: 'PASSWORD_TOO_SHORT' })
   @MaxLength(128, { message: 'PASSWORD_TOO_LONG' })
   password: string;
+
+  @IsNotEmpty({ message: 'BIRTHDATE_REQUIRED' })
+  @IsDateString({}, { message: 'BIRTHDATE_INVALID_FORMAT' })
+  birthDate: string;
 }

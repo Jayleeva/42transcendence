@@ -19,8 +19,8 @@ model User {
   id           String    @id @default(uuid()) @db.Uuid
   lastname     String
   firstname    String
-  username     String    @unique
-  email        String    @unique
+  username     String    @unique @db.Citext
+  email        String    @unique @db.Citext
   password     String?
   bio          String?
   avatar       String?
@@ -42,7 +42,7 @@ model User {
   comments      Comment[]
   postlikes     PostLike[]
   commentlikes  CommentLike[]
-  petlikes      PetLike[]
+  petphotolikes PetPhotoLike[]
   messages      Message[]
   conversations ConversationMember[]
   achievements  UserAchievement[]
@@ -56,8 +56,8 @@ model Friendship {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  requester User @relation("FriendshipRequester", fields: [requesterId], references: [id])
-  receiver  User @relation("FriendshipReceiver", fields: [receiverId], references: [id])
+  requester User @relation("FriendshipRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  receiver  User @relation("FriendshipReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
 
   @@unique([requesterId, receiverId])
 }
@@ -77,9 +77,10 @@ model OAuthAccount {
   updatedAt         DateTime @updatedAt
 
   userId String @db.Uuid
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@unique([userId, provider])
 }
 
 // ==================== PET ====================
@@ -96,11 +97,10 @@ model Pet {
   updatedAt DateTime  @updatedAt
 
   ownerId String @db.Uuid
-  owner   User   @relation(fields: [ownerId], references: [id])
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
-  photos   PetPhoto[]
-  posts    Post[]
-  petLikes PetLike[]
+  photos PetPhoto[]
+  posts  Post[]
 }
 
 enum Species {
@@ -126,22 +126,22 @@ model PetPhoto {
   updatedAt DateTime @updatedAt
 
   petId String @db.Uuid
-  pet   Pet    @relation(fields: [petId], references: [id])
+  pet   Pet    @relation(fields: [petId], references: [id], onDelete: Cascade)
 
-  likes PetLike[]
+  likes PetPhotoLike[]
 }
 
 // ==================== POST ====================
 
 model Post {
   id        String   @id @default(uuid()) @db.Uuid
-  content   String
+  content   String?
   image     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   authorId String @db.Uuid
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   pets     Pet[]
   images   PostImage[]
@@ -156,7 +156,7 @@ model PostImage {
   updatedAt DateTime @updatedAt
 
   postId String @db.Uuid
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 // ==================== COMMENT ====================
@@ -168,10 +168,10 @@ model Comment {
   updatedAt DateTime @updatedAt
 
   authorId String @db.Uuid
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   postId String @db.Uuid
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   likes CommentLike[]
 }
@@ -185,10 +185,10 @@ model PostLike {
   updatedAt DateTime @updatedAt
 
   authorId String @db.Uuid
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   postId String @db.Uuid
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@unique([authorId, postId])
 }
@@ -199,28 +199,26 @@ model CommentLike {
   updatedAt DateTime @updatedAt
 
   authorId String @db.Uuid
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   commentId String  @db.Uuid
-  comment   Comment @relation(fields: [commentId], references: [id])
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
 
   @@unique([authorId, commentId])
 }
 
-model PetLike {
+model PetPhotoLike {
   id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   authorId String @db.Uuid
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
-  petId      String    @db.Uuid
-  pet        Pet       @relation(fields: [petId], references: [id])
-  petPhoto   PetPhoto? @relation(fields: [petPhotoId], references: [id])
-  petPhotoId String?   @db.Uuid
+  petPhotoId String   @db.Uuid
+  petPhoto   PetPhoto @relation(fields: [petPhotoId], references: [id], onDelete: Cascade)
 
-  @@unique([authorId, petId])
+  @@unique([authorId, petPhotoId])
 }
 
 // ==================== MESSAGES ====================
@@ -238,8 +236,8 @@ model ConversationMember {
   conversationId String @db.Uuid
   userId         String @db.Uuid
 
-  conversation Conversation @relation(fields: [conversationId], references: [id])
-  user         User         @relation(fields: [userId], references: [id])
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([conversationId, userId])
 }
@@ -251,10 +249,10 @@ model Message {
   updatedAt DateTime @updatedAt
 
   senderId String @db.Uuid
-  sender   User   @relation(fields: [senderId], references: [id])
+  sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
 
   conversationId String       @db.Uuid
-  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 }
 
 // ==================== NOTIFICATIONS ====================
@@ -267,10 +265,10 @@ model Notification {
   updatedAt DateTime         @updatedAt
 
   userId String @db.Uuid
-  user   User   @relation("UserNotifications", fields: [userId], references: [id])
+  user   User   @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
 
   actorId String? @db.Uuid
-  actor   User?   @relation("NotificationActor", fields: [actorId], references: [id])
+  actor   User?   @relation("NotificationActor", fields: [actorId], references: [id], onDelete: Cascade)
 }
 
 enum NotificationType {
@@ -278,7 +276,7 @@ enum NotificationType {
   FRIEND_ACCEPTED
   POST_LIKE
   COMMENT_LIKE
-  PET_LIKE
+  PET_PHOTO_LIKE
   COMMENT
   MESSAGE
   ACHIEVEMENT
@@ -302,10 +300,10 @@ model UserAchievement {
   unlockedAt DateTime @default(now())
 
   userId String @db.Uuid
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   achievementId String      @db.Uuid
-  achievement   Achievement @relation(fields: [achievementId], references: [id])
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
 
   @@unique([userId, achievementId])
 }

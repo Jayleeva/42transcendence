@@ -17,7 +17,7 @@ services:
       - frontend-network
       - vault-network
     ports:
-      - 443:8443
+      - 8443:443
     environment:
       SERVER_NAME: "${DOMAIN_NAME}"
       SSL_CERT_FILE: "/etc/nginx/ssl/transcendence.crt"
@@ -34,6 +34,7 @@ services:
     volumes:
       - certs_data:/app/vault_shared:ro
       - modsec_logs:/var/log/modsecurity/audit
+      - uploads_data:/var/www/uploads:ro
     logging:
       driver: "json-file"
       options:
@@ -76,8 +77,10 @@ services:
       PGSQL_PORT: 5432
       VAULT_ADDR: "http://vault:8200"
       PORT: "8000"
+      UPLOAD_DIR: /app/uploads
     volumes:
-      - certs_data:/app/vault_shared:ro 
+      - certs_data:/app/vault_shared:ro
+      - uploads_data:/app/uploads
     restart: always
   # database
   pgdb:
@@ -124,10 +127,6 @@ services:
       - certs_data:/vault/generated_certs
     cap_add:
       - IPC_LOCK
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
     restart: always
 
 networks:
@@ -143,4 +142,5 @@ volumes:
   vault_data:
   certs_data:
   pgdb_data:
+  uploads_data:
   modsec_logs:

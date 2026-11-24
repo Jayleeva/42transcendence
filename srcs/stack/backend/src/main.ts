@@ -4,6 +4,7 @@ import { Pool } from 'pg';
 import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { getVaultSecret } from './prisma/vault';
 import {
   BadRequestException,
   ValidationPipe,
@@ -27,8 +28,8 @@ async function bootstrap() {
   // Trust our Nginx reverse proxy for HTTPS requests.
   app.getHttpAdapter().getInstance().set('trust proxy', 1);
 
-  // Enable PostgreSQL-backed sessions.
-  const sessionSecret = process.env.SESSION_SECRET;
+  // Retrieve the session signing secret from Vault.
+  const sessionSecret = await getVaultSecret('session_secret');
 
   if (!sessionSecret || sessionSecret.length < 32) {
     throw new Error('SESSION_SECRET must contain at least 32 characters');
