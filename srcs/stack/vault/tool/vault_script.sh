@@ -90,7 +90,8 @@ vault kv put secret/transcendence \
     session_secret="$SESSION_SECRET" \
     FT_CLIENT_ID="$FT_CLIENT_ID" \
     FT_CLIENT_SECRET="$FT_CLIENT_SECRET" \
-    FT_CALLBACK_URL="$FT_CALLBACK_URL"
+    FT_CALLBACK_URL_LOCAL="$FT_CALLBACK_URL_LOCAL" \
+    FT_CALLBACK_URL_REMOTE="$FT_CALLBACK_URL_REMOTE"
 
 echo "[VAULT] Configuration de l'AppRole pour le backend..."
 vault auth enable approle || true
