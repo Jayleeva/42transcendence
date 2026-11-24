@@ -45,9 +45,10 @@ export default async function Page({
         race={petData?.race} 
         photoUrl={petData?.photoUrl} 
         birthDate={petData?.birthDate} 
-        info={petData?.info} 
+        bio={petData?.bio} 
         isOwner={petData?.isOwner}
-        ownerProfileLink={petData?.ownerProfileLink} >
+        ownerID={petData?.owner.id}
+        ownerUsername={petData?.owner.username} >
       </PetCard>
     <h2 className="font-display text-3xl font-bold pt-4">Galerie photo</h2>
     <PhotoGallery photos={photos} petName={petData?.name} isOwner={petData?.isOwner} />

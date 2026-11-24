@@ -37,7 +37,6 @@ export default async function Page({
       <StudentCard id={userData.id} username={userData.username } photoUrl={userData.avatarUrl} bio={userData.bio} nfriends={await getNfriends()} /> 
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <MiniPetCard id={1} name={'Mochi'} />
         {petsData.map((i:any) => (
           <div key={i.id}>
             <MiniPetCard id={i.id} name={i.name} />

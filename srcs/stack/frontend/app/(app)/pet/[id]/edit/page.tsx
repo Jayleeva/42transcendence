@@ -2,7 +2,7 @@
 
 import BackButton from '@/components/ui/BackButton';
 import PrefilledForm from '@/components/features/form/PrefilledForm';
-import { petEditFormConf, petEditFormFields } from '@/utils/types/PetForm';
+import { petEditFormConf, petFormFields } from '@/utils/types/PetForm';
 import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 import NotFound from '@/app/not-found';
 import { PetProfileFormState } from '@/utils/interfaces/ProfileFormStates';
@@ -36,7 +36,7 @@ export default async function Page({
           Modifier un animal
         </h1>
 
-        <PrefilledForm<PetProfileFormState> fields={petEditFormFields} miniconf={petEditFormConf} endpoint={url} initialData={petData} />
+        <PrefilledForm<PetProfileFormState> fields={petFormFields} miniconf={petEditFormConf} endpoint={url} initialData={petData} />
         
         <DeleteButton path={url}/>
       </div>

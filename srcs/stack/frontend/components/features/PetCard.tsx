@@ -10,9 +10,10 @@ type PetCardProps = {
   race?: string | null;
   birthDate?: string | null;
   photoUrl?: string | null;
-  info?: string | null;
+  bio?: string | null;
   isOwner?: boolean;
-  ownerProfileLink?: string | null;
+  ownerID?: string | null;
+  ownerUsername?: string | null;
 };
 
 export default function PetCard({
@@ -21,12 +22,14 @@ export default function PetCard({
   race,
   birthDate,
   photoUrl,
-  info,
+  bio,
   isOwner = true,
-  ownerProfileLink,
+  ownerID,
+  ownerUsername,
 }: PetCardProps) {
   const typeLabel = getPetTypeLabel(type);
-
+  const date = birthDate?.split('T')[0];
+  const ownerProfileLink = `/users/${ownerID}`;
   return (
  <div className="flex items-center gap-6 w-full max-w-2xl bg-white border-brand border-3 rounded-2xl p-6 shadow-sm">
   <div className="w-1/4 flex justify-center shrink-0">
@@ -36,13 +39,13 @@ export default function PetCard({
       <div className="flex flex-1 flex-col gap-2 text-sm text-slate-600">
         <p className="font-semibold text-black">{typeLabel}</p>
         {race && <p><span className="font-bold text-black">Race :</span> {race}</p>}
-        {birthDate && <p><span className="font-bold text-black">Date de naissance :</span> {birthDate}</p>}
-        {info && <p><span className="font-bold text-black">Info :</span> {info}</p>}
-        {ownerProfileLink && <p><span className="font-bold text-black">Profil du propriétaire :</span> (
+        {birthDate && <p><span className="font-bold text-black">Date de naissance :</span> {date}</p>}
+        {bio && <p><span className="font-bold text-black">Bio :</span> {bio}</p>}
+        {ownerID && <p><span className="font-bold text-black">Profil du propriétaire : </span>
           <Link href={ownerProfileLink} className="underline">
-            Test profil Melo
+            {ownerUsername}
           </Link>
-        )</p>}
+        </p>}
         {isOwner && (
           <Link
             href={`/pet/${id}/edit`}

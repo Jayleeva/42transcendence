@@ -24,7 +24,6 @@ export default async function Page() {
       <StudentCard id={userData.id} username={userData.username } photoUrl={userData.avatarUrl} bio={userData.bio} nfriends={await getNfriends()}/> 
 
       <div className="flex flex-wrap gap-2 w-full">
-        <MiniPetCard id={1} name="Milo" />
         {petsData.map((i:any) => (
           <div key={i.id}>
             <MiniPetCard id={i.id} name={i.name} />

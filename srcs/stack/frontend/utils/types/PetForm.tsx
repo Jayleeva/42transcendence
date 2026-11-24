@@ -2,12 +2,12 @@
 import { petTypes } from "@/lib/petTypes";
 import { FieldProps } from "./FieldProps";
 
-  export const petCreateFormFields: FieldProps[] = [
+  export const petFormFields: FieldProps[] = [
     {
       id:"name",
       name:"name",
       type:"name",
-      label:"Pseudo",
+      label:"Nom",
       disabled:false,
       as: 'input',
     },
@@ -24,7 +24,7 @@ import { FieldProps } from "./FieldProps";
       id:"race",
       name:"race",
       type:"text",
-      label:"race",
+      label:"Race",
       disabled:false,
       as: 'input',
     },
@@ -44,50 +44,6 @@ import { FieldProps } from "./FieldProps";
       placeholder:"Ecrivez quelque chose à propos de votre animal...",
       disabled:false,
       as: 'textarea',
-    },
-  ];
-
-  export const petEditFormFields: FieldProps[] = [
-    {
-      id:"name",
-      name:"name",
-      type:"name",
-      label:"Pseudo",
-      disabled:false,
-      as: 'input',
-    },
-    {
-      id:"species",
-      name:"species",
-      label:"Espèce",
-      disabled:false,
-      as: 'select',
-      placeholder:"Sélectionnez une espèce",
-      options:petTypes,
-    },
-    {
-      id:"race",
-      name:"race",
-      type:"text",
-      label:"race",
-      disabled:false,
-      as: 'input',
-    },
-    {
-      id:"birthDate",
-      name:"birthDate",
-      type:"date",
-      label:"Date de naissance",
-      disabled:false,
-      as: 'input',
-    },
-    {
-      id:"bio",
-      name:"bio",
-      type:"text",
-      label:"Description / Informations",
-      disabled:true,
-      as: 'input',
     },
   ];
 
