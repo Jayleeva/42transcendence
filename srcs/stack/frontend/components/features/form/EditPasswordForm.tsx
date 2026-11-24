@@ -40,9 +40,11 @@ export default function EditPasswordForm()
                 </div>
             ))}
         </div>
+        <div className="flex flex-col items-start gap-4">
         <MiniButton type={editPasswordFormConf.type} variant={editPasswordFormConf.variant}>
             {editPasswordFormConf.name}
         </MiniButton>
+        </div>
         </form>
     );
 }
