@@ -38,7 +38,8 @@ POSTGRES_DB=nameyourDB
 SESSION_SECRET=chooseAsessionSecretOfAtLeast32Chars
 FT_CLIENT_ID=yourclientid
 FT_CLIENT_SECRET=yourclientssecret
-FT_CALLBACK_URL=yoururltocallback
+FT_CALLBACK_URL_LOCAL=yourcallbackurloption1
+FT_CALLBACK_URL_REMOTE=yourcallbackurloption2
 ````
 
 CAREFUL: once the username and password have been used to create the database, you won't be able to change them without erasing all its data.
