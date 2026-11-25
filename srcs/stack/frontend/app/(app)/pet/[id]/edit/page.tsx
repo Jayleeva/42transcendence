@@ -1,19 +1,33 @@
 // faire une page pour modif le profil ? ou juste renvoyer sur la crea de profil deja pre rempli ? 
 
 import BackButton from '@/components/ui/BackButton';
-import MiniButton from '@/components/ui/MiniButton';
-import Input from '@/components/ui/Input';
-import Avatar from '@/components/ui/Avatar';
-import Textarea from '@/components/ui/Textarea';
-import Select from '@/components/ui/Select';
-import { petTypes } from '@/lib/petTypes';
+import PrefilledForm from '@/components/features/form/PrefilledForm';
+import { petEditFormConf, petFormFields } from '@/utils/types/PetForm';
+import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
+import NotFound from '@/app/not-found';
+import { PetProfileFormState } from '@/utils/interfaces/ProfileFormStates';
+import DeleteButton from '@/components/ui/DeleteButton';
 
 export const metadata={
     title:'Modifier un animal',
 };
 
-
-export default function Page() {
+export default async function Page({
+  params,
+  }: {
+  params: Promise<{ 'id': string }>;
+  }) {
+  // 1. On attend la résolution de params et on extrait 'user-id' dans la variable userId
+  const { 'id': petId } = await params;
+  const url = `/api/pets/${petId}`;
+  
+  // 2. On injecte userId directement dans l'URL de l'API
+  const petData = await callApiWithCookie(url, 'GET');
+  console.log("recieved petdata for searched pet = " + JSON.stringify(petData));
+  if (!petData) {
+    return (NotFound());
+  }
+  
   return (
     <main className="flex flex-1 flex-col px-4 pt-4 pb-12">
         <BackButton />
@@ -22,42 +36,9 @@ export default function Page() {
           Modifier un animal
         </h1>
 
-    {/* un seul form ici avec toutes les infos*/}
-        <form className="flex flex-col gap-8">
-          <section className="flex flex-col items-start gap-4">
-            <h2 className="font-bold">Photo de l'animal</h2>
-            <Avatar src={undefined}></Avatar>
-                <MiniButton type="button" variant="outline">Ajouter / modifier</MiniButton>
-          </section>
-
-          <section className="flex flex-col gap-4">
-            <h2 className="font-bold">Informations générales</h2>
-            <Input id="name" name="name" type="text" label="Nom" required/>
-            <Select 
-              id="type"
-              name="type" 
-              label="Type d'animal" 
-              placeholder="Sélectionnez un type d'animal"
-              options={petTypes} 
-              required
-            />
-            <Input id="race" name="race" type="text" label="Race de l'animal" />
-            <Input id="birth" name="birth" type="date" label="Date de naissance" />
-          </section>
-
-          <section className="flex flex-col gap-4">
-            <h2 className="font-bold">Description / informations </h2>
-                <Textarea 
-                  id="bio" 
-                  name="bio" 
-                  placeholder="Écrivez quelque chose à propos de votre animal" 
-                  maxLength={300} />
-          </section>
-            <div>
-                <MiniButton type="submit" variant="outline">Valider les modifications</MiniButton>
-            </div>
-        </form>
-
+        <PrefilledForm<PetProfileFormState> fields={petFormFields} miniconf={petEditFormConf} endpoint={url} initialData={petData} />
+        
+        <DeleteButton path={url}/>
       </div>
     </main>
   );

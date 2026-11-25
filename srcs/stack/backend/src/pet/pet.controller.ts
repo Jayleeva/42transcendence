@@ -6,6 +6,9 @@ import {
   Post,
   UseGuards,
   Patch,
+  Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { PetService } from './pet.service';
 import { CreatePetDto } from './dto/create-pet.dto';
@@ -46,5 +49,11 @@ export class PetController {
     @Body() dto: UpdatePetDto,
   ) {
     return this.petService.update(userId, id, dto);
+  }
+
+  @Delete('pets/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@CurrentUserId() userId: string, @Param('id', parseId) id: string) {
+    return this.petService.remove(userId, id);
   }
 }

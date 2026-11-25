@@ -3,13 +3,17 @@
       id:"email",
       name:"email",
       type:"email",
-      label:"Email"
+      label:"Email",
+      disabled:false,
+      as:'input',
     },
     {
       id:"password",
       name:"password",
       type:"password",
-      label:"Mot de passe"
+      label:"Mot de passe",
+      disabled:false,
+      as:'input',
     }
   ];
   export const loginFormConf =

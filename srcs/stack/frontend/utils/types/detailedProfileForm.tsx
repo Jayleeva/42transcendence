@@ -1,14 +1,11 @@
-  export const detailedProfileAvatar = {
-//<Avatar src="/Placeholder-test.png" alt="Test Avatar"></Avatar>
-  }
-  
-  export const detailedProfileFormInputs = [
+  export const detailedProfileFormFields = [
     {
       id:"firstname",
       name:"firstname",
       type:"name",
       label:"Prénom",
       disabled:false,
+      as:'input',
     },
     {
       id:"lastname",
@@ -16,6 +13,7 @@
       type:"name",
       label:"Nom",
       disabled:false,
+      as:'input',
     },
     {
       id:"username",
@@ -23,13 +21,15 @@
       type:"username",
       label:"Pseudo",
       disabled:false,
+      as:'input',
     },
     {
       id:"birthDate",
       name:"birthDate",
       type:"date",
       label:"Date de naissance",
-      disabled:false,
+      disabled:true,
+      as:'input',
     },
     {
       id:"email",
@@ -37,31 +37,17 @@
       type:"email",
       label:"Email",
       disabled:true,
-    },
-  ];
-
-  export const detailedProfilePassword = [
-    {
-      id:"oldpassword",
-      name:"oldpassword",
-      type:"password",
-      label:"Ancien mot de passe",
-      disabled:false,
+      as:'input',
     },
     {
-      id:"newpassword",
-      name:"newpassword",
-      type:"password",
-      label:"Nouveau mot de passe",
+      id:"bio",
+      name:"bio",
+      type:"text",
+      label:"Bio",
+      placeholder:"Ecrivez quelque chose à propos de vous...",
       disabled:false,
+      as:'textarea',
     },
-    {
-      id:"confpassword",
-      name:"confpassword",
-      type:"password",
-      label:"Confirmer le nouveau mot de passe",
-      disabled:false,
-    }
   ];
 
   export const detailedProfileConf = 
@@ -70,14 +56,4 @@
     variant:"outline",
     name:"Valider les modifications",
     call:"PATCH",
-    endpoint:"/api/users/me",
-  } as const;
-
-    export const modPasswordConf = 
-  {
-    type:"submit",
-    variant:"outline",
-    name:"Valider les modifications",
-    call:"PATCH",
-    endpoint:"/api/auth/password",
   } as const;
