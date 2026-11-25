@@ -12,7 +12,7 @@ export class FriendService {
 
   async createFriendRequest(requesterId: string, receiverId: string) {
     // Prevent users from sending friend requests to themselves
-    if (requesterId === receiverId) {
+    if (requesterId.toLowerCase() === receiverId.toLowerCase()) {
       throw new BadRequestException({
         statusCode: 400,
         errors: [{ field: 'receiverId', code: 'CANNOT_FRIEND_YOURSELF' }],
@@ -43,14 +43,14 @@ export class FriendService {
     });
 
     if (existingFriendship) {
-      if (existingFriendship.status === 'ACCEPTED') {
+      if (existingFriendship.status === Status.ACCEPTED) {
         throw new ConflictException({
           statusCode: 409,
           errors: [{ code: 'ALREADY_FRIENDS' }],
         });
       }
 
-      if (existingFriendship.status === 'PENDING') {
+      if (existingFriendship.status === Status.PENDING) {
         throw new ConflictException({
           statusCode: 409,
           errors: [{ code: 'FRIEND_REQUEST_ALREADY_EXISTS' }],
