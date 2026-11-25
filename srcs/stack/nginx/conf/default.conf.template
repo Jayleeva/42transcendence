@@ -27,7 +27,7 @@ server {
 
 	# --- REQUÊTES API pour le backend---
 	location /api/ {
-		client_max_body_size 10m;
+		client_max_body_size 12m;
 		proxy_pass "http://backend:8000";
 		proxy_set_header Host $host;
 		proxy_set_header X-Real-IP $remote_addr;
