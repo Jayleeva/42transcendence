@@ -37,7 +37,7 @@ server {
 
 	# --- REQUÊTES POUR L'UPLOAD pour le backend---
 	location /uploads/ {
-		alias /var/www/uploads;
+		alias /var/www/uploads/;
 		autoindex off;
 		limit_except GET { deny all; }
 		add_header X-Content-Type-Options nosniff;
