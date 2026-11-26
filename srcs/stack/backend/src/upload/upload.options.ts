@@ -10,6 +10,13 @@ export function invalidFileType(field: string) {
   });
 }
 
+export function fileRequired(field: string) {
+  return new BadRequestException({
+    statusCode: 400,
+    errors: [{ field, code: 'FILE_REQUIRED' }],
+  });
+}
+
 export function imageUploadOptions(field: string): MulterModuleOptions {
   return {
     limits: { fileSize: MAX_IMAGE_SIZE, files: 1, fields: 0 },

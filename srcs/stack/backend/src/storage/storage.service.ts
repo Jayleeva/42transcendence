@@ -7,6 +7,7 @@ import { invalidFileType } from '../upload/upload.options';
 
 const ALLOWED_FORMATS = ['jpeg', 'png', 'webp', 'tiff', 'heif'];
 const PUBLIC_PREFIX = '/uploads/';
+export const AVATAR_RESIZE = { width: 512, height: 512, fit: 'cover' } as const;
 
 @Injectable()
 export class StorageService {

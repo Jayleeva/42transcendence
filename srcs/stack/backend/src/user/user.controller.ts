@@ -15,7 +15,6 @@ import {
   UploadedFile,
   UseInterceptors,
   UseFilters,
-  BadRequestException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { SessionGuard } from '../auth/guards/session.guard';
@@ -27,7 +26,7 @@ import type { Request, Response } from 'express';
 import { endSession } from '../auth/session.utils';
 import { HttpAdapterHost } from '@nestjs/core';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { imageUploadOptions } from '../upload/upload.options';
+import { imageUploadOptions, fileRequired } from '../upload/upload.options';
 import { UploadExceptionFilter } from '../upload/upload-exception.filter';
 
 @UseGuards(SessionGuard)
@@ -63,12 +62,7 @@ export class UserController {
     @CurrentUserId() userId: string,
     @UploadedFile() file: Express.Multer.File | undefined,
   ) {
-    if (!file) {
-      throw new BadRequestException({
-        statusCode: 400,
-        errors: [{ field: 'avatar', code: 'FILE_REQUIRED' }],
-      });
-    }
+    if (!file) throw fileRequired('avatar');
     return this.userService.updateAvatar(userId, file.buffer);
   }
 

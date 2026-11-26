@@ -9,6 +9,9 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UploadedFile,
+  UseInterceptors,
+  UseFilters,
 } from '@nestjs/common';
 import { PetService } from './pet.service';
 import { CreatePetDto } from './dto/create-pet.dto';
@@ -16,6 +19,9 @@ import { SessionGuard } from '../auth/guards/session.guard';
 import { CurrentUserId } from '../auth/decorators/current-user-id.decorator';
 import { parseId } from '../common/pipes/parse-id.pipe';
 import { UpdatePetDto } from './dto/update-pet.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { fileRequired, imageUploadOptions } from '../upload/upload.options';
+import { UploadExceptionFilter } from '../upload/upload-exception.filter';
 
 @UseGuards(SessionGuard)
 @Controller()
@@ -49,6 +55,19 @@ export class PetController {
     @Body() dto: UpdatePetDto,
   ) {
     return this.petService.update(userId, id, dto);
+  }
+
+  @Post('pets/:id/avatar')
+  @HttpCode(HttpStatus.OK)
+  @UseFilters(new UploadExceptionFilter('avatar'))
+  @UseInterceptors(FileInterceptor('avatar', imageUploadOptions('avatar')))
+  uploadAvatar(
+    @CurrentUserId() userId: string,
+    @Param('id', parseId) id: string,
+    @UploadedFile() file: Express.Multer.File | undefined,
+  ) {
+    if (!file) throw fileRequired('avatar');
+    return this.petService.updateAvatar(userId, id, file.buffer);
   }
 
   @Delete('pets/:id')

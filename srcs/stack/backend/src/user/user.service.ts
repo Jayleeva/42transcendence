@@ -9,10 +9,9 @@ import { Prisma } from '../generated/prisma/client';
 import { CreateUserData } from './user.types';
 import { UpdateProfilDto } from './dto/update-profile.dto';
 import { SearchUserDto } from './dto/search-user.dto';
-import { StorageService } from '../storage/storage.service';
+import { AVATAR_RESIZE, StorageService } from '../storage/storage.service';
 
 const MIN_AGE = 18;
-const AVATAR_RESIZE = { width: 512, height: 512, fit: 'cover' } as const;
 
 const publicUserSelect = {
   id: true,
