@@ -1,8 +1,11 @@
 // Student Card
+'use client';
 
+import { useState } from 'react';
 import Avatar from '@/components/ui/Avatar';
 import Link from 'next/dist/client/link';
 import { Users, Mail } from 'lucide-react';
+import FriendsModal, { Friend } from '@/components/ui/FriendsModal';
 
 
 type StudentCardProps = {
@@ -10,15 +13,34 @@ type StudentCardProps = {
   username: string;
   photoUrl?: string | null;
   bio?: string | null;
-  nfriends: number | 0;
+  nfriends: number | 0; // check si on remplace nfriend par le tableau below
+  friends: Friend[];
   isOwner?: boolean;
+  onRemoveFriend?: (friend: Friend) => void; // synchronisation avec le back ? a check
 };
 
-export default function StudentCard({ id, username, photoUrl, bio, nfriends, isOwner = false }: StudentCardProps) {
+export default function StudentCard({ 
+  id, 
+  username, 
+  photoUrl, 
+  bio, 
+  nfriends,
+  friends = [],
+  isOwner = false,
+  onRemoveFriend, 
+  }: StudentCardProps) {
+  const [isFriendsOpen, setIsFriendsOpen] = useState(false);
+  const [friendList, setFriendList] = useState<Friend[]>(friends);
   const buttonStyle =
     'inline-flex items-center gap-1.5 w-max rounded-xl px-4 py-1 font-normal text-xs transition-colors bg-brand text-white hover:opacity-90';
   
+  const handleRemove = (friendToRemove: Friend) => {
+    setFriendList((prev) => prev.filter((f) => f.id !== friendToRemove.id));
+    onRemoveFriend?.(friendToRemove); // Appelle de l'API ?? 
+  };
+
   return (
+<>
 <div className="flex items-center gap-6 w-full max-w-2xl bg-white border-brand border-3 rounded-2xl p-6 shadow-sm">
   
   <div className="w-1/4 flex justify-center shrink-0">
@@ -26,13 +48,19 @@ export default function StudentCard({ id, username, photoUrl, bio, nfriends, isO
   </div>
 
   <div className="flex-1 min-w-0 flex flex-col gap-2">
-    
     <h2 className="text-xl font-bold text-slate-800">{username}</h2>
 
     {/* <p className="text-sm font-medium text-slate-500">👥 {nfriends} amis </p> */}
 
     <p className="text-sm font-medium text-slate-500">
-    <Users className="inline-block w-4 h-4 text-brand align-text-bottom" /> {nfriends} amis
+            <Users className="inline-block w-4 h-4 text-brand align-text-bottom mr-1" />
+            <button
+              type="button"
+              onClick={() => setIsFriendsOpen(true)}
+              className="underline cursor-pointer hover:text-slate-700 transition-colors"
+            >
+              {friendList.length} {friendList.length > 1 ? 'amis' : 'ami'}
+            </button>
     </p>
 
     <p className="text-sm text-slate-600 break-words whitespace-pre-wrap">
@@ -60,6 +88,14 @@ export default function StudentCard({ id, username, photoUrl, bio, nfriends, isO
         </div>
       </div>
     </div>
+
+      <FriendsModal
+        open={isFriendsOpen}
+        onClose={() => setIsFriendsOpen(false)}
+        friends={friendList}
+        onRemove={handleRemove}
+      />
+    </>
   );
 }  
 
