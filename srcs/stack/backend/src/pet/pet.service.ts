@@ -8,6 +8,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '../generated/prisma/client';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { CreatePetDto } from './dto/create-pet.dto';
+import { AVATAR_RESIZE, StorageService } from '../storage/storage.service';
 
 const petSelect = {
   id: true,
@@ -41,7 +42,10 @@ function petNotFound() {
 
 @Injectable()
 export class PetService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly storage: StorageService,
+  ) {}
 
   create(ownerId: string, dto: CreatePetDto) {
     const { birthDate, ...rest } = dto;
@@ -116,11 +120,43 @@ export class PetService {
     }
   }
 
+  async updateAvatar(userId: string, id: string, buffer: Buffer) {
+    const pet = await this.assertOwner(userId, id);
+
+    const avatar = await this.storage.saveImage(
+      buffer,
+      `users/${userId}/pets/${id}/avatar`,
+      'avatar',
+      AVATAR_RESIZE,
+    );
+
+    let updated;
+    try {
+      updated = await this.prisma.pet.update({
+        where: { id },
+        data: { avatar },
+        select: petSelect,
+      });
+    } catch (error) {
+      await this.storage.remove(avatar);
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw petNotFound();
+      }
+      throw error;
+    }
+    await this.storage.remove(pet.avatar);
+    return updated;
+  }
+
   async remove(userId: string, id: string): Promise<void> {
     await this.assertOwner(userId, id);
 
     try {
       await this.prisma.pet.delete({ where: { id } });
+      await this.storage.removeDir(`users/${userId}/pets/${id}`);
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -135,7 +171,7 @@ export class PetService {
   private async assertOwner(userId: string, petId: string) {
     const pet = await this.prisma.pet.findUnique({
       where: { id: petId },
-      select: { ownerId: true },
+      select: { ownerId: true, avatar: true },
     });
 
     if (!pet) {
@@ -147,5 +183,6 @@ export class PetService {
         errors: [{ field: 'id', code: 'PET_NOT_OWNER' }],
       });
     }
+    return pet;
   }
 }
