@@ -1,8 +1,21 @@
 // la ou on tape le gtexte pour envoyer les mess 
 
 import { Send } from "lucide-react";
+import { ws } from "@/websocket/wsClient";
+import { useState } from "react";
 
 export default function MessageInput() {
+  const [input, setInput] = useState('');
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!input) return;
+    const messageToSend = createMessage(input, userId);
+    
+    ws.send(JSON.stringify(messageToSend));
+    
+    setInput('');
+  };
   return (
     <form className="px-4 pb-4 pt-2">
       <label htmlFor="message" className="sr-only">
@@ -18,7 +31,7 @@ export default function MessageInput() {
         autoComplete="off"
         className="w-full bg-transparent px-5 py-3 focus:outline-none"
       />
-        <button
+        <button onSubmit={handleSubmit}
           type="submit"
           aria-label="Envoyer le message"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-white transition hover:opacity-80"
@@ -47,3 +60,7 @@ export default function MessageInput() {
 
   aussi gerer le saut de ligne ?? later ... 
 */}
+
+function createMessage(input: string, userId: any) {
+  throw new Error("Function not implemented.");
+}

@@ -12,7 +12,17 @@ const conversations = [
   { id: 5, username: 'Mathieu', time: 'Hier' },
 ];
 
-export default function MessagesLayout({ children }: { children: React.ReactNode }) {
+
+export default function MessagesLayout({ children }: { children: React.ReactNode }
+  { params,
+  }: {
+  params: Promise<{ 'id': string }>;
+  }) {
+  const { 'id': userId } = await params;
+  
+  //const conversationsData = await callApiWithCookie(`/api/conversations/${userId}`, 'GET'); --> appel API pour recuperer les conversations
+  //useEffect pour setMessages a chaque fois qu'on recoit un event onmessage
+
   return (
     <div className="mx-auto grid h-[calc(100dvh-7rem)] w-full max-w-7xl grid-cols-1 gap-6 px-4 py-4 md:grid-cols-3">
       {/* COLONNE GAUCHE : 1/3 */}

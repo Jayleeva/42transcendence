@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 RUN npm install lucide-react
+RUN npm install isomorphic-ws ws
 
 COPY . .
 RUN npm run build

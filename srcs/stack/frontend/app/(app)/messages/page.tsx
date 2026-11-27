@@ -1,7 +1,5 @@
 // messagerie generale ? avec les user connectes et conversation ouvertes
 
-import ChatBubble from "@/components/features/ChatBubble";
-
 export const metadata={
     title:'Messagerie',
 };

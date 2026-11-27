@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "isomorphic-ws": "^5.0.0",
     "lucide-react": "^1.61.0",
     "next": "^16.4.6",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "ws": "^8.23.0"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",
