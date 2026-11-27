@@ -1,4 +1,5 @@
 // la ou on tape le gtexte pour envoyer les mess 
+"use client"
 
 import { Send } from "lucide-react";
 import { ws } from "@/websocket/wsClient";

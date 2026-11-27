@@ -13,12 +13,13 @@ const conversations = [
 ];
 
 
-export default async function MessagesLayout({ children }: { children: React.ReactNode },
+
+export default async function MessagesLayout({ children }: { children: React.ReactNode }/*,
   { params,
   }: {
   params: Promise<{ 'id': string }>;
   }) {
-  const { 'id': userId } = await params;
+  const { 'id': userId } = await params;*/) {
   
   //const conversationsData = await callApiWithCookie(`/api/conversations/${userId}`, 'GET'); --> appel API pour recuperer les conversations
   //useEffect pour setMessages a chaque fois qu'on recoit un event onmessage
