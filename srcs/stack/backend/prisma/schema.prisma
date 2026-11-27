@@ -58,8 +58,6 @@ model Friendship {
 
   requester User @relation("FriendshipRequester", fields: [requesterId], references: [id], onDelete: Cascade)
   receiver  User @relation("FriendshipReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
-
-  @@unique([requesterId, receiverId])
 }
 
 enum Status {
