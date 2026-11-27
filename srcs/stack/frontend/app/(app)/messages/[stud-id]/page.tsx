@@ -11,21 +11,7 @@ export const metadata={
 // conversationData doit contenir:
 // - la relation (user A et B)
 // - l'historique de conv (message, sender, date/heure)
-const me = await callApiWithCookie(`/api/users/me`, 'GET');
 
-const id1 = "1";
-const id2 = me.id;
-
-const conversationData = {
-  relation: [
-    {idA: id1},
-    {idB: id2},
-  ],
-  history: [
-    {message: "Salut, ton chien est trop mignon !", sender:id1, time:"12:30"},
-    {message: "Merci ! Il s’appelle Milo.", sender:id2, time:"12:31"}
-  ]
-}
 
 export default async function Page({
   params,
@@ -35,12 +21,28 @@ export default async function Page({
   const { 'convid': convId } = await params;
 
   //const conversationData = await callApiWithCookie(`/api/conversations/${convId}`, 'GET'); // --> appel API pour recuperer le vrai historique a l'arrivee sur la page
+  const me = await callApiWithCookie(`/api/users/me`, 'GET');
 
+  const idA = "4e27221c-1a84-4834-be05-8235502ca161"; // mettre id du 2eme user en dur tant que endpoint pour conversationData n'existe pas
+  const idB = me.id;
+
+  const conversationData = {
+    relation: [
+      idA,
+      idB
+    ],
+    history: [
+      {message: "Salut, ton chien est trop mignon !", sender:idA, time:"12:30"},
+      {message: "Merci ! Il s’appelle Milo.", sender:idB, time:"12:31"}
+    ]
+  }
   
   const contact = await whoIsNotme(conversationData.relation, me.id);
-  const initials = contact.username[0].uppercase();
+  console.log("contact = ", JSON.stringify(contact));
+  const initials = contact.username[0].toUpperCase();
 
   async function whoIsNotme(relation: any, me: any) {
+    console.log("relation[0] = ", relation[0], " me = ", me);
     if (relation[0] !== me)
         return await callApiWithCookie(`/api/users/${relation[0]}`, 'GET');
     else
