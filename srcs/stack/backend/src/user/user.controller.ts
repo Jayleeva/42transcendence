@@ -11,6 +11,10 @@ import {
   HttpStatus,
   Req,
   Res,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+  UseFilters,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { SessionGuard } from '../auth/guards/session.guard';
@@ -21,6 +25,9 @@ import { parseId } from '../common/pipes/parse-id.pipe';
 import type { Request, Response } from 'express';
 import { endSession } from '../auth/session.utils';
 import { HttpAdapterHost } from '@nestjs/core';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { imageUploadOptions, fileRequired } from '../upload/upload.options';
+import { UploadExceptionFilter } from '../upload/upload-exception.filter';
 
 @UseGuards(SessionGuard)
 @Controller('users')
@@ -45,6 +52,18 @@ export class UserController {
   @Patch('me')
   updateMe(@CurrentUserId() userId: string, @Body() dto: UpdateProfilDto) {
     return this.userService.updateProfile(userId, dto);
+  }
+
+  @Post('me/avatar')
+  @HttpCode(HttpStatus.OK)
+  @UseFilters(new UploadExceptionFilter('avatar'))
+  @UseInterceptors(FileInterceptor('avatar', imageUploadOptions('avatar')))
+  uploadAvatar(
+    @CurrentUserId() userId: string,
+    @UploadedFile() file: Express.Multer.File | undefined,
+  ) {
+    if (!file) throw fileRequired('avatar');
+    return this.userService.updateAvatar(userId, file.buffer);
   }
 
   @Delete('me')

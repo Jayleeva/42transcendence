@@ -9,6 +9,7 @@ import { Prisma } from '../generated/prisma/client';
 import { CreateUserData } from './user.types';
 import { UpdateProfilDto } from './dto/update-profile.dto';
 import { SearchUserDto } from './dto/search-user.dto';
+import { AVATAR_RESIZE, StorageService } from '../storage/storage.service';
 
 const MIN_AGE = 18;
 
@@ -37,7 +38,10 @@ const privateUserSelect = {
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly storage: StorageService,
+  ) {}
 
   searchUsers(currentUserId: string, query: SearchUserDto) {
     const where: Prisma.UserWhereInput = { id: { not: currentUserId } };
@@ -134,16 +138,12 @@ export class UserService {
   async createUser(data: CreateUserData) {
     if (data.birthDate) {
       const latestAllowed = new Date();
-      latestAllowed.setUTCFullYear(
-        latestAllowed.getUTCFullYear() - MIN_AGE,
-      );
+      latestAllowed.setUTCFullYear(latestAllowed.getUTCFullYear() - MIN_AGE);
 
       if (data.birthDate > latestAllowed) {
         throw new BadRequestException({
           statusCode: 400,
-          errors: [
-            { field: 'birthDate', code: 'BIRTHDATE_TOO_YOUNG' },
-          ],
+          errors: [{ field: 'birthDate', code: 'BIRTHDATE_TOO_YOUNG' }],
         });
       }
     }
@@ -196,6 +196,40 @@ export class UserService {
     }
   }
 
+  async updateAvatar(id: string, buffer: Buffer) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      select: { avatar: true },
+    });
+    if (!user) {
+      throw new NotFoundException({
+        statusCode: 404,
+        errors: [{ field: 'id', code: 'USER_NOT_FOUND' }],
+      });
+    }
+
+    const avatar = await this.storage.saveImage(
+      buffer,
+      `users/${id}/avatar`,
+      'avatar',
+      AVATAR_RESIZE,
+    );
+
+    let updated;
+    try {
+      updated = await this.prisma.user.update({
+        where: { id },
+        data: { avatar },
+        select: privateUserSelect,
+      });
+    } catch (error) {
+      await this.storage.remove(avatar);
+      this.rethrowPrismaError(error);
+    }
+    await this.storage.remove(user.avatar);
+    return updated;
+  }
+
   async deleteAccount(id: string) {
     try {
       await this.prisma.$transaction([
@@ -203,6 +237,7 @@ export class UserService {
         this.prisma
           .$executeRaw`DELETE FROM "session" WHERE "sess"->>'userId' = ${id}`,
       ]);
+      await this.storage.removeDir(`users/${id}`);
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -241,10 +276,7 @@ export class UserService {
     }
   }
 
-  async link42Account(
-    userId: string,
-    providerAccountId: string,
-  ) {
+  async link42Account(userId: string, providerAccountId: string) {
     try {
       return await this.prisma.$transaction(async (tx) => {
         const existingLink = await tx.oAuthAccount.findFirst({

@@ -6,5 +6,6 @@ declare module 'express-session' {
     oauthState?: string;
     oauthMode?: 'login' | 'link';
     oauthLinkUserId?: string;
+    oauthRedirectUri?: string;
   }
 }
