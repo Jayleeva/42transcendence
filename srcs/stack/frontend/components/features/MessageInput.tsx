@@ -2,11 +2,8 @@
 
 import { Send } from "lucide-react";
 import { ws } from "@/websocket/wsClient";
-import { useState } from "react";
 
 export default function MessageInput() {
-  //const [input, setInput] = useState('');
-
   async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
