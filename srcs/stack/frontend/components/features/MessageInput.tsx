@@ -5,19 +5,16 @@ import { ws } from "@/websocket/wsClient";
 import { useState } from "react";
 
 export default function MessageInput() {
-  const [input, setInput] = useState('');
+  //const [input, setInput] = useState('');
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (!input) return;
-    const messageToSend = createMessage(input, userId);
-    
+  async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const messageToSend = new FormData(event.currentTarget);
     ws.send(JSON.stringify(messageToSend));
-    
-    setInput('');
   };
   return (
-    <form className="px-4 pb-4 pt-2">
+    <form onSubmit={handleSubmit} className="px-4 pb-4 pt-2">
       <label htmlFor="message" className="sr-only">
         Votre message
       </label>
@@ -31,7 +28,7 @@ export default function MessageInput() {
         autoComplete="off"
         className="w-full bg-transparent px-5 py-3 focus:outline-none"
       />
-        <button onClick={handleSubmit}
+        <button
           type="submit"
           aria-label="Envoyer le message"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-white transition hover:opacity-80"
