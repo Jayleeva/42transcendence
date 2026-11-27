@@ -1,4 +1,4 @@
-import { WebSocketServer, WebSocket } from 'ws';
+/*import { WebSocketServer, WebSocket } from 'ws';
 import { createServer } from 'http';
 import { parse } from 'url';
 import { Message } from '../utils/types/Message';
@@ -49,4 +49,4 @@ void start();
 
 function insertMessage(msgObject: Message, arg1: { db: any; }) {
   throw new Error('Function not implemented.');
-}
+}*/
