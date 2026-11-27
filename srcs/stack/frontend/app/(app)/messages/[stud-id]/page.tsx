@@ -11,8 +11,10 @@ export const metadata={
 // conversationData doit contenir:
 // - la relation (user A et B)
 // - l'historique de conv (message, sender, date/heure)
+const me = await callApiWithCookie(`/api/users/me`, 'GET');
+
 const id1 = "1";
-const id2 = "5911b938-c74a-42ac-8fb8-a2869573939b";
+const id2 = me.id;
 
 const conversationData = {
   relation: [
@@ -34,7 +36,7 @@ export default async function Page({
 
   //const conversationData = await callApiWithCookie(`/api/conversations/${convId}`, 'GET'); // --> appel API pour recuperer le vrai historique a l'arrivee sur la page
 
-  const me = await callApiWithCookie(`/api/users/me`, 'GET');
+  
   const contact = await whoIsNotme(conversationData.relation, me.id);
   const initials = contact.username[0].uppercase();
 
