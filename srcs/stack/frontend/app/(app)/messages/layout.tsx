@@ -13,7 +13,7 @@ const conversations = [
 ];
 
 
-export default function MessagesLayout({ children }: { children: React.ReactNode }
+export default async function MessagesLayout({ children }: { children: React.ReactNode },
   { params,
   }: {
   params: Promise<{ 'id': string }>;

@@ -1,13 +1,24 @@
 import { WebSocketServer, WebSocket } from 'ws';
+import { createServer } from 'http';
+import { parse } from 'url';
 import { Message } from '../utils/types/Message';
 import app from 'next/app';
+
+const handle = app.getRequestHandler();
 
 const wss = new WebSocketServer({ port: 8080 });
 // HTTP server setup goes here
 
+app.prepare().then(() => {
+  // 1. Création du serveur HTTP unique
+  const server = createServer((req, res) => {
+    const parsedUrl = parse(req.url!, true);
+    handle(req, res, parsedUrl);
+  });})
+
 const start = (): void => {
   try {
-    app.listen(4000, () => console.log('Server started on port 4000'));
+    server.listen(4000, () => console.log('Server started on port 4000'));
 
     wss.on('connection', (ws) => {
       ws.on('error', console.error);
