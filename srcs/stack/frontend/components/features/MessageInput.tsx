@@ -7,7 +7,7 @@ import { useState } from "react";
 export default function MessageInput() {
   const [input, setInput] = useState('');
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (!input) return;
     const messageToSend = createMessage(input, userId);
@@ -31,7 +31,7 @@ export default function MessageInput() {
         autoComplete="off"
         className="w-full bg-transparent px-5 py-3 focus:outline-none"
       />
-        <button onSubmit={handleSubmit}
+        <button onClick={handleSubmit}
           type="submit"
           aria-label="Envoyer le message"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-white transition hover:opacity-80"
