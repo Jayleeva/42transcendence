@@ -34,7 +34,7 @@ export default async function Page({
 
   return (
     <main className="flex flex-col items-start item-centerjustify-center gap-6 px-6 py-12 min-h-screen max-w-2xl mx-auto">
-      <StudentCard id={userData.id} username={userData.username } photoUrl={userData.avatarUrl} bio={userData.bio} nfriends={await getNfriends()} /> 
+      <StudentCard id={userData.id} username={userData.username } photoUrl={userData.avatarUrl} bio={userData.bio} friends={userData.friends} nfriends={await getNfriends()} /> 
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {petsData.map((i:any) => (
