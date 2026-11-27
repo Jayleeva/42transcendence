@@ -6,6 +6,8 @@ import Avatar from '@/components/ui/Avatar';
 import Link from 'next/dist/client/link';
 import { Users, Mail } from 'lucide-react';
 import FriendsModal, { Friend } from '@/components/ui/FriendsModal';
+import { redirect } from 'next/navigation';
+import { callApiWithCookie } from '@/utils/functions/callApiWithCookie';
 
 
 type StudentCardProps = {
@@ -39,64 +41,79 @@ export default function StudentCard({
     onRemoveFriend?.(friendToRemove); // Appelle de l'API ?? 
   };
 
+  function newFriendRequest(){
+
+  }
+  async function newMessage(){
+    const me = await callApiWithCookie("/api/users/me", "GET");
+    const myConvs = await callApiWithCookie("/api/conversations/", "GET");
+    let path; 
+    if ((const oldConv = ) !== null) { // si deja conversation avec cette personne
+      path = `/messages/${oldConv.id}`;
+    }
+    else {
+      const data = {id, me.id};
+      const newConv = await callApiWithCookie("/api/conversations/", "POST", JSON.stringify(data));
+      path = `/messages/${oldConv.id}`;
+    }
+    redirect(path);
+  }
   return (
-<>
-<div className="flex items-center gap-6 w-full max-w-2xl bg-white border-brand border-3 rounded-2xl p-6 shadow-sm">
-  
-  <div className="w-1/4 flex justify-center shrink-0">
-   <Avatar src={photoUrl ?? undefined} alt={username} />
-  </div>
-
-  <div className="flex-1 min-w-0 flex flex-col gap-2">
-    <h2 className="text-xl font-bold text-slate-800">{username}</h2>
-
-    {/* <p className="text-sm font-medium text-slate-500">👥 {nfriends} amis </p> */}
-
-    <p className="text-sm font-medium text-slate-500">
-            <Users className="inline-block w-4 h-4 text-brand align-text-bottom mr-1" />
-            <button
-              type="button"
-              onClick={() => setIsFriendsOpen(true)}
-              className="underline cursor-pointer hover:text-slate-700 transition-colors"
-            >
-              {friendList.length} {friendList.length > 1 ? 'amis' : 'ami'}
-            </button>
-    </p>
-
-    <p className="text-sm text-slate-600 break-words whitespace-pre-wrap">
-      {bio}
-    </p>
+  <>
+  <div className="flex items-center gap-6 w-full max-w-2xl bg-white border-brand border-3 rounded-2xl p-6 shadow-sm">
     
-    {/* Le conditionnel est ici */ }
-    <div className="mt-2 flex flex-wrap items-center gap-2">
-          {isOwner ? (
-            <Link href="/profile-student/settings" className={buttonStyle}>
-              Modifier le profil
-            </Link>
-          ) : (
-            <>
-              <Link href="/notifications" className={buttonStyle}>
-                <Users className="w-3.5 h-3.5" />
-                <span>Ajouter en ami</span>
-              </Link>
-              <Link href="/messages" className={buttonStyle}>
-                <Mail className="w-3.5 h-3.5" />
-                <span>Envoyer un message</span>
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
+    <div className="w-1/4 flex justify-center shrink-0">
+    <Avatar src={photoUrl ?? undefined} alt={username} />
     </div>
 
-      <FriendsModal
-        open={isFriendsOpen}
-        onClose={() => setIsFriendsOpen(false)}
-        friends={friendList}
-        onRemove={handleRemove}
-      />
-    </>
-  );
+    <div className="flex-1 min-w-0 flex flex-col gap-2">
+      <h2 className="text-xl font-bold text-slate-800">{username}</h2>
+
+      {/* <p className="text-sm font-medium text-slate-500">👥 {nfriends} amis </p> */}
+
+      <p className="text-sm font-medium text-slate-500">
+              <Users className="inline-block w-4 h-4 text-brand align-text-bottom mr-1" />
+              <button
+                type="button"
+                onClick={() => setIsFriendsOpen(true)}
+                className="underline cursor-pointer hover:text-slate-700 transition-colors"
+              >
+                {friendList.length} {friendList.length > 1 ? 'amis' : 'ami'}
+              </button>
+      </p>
+
+      <p className="text-sm text-slate-600 break-words whitespace-pre-wrap">
+        {bio}
+      </p>
+      
+      {/* Le conditionnel est ici */ }
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+            {isOwner ? (
+              <Link href="/profile-student/settings" className={buttonStyle}>
+                Modifier le profil
+              </Link>
+            ) : (
+              <>
+                <button onClick={newFriendRequest} className={buttonStyle}>
+                  <Users className="w-3.5 h-3.5" />
+                  <span>Ajouter en ami</span>
+                </button>
+                <button onClick={newMessage} className={buttonStyle}>
+                  <Mail className="w-3.5 h-3.5" />
+                  <span>Envoyer un message</span>
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+        <FriendsModal
+          open={isOwner ? isFriendsOpen : false}
+          onClose={() => setIsFriendsOpen(false)}
+          friends={friendList}
+          onRemove={handleRemove}
+        />
+  </>);
 }  
 
 {/* 
